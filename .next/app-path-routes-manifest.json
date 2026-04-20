@@ -1,0 +1,15 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/admin/page": "/admin",
+  "/api/blog/route": "/api/blog",
+  "/api/contact/route": "/api/contact",
+  "/api/reservations/route": "/api/reservations",
+  "/api/route": "/api",
+  "/blog/[slug]/page": "/blog/[slug]",
+  "/blog/page": "/blog",
+  "/contacto/page": "/contacto",
+  "/galeria/page": "/galeria",
+  "/page": "/",
+  "/reserva/page": "/reserva"
+}
