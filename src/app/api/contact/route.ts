@@ -1,6 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
+export async function GET() {
+  try {
+    const { data: submissions, error } = await supabase
+      .from('contact_submissions')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    return NextResponse.json({ submissions });
+  } catch (error) {
+    console.error('Error fetching contact submissions:', error);
+    return NextResponse.json(
+      { error: "Failed to fetch contact submissions" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
