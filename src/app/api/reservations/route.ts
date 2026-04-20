@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { data: reservation, error } = await supabase
+    const { error } = await supabase
       .from('reservations')
       .insert({
         guest_name: guestName,
@@ -43,13 +43,11 @@ export async function POST(request: NextRequest) {
         check_out: checkOut,
         guests: guests || 1,
         total_price: parseFloat(totalPrice),
-      })
-      .select()
-      .single();
+      });
 
     if (error) throw error;
 
-    return NextResponse.json({ reservation }, { status: 201 });
+    return NextResponse.json({ success: true, message: "Reservation created successfully" }, { status: 201 });
   } catch (error) {
     console.error('Error creating reservation:', error);
     return NextResponse.json(
