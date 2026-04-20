@@ -257,7 +257,7 @@ export function StripeCheckout({
             </p>
             <Button
               onClick={handleClose}
-              className="mt-6 bg-primary hover:bg-primary/90 text-white"
+              className="mt-6 bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               {isEN ? "Close" : "Cerrar"}
             </Button>

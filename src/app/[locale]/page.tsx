@@ -249,19 +249,19 @@ function ContactSection({ isEN }: { isEN: boolean }) {
             <div className="flex gap-3">
               <a
                 href="#"
-                className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center border border-warm-border hover:border-primary hover:bg-primary hover:text-white transition-all"
+                className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center border border-warm-border hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all"
               >
                 <SocialInstagram className="w-4 h-4" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center border border-warm-border hover:border-primary hover:bg-primary hover:text-white transition-all"
+                className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center border border-warm-border hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all"
               >
                 <SocialFacebook className="w-4 h-4" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center border border-warm-border hover:border-primary hover:bg-primary hover:text-white transition-all"
+                className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center border border-warm-border hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all"
               >
                 <MessageCircle className="w-4 h-4" />
               </a>
@@ -356,7 +356,7 @@ function ContactSection({ isEN }: { isEN: boolean }) {
             </div>
             <Button
               type="submit"
-              className="w-full bg-primary hover:bg-primary/90 text-white rounded-lg py-3.5 font-medium text-sm"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg py-3.5 font-medium text-sm"
             >
               {isEN ? "Send Message" : "Enviar Mensaje"} <Send className="w-4 h-4 ml-1" />
             </Button>
@@ -384,12 +384,12 @@ function NewsletterSection({ isEN }: { isEN: boolean }) {
     <section className="px-6 md:px-12 pb-16 md:pb-24">
       <div className="max-w-[600px] mx-auto text-center">
         <ScrollReveal>
-          <div className="bg-primary rounded-2xl p-8 md:p-10 text-white">
-            <Mail className="w-8 h-8 mx-auto mb-4 text-white/60" />
+          <div className="bg-primary rounded-2xl p-8 md:p-10 text-primary-foreground">
+            <Mail className="w-8 h-8 mx-auto mb-4 text-primary-foreground/60" />
             <h3 className="font-serif text-xl mb-2">
               {isEN ? "Receive exclusive offers" : "Recibe ofertas exclusivas"}
             </h3>
-            <p className="text-sm text-white/60 font-light mb-6">
+            <p className="text-sm text-primary-foreground/60 font-light mb-6">
               {isEN
                 ? "Subscribe and get 10% off your first booking"
                 : "Suscríbete y obtén un 10% de descuento en tu primera reserva"}
@@ -401,11 +401,11 @@ function NewsletterSection({ isEN }: { isEN: boolean }) {
                 placeholder="tu@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:border-white/50 rounded-lg"
+                className="flex-1 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/40 focus:border-primary-foreground/50 rounded-lg"
               />
               <Button
                 type="submit"
-                className="bg-white text-primary px-5 rounded-lg text-sm font-medium hover:bg-white/90 flex-shrink-0"
+                className="bg-primary-foreground text-primary px-5 rounded-lg text-sm font-medium hover:bg-primary-foreground/90 flex-shrink-0"
               >
                 {isEN ? "Subscribe" : "Suscribir"}
               </Button>

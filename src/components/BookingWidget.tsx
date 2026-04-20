@@ -178,19 +178,19 @@ export function BookingWidget() {
               <TabsList className="flex gap-2 mb-6 bg-transparent h-auto p-0">
                 <TabsTrigger
                   value="amenities"
-                  className="data-[state=active]:bg-primary data-[state=active]:text-white px-5 py-2.5 text-[13px] font-medium rounded-md border border-transparent data-[state=inactive]:border-warm-border data-[state=inactive]:text-secondary data-[state=inactive]:hover:text-primary data-[state=inactive]:hover:border-primary"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground px-5 py-2.5 text-[13px] font-medium rounded-md border border-transparent data-[state=inactive]:border-warm-border data-[state=inactive]:text-secondary data-[state=inactive]:hover:text-primary data-[state=inactive]:hover:border-primary"
                 >
                   Servicios
                 </TabsTrigger>
                 <TabsTrigger
                   value="rules"
-                  className="data-[state=active]:bg-primary data-[state=active]:text-white px-5 py-2.5 text-[13px] font-medium rounded-md border border-transparent data-[state=inactive]:border-warm-border data-[state=inactive]:text-secondary data-[state=inactive]:hover:text-primary data-[state=inactive]:hover:border-primary"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground px-5 py-2.5 text-[13px] font-medium rounded-md border border-transparent data-[state=inactive]:border-warm-border data-[state=inactive]:text-secondary data-[state=inactive]:hover:text-primary data-[state=inactive]:hover:border-primary"
                 >
                   Normas
                 </TabsTrigger>
                 <TabsTrigger
                   value="policies"
-                  className="data-[state=active]:bg-primary data-[state=active]:text-white px-5 py-2.5 text-[13px] font-medium rounded-md border border-transparent data-[state=inactive]:border-warm-border data-[state=inactive]:text-secondary data-[state=inactive]:hover:text-primary data-[state=inactive]:hover:border-primary"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground px-5 py-2.5 text-[13px] font-medium rounded-md border border-transparent data-[state=inactive]:border-warm-border data-[state=inactive]:text-secondary data-[state=inactive]:hover:text-primary data-[state=inactive]:hover:border-primary"
                 >
                   Políticas
                 </TabsTrigger>
@@ -372,7 +372,7 @@ export function BookingWidget() {
 
                 <Button
                   type="submit"
-                  className="w-full mt-4 bg-primary hover:bg-primary/90 text-white rounded-lg py-3.5 font-medium text-sm"
+                  className="w-full mt-4 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg py-3.5 font-medium text-sm"
                 >
                   Ver Disponibilidad
                 </Button>

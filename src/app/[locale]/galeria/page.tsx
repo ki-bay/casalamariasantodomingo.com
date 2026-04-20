@@ -80,7 +80,7 @@ export default function GaleriaPage() {
                   onClick={() => setActiveCategory(cat.key)}
                   className={`px-4 py-2 text-xs font-medium rounded-full border transition-all ${
                     activeCategory === cat.key
-                      ? "bg-primary text-white border-primary"
+                      ? "bg-primary text-primary-foreground border-primary"
                       : "border-warm-border text-secondary hover:border-primary hover:text-primary"
                   }`}
                 >

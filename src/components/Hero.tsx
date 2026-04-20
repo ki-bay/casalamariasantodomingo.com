@@ -45,7 +45,7 @@ export function Hero() {
           <div className="flex flex-wrap items-center gap-4 mb-10">
             <Button
               onClick={() => handleScrollTo("#reserva")}
-              className="bg-white text-primary hover:bg-white/90 rounded-full px-7 py-3.5 font-medium text-sm shadow-lg inline-flex items-center gap-2"
+              className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 rounded-full px-7 py-3.5 font-medium text-sm shadow-lg inline-flex items-center gap-2"
             >
               Reservar Ahora <ArrowRight className="w-4 h-4" />
             </Button>

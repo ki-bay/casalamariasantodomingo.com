@@ -131,19 +131,19 @@ export default function ContactoPage() {
                 <div className="flex gap-3">
                   <a
                     href="#"
-                    className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center border border-warm-border hover:border-primary hover:bg-primary hover:text-white transition-all"
+                    className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center border border-warm-border hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all"
                   >
                     <SocialInstagram className="w-4 h-4" />
                   </a>
                   <a
                     href="#"
-                    className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center border border-warm-border hover:border-primary hover:bg-primary hover:text-white transition-all"
+                    className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center border border-warm-border hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all"
                   >
                     <SocialFacebook className="w-4 h-4" />
                   </a>
                   <a
                     href="#"
-                    className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center border border-warm-border hover:border-primary hover:bg-primary hover:text-white transition-all"
+                    className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center border border-warm-border hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all"
                   >
                     <MessageCircle className="w-4 h-4" />
                   </a>
@@ -252,7 +252,7 @@ export default function ContactoPage() {
                 </div>
                 <Button
                   type="submit"
-                  className="w-full bg-primary hover:bg-primary/90 text-white rounded-lg py-3.5 font-medium text-sm"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg py-3.5 font-medium text-sm"
                 >
                   {isEN ? "Send Message" : "Enviar Mensaje"} <Send className="w-4 h-4 ml-1" />
                 </Button>

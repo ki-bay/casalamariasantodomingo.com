@@ -26,7 +26,7 @@ export function BlogCards() {
           </ScrollReveal>
           <Link
             href={`/${locale}/blog`}
-            className="inline-flex items-center gap-2 text-xs font-medium border border-warm-border rounded-md px-4 py-2.5 hover:border-primary hover:bg-primary hover:text-white transition-all mt-4 md:mt-0 w-fit"
+            className="inline-flex items-center gap-2 text-xs font-medium border border-warm-border rounded-md px-4 py-2.5 hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all mt-4 md:mt-0 w-fit"
           >
             Ver todos los artículos <ArrowRight className="w-3.5 h-3.5" />
           </Link>

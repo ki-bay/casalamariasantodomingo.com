@@ -107,7 +107,7 @@ export default function ReservaPage() {
               <div key={s.num} className="flex items-center gap-2">
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
-                    step >= s.num ? "bg-primary text-white" : "bg-warm-border text-secondary"
+                    step >= s.num ? "bg-primary text-primary-foreground" : "bg-warm-border text-secondary"
                   }`}
                 >
                   {step > s.num ? <Check className="w-4 h-4" /> : s.num}
@@ -208,7 +208,7 @@ export default function ReservaPage() {
 
                 <Button
                   onClick={handleNext}
-                  className="w-full bg-primary hover:bg-primary/90 text-white rounded-lg py-3.5 font-medium"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg py-3.5 font-medium"
                 >
                   {isEN ? "Continue" : "Continuar"}
                 </Button>
@@ -257,7 +257,7 @@ export default function ReservaPage() {
                   </Button>
                   <Button
                     onClick={handleNext}
-                    className="flex-1 bg-primary hover:bg-primary/90 text-white rounded-lg py-3.5 font-medium"
+                    className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg py-3.5 font-medium"
                   >
                     {isEN ? "Proceed to Payment" : "Proceder al Pago"}
                   </Button>
