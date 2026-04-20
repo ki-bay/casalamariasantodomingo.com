@@ -1,5 +1,4 @@
 "use client";
-export const runtime = 'edge';
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";

@@ -4,11 +4,11 @@ import { MessageCircle, Mail } from "lucide-react";
 import Link from "next/link";
 
 const NAV_LINKS = [
-  { href: "/apartamentos", label: "Apartamentos" },
-  { href: "#galeria", label: "Galería" },
-  { href: "#ubicacion", label: "Ubicación" },
-  { href: "/blog", label: "Blog" },
-  { href: "/contacto", label: "Contacto" },
+  { href: "/es/apartamentos", label: "Apartamentos" },
+  { href: "/es#galeria", label: "Galería" },
+  { href: "/es#ubicacion", label: "Ubicación" },
+  { href: "/es/blog", label: "Blog" },
+  { href: "/es/contacto", label: "Contacto" },
 ];
 
 const INFO_LINKS = [
@@ -42,7 +42,7 @@ export function Footer() {
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 py-12 md:py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="font-serif text-lg text-foreground">
+            <Link href="/es" className="font-serif text-lg text-foreground">
               Casa La Maria
             </Link>
             <p className="text-xs text-muted-foreground font-light mt-2 leading-relaxed max-w-[220px]">

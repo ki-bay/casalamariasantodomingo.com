@@ -3,7 +3,7 @@ import { defineRouting } from 'next-intl/routing';
 export const routing = defineRouting({
   locales: ['es', 'en'],
   defaultLocale: 'es',
-  localePrefix: 'as-needed', // ES has no prefix (/), EN has /en/ prefix
+  localePrefix: 'always', // static export requires all locales to have prefix
   pathnames: {
     '/': '/',
     '/apartamentos': { es: '/apartamentos', en: '/apartments' },

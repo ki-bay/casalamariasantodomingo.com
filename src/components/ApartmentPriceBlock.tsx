@@ -15,12 +15,12 @@ type Apartment = {
 export function ApartmentPriceBlock({ apartment, locale }: { apartment: Apartment; locale: string }) {
   const [rate, setRate] = useState<number | null>(null);
   const isEN = locale === 'en';
-  const bookHref = isEN ? `/en/book?apt=${apartment.slug}` : `/reserva?apt=${apartment.slug}`;
+  const bookHref = isEN ? `/en/book?apt=${apartment.slug}` : `/es/reserva?apt=${apartment.slug}`;
 
   useEffect(() => {
-    fetch('/api/exchange-rate')
+    fetch("https://open.er-api.com/v6/latest/DOP")
       .then(r => r.json())
-      .then(d => setRate(d.rate))
+      .then(d => setRate(d.rates?.USD ?? null))
       .catch(() => setRate(null));
   }, []);
 

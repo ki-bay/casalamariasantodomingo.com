@@ -1,4 +1,3 @@
-export const runtime = 'edge';
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BLOG_POSTS } from "@/lib/data";
@@ -6,13 +5,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Clock } from "lucide-react";
 import { notFound } from "next/navigation";
+import { setRequestLocale } from "next-intl/server";
+
+export async function generateStaticParams() {
+  return BLOG_POSTS.map((post) => ({ slug: post.slug }));
+}
 
 export default async function BlogPostPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+  setRequestLocale(locale);
   const post = BLOG_POSTS.find((p) => p.slug === slug);
   if (!post) notFound();
 
@@ -24,7 +29,7 @@ export default async function BlogPostPage({
       <article className="pt-28 pb-16 px-6 md:px-12 flex-1">
         <div className="max-w-[800px] mx-auto">
           <Link
-            href="/blog"
+            href={`/${locale}/blog`}
             className="inline-flex items-center gap-2 text-sm text-secondary hover:text-primary transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" /> Volver al Blog

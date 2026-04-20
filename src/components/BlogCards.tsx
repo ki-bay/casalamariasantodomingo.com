@@ -1,5 +1,7 @@
 "use client";
+"use client";
 
+import { useLocale } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { BLOG_POSTS } from "@/lib/data";
@@ -7,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export function BlogCards() {
+  const locale = useLocale();
   return (
     <section id="blog" className="px-6 md:px-12 py-16 md:py-24">
       <div className="max-w-[1200px] mx-auto">
@@ -22,7 +25,7 @@ export function BlogCards() {
             </div>
           </ScrollReveal>
           <Link
-            href="/blog"
+            href={`/${locale}/blog`}
             className="inline-flex items-center gap-2 text-xs font-medium border border-warm-border rounded-md px-4 py-2.5 hover:border-primary hover:bg-primary hover:text-white transition-all mt-4 md:mt-0 w-fit"
           >
             Ver todos los artículos <ArrowRight className="w-3.5 h-3.5" />
@@ -34,7 +37,7 @@ export function BlogCards() {
             {BLOG_POSTS.map((post) => (
               <Link
                 key={post.slug}
-                href={`/blog/${post.slug}`}
+                href={`/${locale}/blog/${post.slug}`}
                 className="group bg-white border border-warm-border rounded-xl overflow-hidden transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-0.5"
               >
                 <div className="overflow-hidden aspect-[16/10]">

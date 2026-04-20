@@ -14,11 +14,11 @@ import {
 } from "@/components/ui/sheet";
 
 const NAV_LINKS_ES = [
-  { href: "/", label: "Inicio", anchor: null },
-  { href: "/apartamentos", label: "Apartamentos", anchor: null },
-  { href: "/#galeria", label: "Galería", anchor: "galeria" },
-  { href: "/#ubicacion", label: "Ubicación", anchor: "ubicacion" },
-  { href: "/blog", label: "Blog", anchor: null },
+  { href: "/es", label: "Inicio", anchor: null },
+  { href: "/es/apartamentos", label: "Apartamentos", anchor: null },
+  { href: "/es#galeria", label: "Galería", anchor: "galeria" },
+  { href: "/es#ubicacion", label: "Ubicación", anchor: "ubicacion" },
+  { href: "/es/blog", label: "Blog", anchor: null },
 ];
 
 const NAV_LINKS_EN = [
@@ -37,8 +37,8 @@ export function Navbar() {
   const pathname = usePathname();
   const isEN = pathname.startsWith('/en');
   const NAV_LINKS = isEN ? NAV_LINKS_EN : NAV_LINKS_ES;
-  const bookHref = isEN ? "/en/book" : "/reserva";
-  const oppositeLang = isEN ? pathname.replace(/^\/en/, '') || '/' : `/en${pathname}`;
+  const bookHref = isEN ? "/en/book" : "/es/reserva";
+  const oppositeLang = isEN ? "/es" : "/en";
   const oppositeLangLabel = isEN ? "ES" : "EN";
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export function Navbar() {
       style={{ top: visible ? "24px" : "-80px" }}
     >
       <div className="bg-background/90 backdrop-blur-md rounded-full px-5 py-3 flex items-center justify-between border border-border shadow-lg">
-        <Link href={isEN ? "/en" : "/"} className="font-serif text-lg text-foreground tracking-tight shrink-0">
+        <Link href={isEN ? "/en" : "/es"} className="font-serif text-lg text-foreground tracking-tight shrink-0">
           Casa La Maria
         </Link>
 

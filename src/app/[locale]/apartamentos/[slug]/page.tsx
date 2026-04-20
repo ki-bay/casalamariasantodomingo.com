@@ -1,7 +1,6 @@
-export const runtime = 'edge';
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, BedDouble, Bath, Users, Ruler, Wifi, Wind, Tv, UtensilsCrossed, Coffee, Sun, Building2, CheckCircle2 } from "lucide-react";
@@ -89,6 +88,14 @@ async function getSimilar(currentSlug: string): Promise<Apartment[]> {
   return data || [];
 }
 
+export async function generateStaticParams() {
+  const { data } = await supabase
+    .from('apartments')
+    .select('slug')
+    .eq('available', true);
+  return (data || []).map((apt) => ({ slug: apt.slug }));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug, locale } = await params;
   const apt = await getApartment(slug);
@@ -106,6 +113,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ApartmentDetailPage({ params }: Props) {
   const { slug, locale } = await params;
+  setRequestLocale(locale);
   const [apt, similar] = await Promise.all([getApartment(slug), getSimilar(slug)]);
   if (!apt) notFound();
 
@@ -114,8 +122,8 @@ export default async function ApartmentDetailPage({ params }: Props) {
   const description = isEN ? apt.description_en : apt.description_es;
   const bathType = isEN ? apt.bath_type_en : apt.bath_type_es;
   const bedConfig = isEN ? apt.bed_config_en : apt.bed_config_es;
-  const backHref = isEN ? "/en/apartments" : "/apartamentos";
-  const bookHref = isEN ? `/en/book?apt=${apt.slug}` : `/reserva?apt=${apt.slug}`;
+  const backHref = isEN ? "/en/apartments" : "/es/apartamentos";
+  const bookHref = isEN ? `/en/book?apt=${apt.slug}` : `/es/reserva?apt=${apt.slug}`;
   const mainImage = apt.images?.[0];
 
   return (
@@ -249,7 +257,7 @@ export default async function ApartmentDetailPage({ params }: Props) {
               {similar.map((s) => (
                 <Link
                   key={s.id}
-                  href={isEN ? `/en/apartments/${s.slug}` : `/apartamentos/${s.slug}`}
+                  href={isEN ? `/en/apartments/${s.slug}` : `/es/apartamentos/${s.slug}`}
                   className="group bg-card border border-border rounded-xl p-4 hover:border-accent/40 transition-all"
                 >
                   <div className="aspect-[4/3] rounded-lg overflow-hidden bg-muted mb-3 relative">

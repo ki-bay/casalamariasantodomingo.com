@@ -1,6 +1,5 @@
 "use client";
 "use client";
-export const runtime = 'edge';
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { BookingWidget } from "@/components/BookingWidget";

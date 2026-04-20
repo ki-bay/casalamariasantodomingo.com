@@ -1,0 +1,12 @@
+# Root → Spanish home
+/  /es/  302
+
+# Spanish paths without locale prefix → /es/ (for external links/bookmarks)
+/apartamentos  /es/apartamentos/  302
+/apartamentos/*  /es/apartamentos/:splat  302
+/reserva  /es/reserva/  302
+/contacto  /es/contacto/  302
+/galeria  /es/galeria/  302
+/blog  /es/blog/  302
+/blog/*  /es/blog/:splat  302
+/admin  /es/admin/  302

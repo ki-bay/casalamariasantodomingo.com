@@ -34,9 +34,9 @@ export function ApartmentCard({ apartment, locale }: Props) {
   const isEN = locale === "en";
 
   useEffect(() => {
-    fetch("/api/exchange-rate")
+    fetch("https://open.er-api.com/v6/latest/DOP")
       .then(r => r.json())
-      .then(d => { if (d.rate) setRateUSD(d.rate); })
+      .then(d => { if (d.rates?.USD) setRateUSD(d.rates.USD); })
       .catch(() => {});
   }, []);
 
@@ -49,9 +49,9 @@ export function ApartmentCard({ apartment, locale }: Props) {
 
   const href = isEN
     ? `/en/apartments/${apartment.slug}`
-    : `/apartamentos/${apartment.slug}`;
+    : `/es/apartamentos/${apartment.slug}`;
 
-  const bookHref = isEN ? `/en/book?apt=${apartment.slug}` : `/reserva?apt=${apartment.slug}`;
+  const bookHref = isEN ? `/en/book?apt=${apartment.slug}` : `/es/reserva?apt=${apartment.slug}`;
 
   const mainImage = apartment.images?.[0];
 

@@ -1,5 +1,5 @@
 "use client";
-export const runtime = 'edge';
+import { useLocale } from "next-intl";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -9,6 +9,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 export default function BlogPage() {
+  const locale = useLocale();
   return (
     <main className="relative z-10 min-h-screen flex flex-col">
       <Navbar />
@@ -34,7 +35,7 @@ export default function BlogPage() {
             {BLOG_POSTS.map((post) => (
               <ScrollReveal key={post.slug}>
                 <Link
-                  href={`/blog/${post.slug}`}
+                  href={`/${locale}/blog/${post.slug}`}
                   className="group bg-white border border-warm-border rounded-xl overflow-hidden transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-1 block"
                 >
                   <div className="overflow-hidden aspect-[16/10]">
