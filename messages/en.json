@@ -1,0 +1,113 @@
+{
+  "nav": {
+    "property": "Property",
+    "gallery": "Gallery",
+    "apartments": "Apartments",
+    "location": "Location",
+    "reviews": "Reviews",
+    "blog": "Blog",
+    "book": "Book Now"
+  },
+  "home": {
+    "hero_title": "Casa La Maria",
+    "hero_subtitle": "Colonial Zone · Santo Domingo",
+    "hero_desc": "Five boutique apartments on Callejón Regina, in the heart of the oldest city in the Americas.",
+    "book_cta": "Check availability",
+    "from_price": "From",
+    "per_night": "/ night"
+  },
+  "apartments": {
+    "title": "Our Apartments",
+    "subtitle": "Five unique spaces, one standard of excellence in the Colonial Zone",
+    "from": "From",
+    "per_night": "/ night",
+    "bedrooms_one": "{{count}} bedroom",
+    "bedrooms_other": "{{count}} bedrooms",
+    "guests": "{{count}} guests max.",
+    "size": "{{size}} m²",
+    "balcony": "Balcony",
+    "terrace": "Terrace",
+    "view_apt": "View apartment",
+    "book_now": "Book now",
+    "rate_standard": "Non-refundable",
+    "rate_flexible": "Free cancellation",
+    "price_includes_taxes": "+ taxes & fees",
+    "available": "Available",
+    "queen_beds": "Queen beds",
+    "amenities_title": "Included amenities",
+    "gallery_title": "Gallery",
+    "similar_title": "Other apartments"
+  },
+  "amenities": {
+    "wifi": "High-speed WiFi",
+    "ac": "Air conditioning",
+    "tv": "Smart TV",
+    "kitchen": "Private kitchen",
+    "coffee_maker": "Coffee maker",
+    "terrace": "Terrace",
+    "balcony": "Private balcony",
+    "city_view": "City views",
+    "private_entrance": "Private entrance",
+    "desk": "Desk",
+    "fridge": "Refrigerator",
+    "microwave": "Microwave",
+    "iron": "Iron",
+    "hair_dryer": "Hair dryer",
+    "washer_dryer": "Washer/dryer",
+    "outdoor_dining": "Outdoor dining area",
+    "outdoor_furniture": "Outdoor furniture",
+    "ensuite_bath": "En-suite bathroom"
+  },
+  "booking": {
+    "title": "Book",
+    "check_in": "Check-in",
+    "check_out": "Check-out",
+    "guests": "Guests",
+    "select_apartment": "Select apartment",
+    "nights": "nights",
+    "subtotal": "Subtotal",
+    "taxes": "Taxes (28%)",
+    "total": "Total",
+    "pay_stripe": "Pay with card",
+    "pay_paypal": "Pay with PayPal",
+    "name": "Full name",
+    "email": "Email address",
+    "confirm": "Confirm booking",
+    "success": "Booking confirmed!",
+    "error": "Processing error. Please try again.",
+    "min_stay": "Minimum stay {{min}} nights"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "We're here to help",
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send message",
+    "success": "Message sent! We'll reply within 24 hours.",
+    "error": "Error sending. Please try again.",
+    "address": "Callejón Regina, Colonial Zone, Santo Domingo 10210",
+    "email_label": "info@casalamariazonacolonial.com",
+    "whatsapp": "WhatsApp"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "made_with": "Made with love in Santo Domingo"
+  },
+  "currency": {
+    "code": "USD",
+    "symbol": "$"
+  },
+  "seo": {
+    "site_name": "Casa La Maria — Colonial Zone, Santo Domingo",
+    "home_title": "Casa La Maria — Boutique Apartments in the Colonial Zone",
+    "home_desc": "Rent one of our five boutique apartments in the Colonial Zone of Santo Domingo. WiFi, AC, full kitchen. Book direct.",
+    "apartments_title": "Apartments — Casa La Maria Colonial Zone",
+    "apartments_desc": "Five boutique apartments on Callejón Regina, Colonial Zone. 1 and 2 bedrooms available. Book direct online.",
+    "contact_title": "Contact — Casa La Maria",
+    "book_title": "Book — Casa La Maria"
+  }
+}

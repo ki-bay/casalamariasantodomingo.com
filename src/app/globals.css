@@ -83,6 +83,41 @@
   --sidebar-ring: #2B2B2B;
 }
 
+/* ============================================================
+   DARK MODE — default theme
+   ============================================================ */
+.dark {
+  --background: #0D0D0D;
+  --foreground: #F0EDE8;
+  --card: #161616;
+  --card-foreground: #F0EDE8;
+  --popover: #1A1A1A;
+  --popover-foreground: #F0EDE8;
+  --primary: #E8D5B0;
+  --primary-foreground: #0D0D0D;
+  --secondary: #2A2A2A;
+  --secondary-foreground: #C8B99A;
+  --muted: #1E1E1E;
+  --muted-foreground: #9A9186;
+  --accent: #C8963C;
+  --accent-foreground: #0D0D0D;
+  --destructive: #EF4444;
+  --border: #2A2A2A;
+  --input: #2A2A2A;
+  --ring: #C8963C;
+  --color-surface: #161616;
+  --color-warm-border: #2A2A2A;
+  --color-warm-muted: #9A9186;
+  --sidebar: #161616;
+  --sidebar-foreground: #F0EDE8;
+  --sidebar-primary: #E8D5B0;
+  --sidebar-primary-foreground: #0D0D0D;
+  --sidebar-accent: #1E1E1E;
+  --sidebar-accent-foreground: #F0EDE8;
+  --sidebar-border: #2A2A2A;
+  --sidebar-ring: #C8963C;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -94,14 +129,14 @@
 
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #FAFAF8; }
-::-webkit-scrollbar-thumb { background: #E6E2DB; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #8E8E8E; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
 
 /* Gradient divider */
 .gradient-divider {
   height: 1px;
-  background: linear-gradient(to right, transparent, #E6E2DB, transparent);
+  background: linear-gradient(to right, transparent, var(--border), transparent);
 }
 
 /* Paper texture overlay */

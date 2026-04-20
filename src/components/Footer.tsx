@@ -1,14 +1,14 @@
 "use client";
 
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Mail } from "lucide-react";
 import Link from "next/link";
 
 const NAV_LINKS = [
-  { href: "#propiedad", label: "Propiedad" },
+  { href: "/apartamentos", label: "Apartamentos" },
   { href: "#galeria", label: "Galería" },
   { href: "#ubicacion", label: "Ubicación" },
-  { href: "#resenas", label: "Reseñas" },
-  { href: "#blog", label: "Blog" },
+  { href: "/blog", label: "Blog" },
+  { href: "/contacto", label: "Contacto" },
 ];
 
 const INFO_LINKS = [
@@ -38,35 +38,42 @@ function FacebookIcon({ className }: { className?: string }) {
 
 export function Footer() {
   return (
-    <footer className="border-t border-warm-border bg-white">
+    <footer className="border-t border-border bg-background">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 py-12 md:py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="font-serif text-lg text-primary">
+            <Link href="/" className="font-serif text-lg text-foreground">
               Casa La Maria
             </Link>
-            <p className="text-xs text-secondary font-light mt-2 leading-relaxed max-w-[220px]">
-              Un refugio boutique en el corazón de la primera ciudad de América.
+            <p className="text-xs text-muted-foreground font-light mt-2 leading-relaxed max-w-[220px]">
+              Cinco apartamentos boutique en el corazón de la Zona Colonial de Santo Domingo.
             </p>
+            <a
+              href="mailto:info@casalamariazonacolonial.com"
+              className="flex items-center gap-1.5 mt-3 text-xs text-accent hover:underline"
+            >
+              <Mail className="w-3.5 h-3.5" />
+              info@casalamariazonacolonial.com
+            </a>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-wider uppercase text-secondary mb-4">
+            <p className="text-xs font-medium tracking-wider uppercase text-muted-foreground mb-4">
               Navegación
             </p>
             <div className="space-y-2">
               {NAV_LINKS.map((link) => (
-                <a
+                <Link
                   key={link.href}
                   href={link.href}
-                  className="block text-sm text-warm-muted hover:text-primary transition-colors"
+                  className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-wider uppercase text-secondary mb-4">
+            <p className="text-xs font-medium tracking-wider uppercase text-muted-foreground mb-4">
               Información
             </p>
             <div className="space-y-2">
@@ -74,7 +81,7 @@ export function Footer() {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="block text-sm text-warm-muted hover:text-primary transition-colors"
+                  className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {link.label}
                 </a>
@@ -82,42 +89,35 @@ export function Footer() {
             </div>
           </div>
           <div>
-            <p className="text-xs font-medium tracking-wider uppercase text-secondary mb-4">
+            <p className="text-xs font-medium tracking-wider uppercase text-muted-foreground mb-4">
               Pagos seguros
             </p>
             <div className="flex gap-2 flex-wrap">
-              <div className="bg-surface border border-warm-border rounded-md px-3 py-2 text-xs font-medium">
-                Stripe
-              </div>
-              <div className="bg-surface border border-warm-border rounded-md px-3 py-2 text-xs font-medium">
-                PayPal
-              </div>
-              <div className="bg-surface border border-warm-border rounded-md px-3 py-2 text-xs font-medium">
-                Visa
-              </div>
-              <div className="bg-surface border border-warm-border rounded-md px-3 py-2 text-xs font-medium">
-                MC
-              </div>
+              {["Stripe", "PayPal", "Visa", "MC"].map((p) => (
+                <div key={p} className="bg-muted border border-border rounded-md px-3 py-2 text-xs font-medium text-foreground">
+                  {p}
+                </div>
+              ))}
             </div>
             <div className="mt-4 flex items-center gap-2">
-              <MessageCircle className="w-4 h-4 text-green-accent" />
-              <span className="text-xs text-secondary">Pagos 100% seguros</span>
+              <MessageCircle className="w-4 h-4 text-green-500" />
+              <span className="text-xs text-muted-foreground">Pagos 100% seguros</span>
             </div>
           </div>
         </div>
-        <div className="gradient-divider mb-6" />
+        <div className="border-t border-border mb-6" />
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-secondary">
-            © 2025 Casa La Maria. Todos los derechos reservados.
+          <p className="text-xs text-muted-foreground">
+            © 2025 Casa La Maria — Zona Colonial. Todos los derechos reservados.
           </p>
           <div className="flex items-center gap-4">
-            <a href="#" className="text-secondary hover:text-primary transition-colors">
+            <a href="#" aria-label="Instagram" className="text-muted-foreground hover:text-foreground transition-colors">
               <InstagramIcon className="w-4 h-4" />
             </a>
-            <a href="#" className="text-secondary hover:text-primary transition-colors">
+            <a href="#" aria-label="Facebook" className="text-muted-foreground hover:text-foreground transition-colors">
               <FacebookIcon className="w-4 h-4" />
             </a>
-            <a href="#" className="text-secondary hover:text-primary transition-colors">
+            <a href="https://wa.me/18290000000" aria-label="WhatsApp" className="text-muted-foreground hover:text-green-500 transition-colors">
               <MessageCircle className="w-4 h-4" />
             </a>
           </div>

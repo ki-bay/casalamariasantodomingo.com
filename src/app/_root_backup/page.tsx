@@ -202,7 +202,7 @@ function ContactSection() {
                 <div>
                   <p className="text-xs text-secondary">Email</p>
                   <p className="text-sm font-medium">
-                    info@casalamariard.com
+                    info@casalamariazonacolonial.com
                   </p>
                 </div>
               </div>

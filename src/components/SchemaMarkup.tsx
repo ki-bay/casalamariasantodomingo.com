@@ -3,17 +3,17 @@ export function SchemaMarkup() {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "LodgingBusiness",
-        "@id": "https://casalamariard.com/#organization",
+        "@type": "ApartmentComplex",
+        "@id": "https://casalamariazonacolonial.com/#organization",
         name: "Casa La Maria",
         description:
-          "Apartamento boutique de 1 dormitorio en la Zona Colonial de Santo Domingo, República Dominicana",
-        url: "https://casalamariard.com",
+          "Cinco apartamentos boutique en la Zona Colonial de Santo Domingo, República Dominicana. Diseño minimalista, historia colonial viva.",
+        url: "https://casalamariazonacolonial.com",
         telephone: "+1-829-000-0000",
-        email: "info@casalamariard.com",
+        email: "info@casalamariazonacolonial.com",
         address: {
           "@type": "PostalAddress",
-          streetAddress: "Calle Las Damas, Zona Colonial",
+          streetAddress: "Callejón Regina, Parmenio Troncoso",
           addressLocality: "Santo Domingo",
           addressRegion: "Distrito Nacional",
           postalCode: "10210",
@@ -24,7 +24,7 @@ export function SchemaMarkup() {
           latitude: 18.4725,
           longitude: -69.8819,
         },
-        priceRange: "$75 - $120",
+        priceRange: "DOP 5,603 - DOP 7,680",
         starRating: {
           "@type": "Rating",
           ratingValue: "4.9",
@@ -33,26 +33,21 @@ export function SchemaMarkup() {
         checkoutTime: "11:00",
       },
       {
-        "@type": "Apartment",
-        "@id": "https://casalamariard.com/#apartment",
-        name: "Casa La Maria — One Bedroom",
+        "@type": "ApartmentComplex",
+        "@id": "https://casalamariazonacolonial.com/#complex",
+        name: "Casa La Maria — Zona Colonial",
         description:
-          "Apartamento boutique de 1 dormitorio con diseño colonial moderno en el corazón de la Zona Colonial de Santo Domingo",
-        numberOfBedrooms: 1,
-        numberOfBathroomsTotal: 1,
-        floorSize: {
-          "@type": "QuantitativeValue",
-          value: 55,
-          unitCode: "MTK",
-        },
+          "5 apartamentos boutique de diseño minimalista en el corazón histórico de Santo Domingo. Opciones de 1 y 2 dormitorios disponibles.",
+        numberOfAccommodationUnits: 5,
+        url: "https://casalamariazonacolonial.com/apartamentos",
       },
       {
         "@type": "Offer",
-        "@id": "https://casalamariard.com/#offer",
+        "@id": "https://casalamariazonacolonial.com/#offer",
         name: "Alquiler por noche — Casa La Maria",
-        offeredBy: { "@id": "https://casalamariard.com/#organization" },
-        price: "89.00",
-        priceCurrency: "USD",
+        offeredBy: { "@id": "https://casalamariazonacolonial.com/#organization" },
+        price: "5603",
+        priceCurrency: "DOP",
         availability: "https://schema.org/InStock",
       },
       {
@@ -94,7 +89,7 @@ export function SchemaMarkup() {
       },
       {
         "@type": "AggregateRating",
-        itemReviewed: { "@id": "https://casalamariard.com/#apartment" },
+        itemReviewed: { "@id": "https://casalamariazonacolonial.com/#complex" },
         ratingValue: "4.9",
         bestRating: "5",
         worstRating: "1",
