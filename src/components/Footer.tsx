@@ -1,22 +1,8 @@
 "use client";
 
+import { useLocale } from "next-intl";
 import { MessageCircle, Mail } from "lucide-react";
 import Link from "next/link";
-
-const NAV_LINKS = [
-  { href: "/es/apartamentos", label: "Apartamentos" },
-  { href: "/es#galeria", label: "Galería" },
-  { href: "/es#ubicacion", label: "Ubicación" },
-  { href: "/es/blog", label: "Blog" },
-  { href: "/es/contacto", label: "Contacto" },
-];
-
-const INFO_LINKS = [
-  { href: "#", label: "Política de cancelación" },
-  { href: "#", label: "Términos y condiciones" },
-  { href: "#", label: "Política de privacidad" },
-  { href: "#", label: "FAQ" },
-];
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -37,16 +23,36 @@ function FacebookIcon({ className }: { className?: string }) {
 }
 
 export function Footer() {
+  const locale = useLocale();
+  const isEN = locale === "en";
+
+  const navLinks = [
+    { href: `/${locale}/apartamentos`, label: isEN ? "Apartments" : "Apartamentos" },
+    { href: `/${locale}#galeria`, label: isEN ? "Gallery" : "Galería" },
+    { href: `/${locale}#ubicacion`, label: isEN ? "Location" : "Ubicación" },
+    { href: `/${locale}/blog`, label: "Blog" },
+    { href: `/${locale}/contacto`, label: isEN ? "Contact" : "Contacto" },
+  ];
+
+  const infoLinks = [
+    { href: "#", label: isEN ? "Cancellation policy" : "Política de cancelación" },
+    { href: "#", label: isEN ? "Terms & conditions" : "Términos y condiciones" },
+    { href: "#", label: isEN ? "Privacy policy" : "Política de privacidad" },
+    { href: "#", label: "FAQ" },
+  ];
+
   return (
     <footer className="border-t border-border bg-background">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 py-12 md:py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           <div className="col-span-2 md:col-span-1">
-            <Link href="/es" className="font-serif text-lg text-foreground">
+            <Link href={`/${locale}`} className="font-serif text-lg text-foreground">
               Casa La Maria
             </Link>
             <p className="text-xs text-muted-foreground font-light mt-2 leading-relaxed max-w-[220px]">
-              Cinco apartamentos boutique en el corazón de la Zona Colonial de Santo Domingo.
+              {isEN
+                ? "Five boutique apartments in the heart of Santo Domingo's Colonial Zone."
+                : "Cinco apartamentos boutique en el corazón de la Zona Colonial de Santo Domingo."}
             </p>
             <a
               href="mailto:info@casalamariazonacolonial.com"
@@ -58,10 +64,10 @@ export function Footer() {
           </div>
           <div>
             <p className="text-xs font-medium tracking-wider uppercase text-muted-foreground mb-4">
-              Navegación
+              {isEN ? "Navigation" : "Navegación"}
             </p>
             <div className="space-y-2">
-              {NAV_LINKS.map((link) => (
+              {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -74,10 +80,10 @@ export function Footer() {
           </div>
           <div>
             <p className="text-xs font-medium tracking-wider uppercase text-muted-foreground mb-4">
-              Información
+              {isEN ? "Information" : "Información"}
             </p>
             <div className="space-y-2">
-              {INFO_LINKS.map((link) => (
+              {infoLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
@@ -90,7 +96,7 @@ export function Footer() {
           </div>
           <div>
             <p className="text-xs font-medium tracking-wider uppercase text-muted-foreground mb-4">
-              Pagos seguros
+              {isEN ? "Secure payments" : "Pagos seguros"}
             </p>
             <div className="flex gap-2 flex-wrap">
               {["Stripe", "PayPal", "Visa", "MC"].map((p) => (
@@ -101,14 +107,18 @@ export function Footer() {
             </div>
             <div className="mt-4 flex items-center gap-2">
               <MessageCircle className="w-4 h-4 text-green-500" />
-              <span className="text-xs text-muted-foreground">Pagos 100% seguros</span>
+              <span className="text-xs text-muted-foreground">
+                {isEN ? "100% secure payments" : "Pagos 100% seguros"}
+              </span>
             </div>
           </div>
         </div>
         <div className="border-t border-border mb-6" />
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">
-            © 2025 Casa La Maria — Zona Colonial. Todos los derechos reservados.
+            {isEN
+              ? "© 2025 Casa La Maria — Colonial Zone. All rights reserved."
+              : "© 2025 Casa La Maria — Zona Colonial. Todos los derechos reservados."}
           </p>
           <div className="flex items-center gap-4">
             <a href="#" aria-label="Instagram" className="text-muted-foreground hover:text-foreground transition-colors">

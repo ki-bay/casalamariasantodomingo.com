@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useLocale } from "next-intl";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -13,17 +14,30 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
+// Filter key is always the Spanish label (matches img.label in data)
 const CATEGORIES = [
-  "Todos",
-  "Sala Principal",
-  "Dormitorio",
-  "Baño",
-  "Cocina",
-  "Terraza",
-  "Piscina",
+  { key: "Todos", es: "Todos", en: "All" },
+  { key: "Sala Principal", es: "Sala Principal", en: "Living Room" },
+  { key: "Dormitorio", es: "Dormitorio", en: "Bedroom" },
+  { key: "Baño", es: "Baño", en: "Bathroom" },
+  { key: "Cocina", es: "Cocina", en: "Kitchen" },
+  { key: "Terraza", es: "Terraza", en: "Terrace" },
+  { key: "Piscina", es: "Piscina", en: "Pool" },
 ];
 
+const LABEL_EN: Record<string, string> = {
+  "Sala Principal": "Living Room",
+  "Dormitorio": "Bedroom",
+  "Baño": "Bathroom",
+  "Cocina": "Kitchen",
+  "Terraza": "Terrace",
+  "Piscina": "Pool",
+};
+
 export default function GaleriaPage() {
+  const locale = useLocale();
+  const isEN = locale === "en";
+
   const [activeCategory, setActiveCategory] = useState("Todos");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
@@ -40,14 +54,19 @@ export default function GaleriaPage() {
           <ScrollReveal>
             <div className="text-center mb-10">
               <p className="text-xs font-medium tracking-widest uppercase text-secondary mb-3">
-                Galería
+                {isEN ? "Gallery" : "Galería"}
               </p>
               <h1 className="font-serif text-3xl md:text-4xl tracking-tight mb-4">
-                Espacios que <em className="italic">inspiran</em>
+                {isEN ? (
+                  <>Spaces that <em className="italic">inspire</em></>
+                ) : (
+                  <>Espacios que <em className="italic">inspiran</em></>
+                )}
               </h1>
               <p className="text-warm-muted font-light max-w-lg mx-auto">
-                Explora cada rincón de Casa La Maria. Haz clic en cualquier
-                imagen para ampliarla.
+                {isEN
+                  ? "Explore every corner of Casa La Maria. Click any image to enlarge it."
+                  : "Explora cada rincón de Casa La Maria. Haz clic en cualquier imagen para ampliarla."}
               </p>
             </div>
           </ScrollReveal>
@@ -57,15 +76,15 @@ export default function GaleriaPage() {
             <div className="flex gap-2 flex-wrap justify-center mb-10">
               {CATEGORIES.map((cat) => (
                 <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
+                  key={cat.key}
+                  onClick={() => setActiveCategory(cat.key)}
                   className={`px-4 py-2 text-xs font-medium rounded-full border transition-all ${
-                    activeCategory === cat
+                    activeCategory === cat.key
                       ? "bg-primary text-white border-primary"
                       : "border-warm-border text-secondary hover:border-primary hover:text-primary"
                   }`}
                 >
-                  {cat}
+                  {isEN ? cat.en : cat.es}
                 </button>
               ))}
             </div>
@@ -75,7 +94,7 @@ export default function GaleriaPage() {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {filteredImages.map((img, index) => (
               <div
-                key={img.label}
+                key={img.label + index}
                 className={`relative overflow-hidden rounded-xl cursor-pointer group ${
                   img.isMain ? "md:col-span-2 md:row-span-2" : ""
                 }`}
@@ -96,7 +115,9 @@ export default function GaleriaPage() {
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                  <p className="text-sm font-medium">{img.label}</p>
+                  <p className="text-sm font-medium">
+                    {isEN ? (LABEL_EN[img.label] ?? img.label) : img.label}
+                  </p>
                 </div>
               </div>
             ))}
@@ -111,7 +132,9 @@ export default function GaleriaPage() {
         onOpenChange={(open) => !open && setLightboxIndex(null)}
       >
         <DialogContent className="max-w-[95vw] max-h-[95vh] bg-black/95 border-none p-0 overflow-hidden [&>button]:hidden">
-          <DialogTitle className="sr-only">Visor de galería</DialogTitle>
+          <DialogTitle className="sr-only">
+            {isEN ? "Gallery viewer" : "Visor de galería"}
+          </DialogTitle>
           {lightboxIndex !== null && (
             <div className="relative flex items-center justify-center h-[90vh]">
               <Button
@@ -155,7 +178,7 @@ export default function GaleriaPage() {
               </Button>
               <Image
                 src={LIGHTBOX_IMAGES[lightboxIndex]}
-                alt={`Imagen ${lightboxIndex + 1}`}
+                alt={`${isEN ? "Image" : "Imagen"} ${lightboxIndex + 1}`}
                 width={1200}
                 height={900}
                 className="max-w-[90vw] max-h-[85vh] rounded-lg object-contain"

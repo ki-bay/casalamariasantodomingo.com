@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useLocale } from "next-intl";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -42,17 +43,25 @@ function SocialFacebook({ className }: { className?: string }) {
 }
 
 export default function ContactoPage() {
+  const locale = useLocale();
+  const isEN = locale === "en";
+
+  const defaultSubject = isEN ? "General inquiry" : "Consulta general";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    subject: "Consulta general",
+    subject: defaultSubject,
     message: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("¡Mensaje enviado! Te responderemos pronto.");
-    setFormData({ name: "", email: "", subject: "Consulta general", message: "" });
+    toast.success(
+      isEN
+        ? "Message sent! We'll get back to you shortly."
+        : "¡Mensaje enviado! Te responderemos pronto."
+    );
+    setFormData({ name: "", email: "", subject: defaultSubject, message: "" });
   };
 
   return (
@@ -63,14 +72,19 @@ export default function ContactoPage() {
           <ScrollReveal>
             <div className="text-center mb-12">
               <p className="text-xs font-medium tracking-widest uppercase text-secondary mb-3">
-                Contacto
+                {isEN ? "Contact" : "Contacto"}
               </p>
               <h1 className="font-serif text-3xl md:text-4xl tracking-tight mb-4">
-                ¿Tienes alguna <em className="italic">pregunta</em>?
+                {isEN ? (
+                  <>Do you have a <em className="italic">question</em>?</>
+                ) : (
+                  <>¿Tienes alguna <em className="italic">pregunta</em>?</>
+                )}
               </h1>
               <p className="text-warm-muted font-light max-w-lg mx-auto">
-                Estamos aquí para ayudarte. Escríbenos y responderemos en menos
-                de 2 horas.
+                {isEN
+                  ? "We're here to help. Write to us and we'll respond in less than 2 hours."
+                  : "Estamos aquí para ayudarte. Escríbenos y responderemos en menos de 2 horas."}
               </p>
             </div>
           </ScrollReveal>
@@ -104,7 +118,9 @@ export default function ContactoPage() {
                       <MapPin className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                      <p className="text-xs text-secondary">Dirección</p>
+                      <p className="text-xs text-secondary">
+                        {isEN ? "Address" : "Dirección"}
+                      </p>
                       <p className="text-sm font-medium">
                         Calle Las Damas, Zona Colonial, Santo Domingo 10210
                       </p>
@@ -143,7 +159,7 @@ export default function ContactoPage() {
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="Ubicación de Casa La Maria"
+                    title={isEN ? "Location of Casa La Maria" : "Ubicación de Casa La Maria"}
                   />
                 </div>
               </div>
@@ -157,11 +173,11 @@ export default function ContactoPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label className="text-xs font-medium text-secondary mb-1.5">
-                      Nombre
+                      {isEN ? "Name" : "Nombre"}
                     </Label>
                     <Input
                       required
-                      placeholder="Tu nombre"
+                      placeholder={isEN ? "Your name" : "Tu nombre"}
                       value={formData.name}
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
@@ -187,7 +203,7 @@ export default function ContactoPage() {
                 </div>
                 <div>
                   <Label className="text-xs font-medium text-secondary mb-1.5">
-                    Asunto
+                    {isEN ? "Subject" : "Asunto"}
                   </Label>
                   <Select
                     value={formData.subject}
@@ -199,28 +215,34 @@ export default function ContactoPage() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Consulta general">
-                        Consulta general
-                      </SelectItem>
-                      <SelectItem value="Disponibilidad">
-                        Disponibilidad
-                      </SelectItem>
-                      <SelectItem value="Precios">Precios</SelectItem>
-                      <SelectItem value="Problema con reserva">
-                        Problema con reserva
-                      </SelectItem>
-                      <SelectItem value="Otro">Otro</SelectItem>
+                      {isEN ? (
+                        <>
+                          <SelectItem value="General inquiry">General inquiry</SelectItem>
+                          <SelectItem value="Availability">Availability</SelectItem>
+                          <SelectItem value="Pricing">Pricing</SelectItem>
+                          <SelectItem value="Booking issue">Booking issue</SelectItem>
+                          <SelectItem value="Other">Other</SelectItem>
+                        </>
+                      ) : (
+                        <>
+                          <SelectItem value="Consulta general">Consulta general</SelectItem>
+                          <SelectItem value="Disponibilidad">Disponibilidad</SelectItem>
+                          <SelectItem value="Precios">Precios</SelectItem>
+                          <SelectItem value="Problema con reserva">Problema con reserva</SelectItem>
+                          <SelectItem value="Otro">Otro</SelectItem>
+                        </>
+                      )}
                     </SelectContent>
                   </Select>
                 </div>
                 <div>
                   <Label className="text-xs font-medium text-secondary mb-1.5">
-                    Mensaje
+                    {isEN ? "Message" : "Mensaje"}
                   </Label>
                   <Textarea
                     required
                     rows={6}
-                    placeholder="¿En qué podemos ayudarte?"
+                    placeholder={isEN ? "How can we help you?" : "¿En qué podemos ayudarte?"}
                     value={formData.message}
                     onChange={(e) =>
                       setFormData({ ...formData, message: e.target.value })
@@ -232,7 +254,7 @@ export default function ContactoPage() {
                   type="submit"
                   className="w-full bg-primary hover:bg-primary/90 text-white rounded-lg py-3.5 font-medium text-sm"
                 >
-                  Enviar Mensaje <Send className="w-4 h-4 ml-1" />
+                  {isEN ? "Send Message" : "Enviar Mensaje"} <Send className="w-4 h-4 ml-1" />
                 </Button>
               </form>
             </ScrollReveal>

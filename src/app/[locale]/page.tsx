@@ -1,5 +1,5 @@
 "use client";
-"use client";
+import { useLocale } from "next-intl";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { BookingWidget } from "@/components/BookingWidget";
@@ -9,7 +9,7 @@ import { Reviews } from "@/components/Reviews";
 import { BlogCards } from "@/components/BlogCards";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { FAQS } from "@/lib/data";
+import { FAQS, FAQS_EN } from "@/lib/data";
 import { PROPERTY } from "@/lib/data";
 import {
   BedDouble,
@@ -43,6 +43,9 @@ import { toast } from "sonner";
 import { useState } from "react";
 
 export default function HomePage() {
+  const locale = useLocale();
+  const isEN = locale === "en";
+
   return (
     <main className="relative z-10">
       <Navbar />
@@ -57,29 +60,29 @@ export default function HomePage() {
                 <div className="w-10 h-10 mx-auto mb-3 bg-surface rounded-lg flex items-center justify-center">
                   <BedDouble className="w-5 h-5 text-primary" />
                 </div>
-                <p className="font-semibold text-sm">1 Dormitorio</p>
-                <p className="text-xs text-secondary mt-0.5">Cama queen size</p>
+                <p className="font-semibold text-sm">{isEN ? "1 Bedroom" : "1 Dormitorio"}</p>
+                <p className="text-xs text-secondary mt-0.5">{isEN ? "Queen size bed" : "Cama queen size"}</p>
               </div>
               <div className="text-center">
                 <div className="w-10 h-10 mx-auto mb-3 bg-surface rounded-lg flex items-center justify-center">
                   <Bath className="w-5 h-5 text-primary" />
                 </div>
-                <p className="font-semibold text-sm">1 Baño</p>
-                <p className="text-xs text-secondary mt-0.5">Agua caliente</p>
+                <p className="font-semibold text-sm">{isEN ? "1 Bathroom" : "1 Baño"}</p>
+                <p className="text-xs text-secondary mt-0.5">{isEN ? "Hot water" : "Agua caliente"}</p>
               </div>
               <div className="text-center">
                 <div className="w-10 h-10 mx-auto mb-3 bg-surface rounded-lg flex items-center justify-center">
                   <Users className="w-5 h-5 text-primary" />
                 </div>
-                <p className="font-semibold text-sm">2 Huéspedes</p>
-                <p className="text-xs text-secondary mt-0.5">Máximo capacidad</p>
+                <p className="font-semibold text-sm">{isEN ? "2 Guests" : "2 Huéspedes"}</p>
+                <p className="text-xs text-secondary mt-0.5">{isEN ? "Maximum capacity" : "Máximo capacidad"}</p>
               </div>
               <div className="text-center">
                 <div className="w-10 h-10 mx-auto mb-3 bg-surface rounded-lg flex items-center justify-center">
                   <Ruler className="w-5 h-5 text-primary" />
                 </div>
                 <p className="font-semibold text-sm">55 m²</p>
-                <p className="text-xs text-secondary mt-0.5">Espacio privado</p>
+                <p className="text-xs text-secondary mt-0.5">{isEN ? "Private space" : "Espacio privado"}</p>
               </div>
             </div>
           </ScrollReveal>
@@ -96,10 +99,10 @@ export default function HomePage() {
       <GradientDivider />
       <BlogCards />
       <GradientDivider />
-      <FAQSection />
+      <FAQSection isEN={isEN} />
       <GradientDivider />
-      <ContactSection />
-      <NewsletterSection />
+      <ContactSection isEN={isEN} />
+      <NewsletterSection isEN={isEN} />
       <Footer />
     </main>
   );
@@ -127,23 +130,28 @@ function GradientDivider() {
   return <div className="gradient-divider max-w-[1200px] mx-auto" />;
 }
 
-function FAQSection() {
+function FAQSection({ isEN }: { isEN: boolean }) {
+  const faqs = isEN ? FAQS_EN : FAQS;
   return (
     <section className="px-6 md:px-12 py-16 md:py-24">
       <div className="max-w-[700px] mx-auto">
         <ScrollReveal>
           <div className="text-center mb-10">
             <p className="text-xs font-medium tracking-widest uppercase text-secondary mb-3">
-              Preguntas Frecuentes
+              {isEN ? "Frequently Asked Questions" : "Preguntas Frecuentes"}
             </p>
             <h2 className="font-serif text-2xl md:text-[30px] tracking-tight">
-              ¿Tienes <em className="italic">dudas</em>?
+              {isEN ? (
+                <>Have any <em className="italic">questions</em>?</>
+              ) : (
+                <>¿Tienes <em className="italic">dudas</em>?</>
+              )}
             </h2>
           </div>
         </ScrollReveal>
         <ScrollReveal>
           <Accordion type="single" collapsible className="space-y-3">
-            {FAQS.map((faq, i) => (
+            {faqs.map((faq, i) => (
               <AccordionItem
                 key={i}
                 value={`faq-${i}`}
@@ -164,18 +172,23 @@ function FAQSection() {
   );
 }
 
-function ContactSection() {
+function ContactSection({ isEN }: { isEN: boolean }) {
+  const defaultSubject = isEN ? "General inquiry" : "Consulta general";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    subject: "Consulta general",
+    subject: defaultSubject,
     message: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("¡Mensaje enviado! Te responderemos pronto.");
-    setFormData({ name: "", email: "", subject: "Consulta general", message: "" });
+    toast.success(
+      isEN
+        ? "Message sent! We'll get back to you shortly."
+        : "¡Mensaje enviado! Te responderemos pronto."
+    );
+    setFormData({ name: "", email: "", subject: defaultSubject, message: "" });
   };
 
   return (
@@ -184,14 +197,19 @@ function ContactSection() {
         <ScrollReveal>
           <div>
             <p className="text-xs font-medium tracking-widest uppercase text-secondary mb-3">
-              Contacto
+              {isEN ? "Contact" : "Contacto"}
             </p>
             <h2 className="font-serif text-2xl md:text-[30px] tracking-tight mb-6">
-              ¿Tienes alguna <em className="italic">pregunta</em>?
+              {isEN ? (
+                <>Do you have a <em className="italic">question</em>?</>
+              ) : (
+                <>¿Tienes alguna <em className="italic">pregunta</em>?</>
+              )}
             </h2>
             <p className="text-sm text-warm-muted font-light leading-relaxed mb-8">
-              Estamos aquí para ayudarte. Escríbenos y responderemos en menos de
-              2 horas.
+              {isEN
+                ? "We're here to help. Write to us and we'll respond in less than 2 hours."
+                : "Estamos aquí para ayudarte. Escríbenos y responderemos en menos de 2 horas."}
             </p>
 
             <div className="space-y-4 mb-8">
@@ -220,7 +238,7 @@ function ContactSection() {
                   <MapPin className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-xs text-secondary">Dirección</p>
+                  <p className="text-xs text-secondary">{isEN ? "Address" : "Dirección"}</p>
                   <p className="text-sm font-medium">
                     Calle Las Damas, Zona Colonial, Santo Domingo 10210
                   </p>
@@ -259,11 +277,11 @@ function ContactSection() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label className="text-xs font-medium text-secondary mb-1.5">
-                  Nombre
+                  {isEN ? "Name" : "Nombre"}
                 </Label>
                 <Input
                   required
-                  placeholder="Tu nombre"
+                  placeholder={isEN ? "Your name" : "Tu nombre"}
                   value={formData.name}
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
@@ -289,7 +307,7 @@ function ContactSection() {
             </div>
             <div>
               <Label className="text-xs font-medium text-secondary mb-1.5">
-                Asunto
+                {isEN ? "Subject" : "Asunto"}
               </Label>
               <Select
                 value={formData.subject}
@@ -301,28 +319,34 @@ function ContactSection() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Consulta general">
-                    Consulta general
-                  </SelectItem>
-                  <SelectItem value="Disponibilidad">
-                    Disponibilidad
-                  </SelectItem>
-                  <SelectItem value="Precios">Precios</SelectItem>
-                  <SelectItem value="Problema con reserva">
-                    Problema con reserva
-                  </SelectItem>
-                  <SelectItem value="Otro">Otro</SelectItem>
+                  {isEN ? (
+                    <>
+                      <SelectItem value="General inquiry">General inquiry</SelectItem>
+                      <SelectItem value="Availability">Availability</SelectItem>
+                      <SelectItem value="Pricing">Pricing</SelectItem>
+                      <SelectItem value="Booking issue">Booking issue</SelectItem>
+                      <SelectItem value="Other">Other</SelectItem>
+                    </>
+                  ) : (
+                    <>
+                      <SelectItem value="Consulta general">Consulta general</SelectItem>
+                      <SelectItem value="Disponibilidad">Disponibilidad</SelectItem>
+                      <SelectItem value="Precios">Precios</SelectItem>
+                      <SelectItem value="Problema con reserva">Problema con reserva</SelectItem>
+                      <SelectItem value="Otro">Otro</SelectItem>
+                    </>
+                  )}
                 </SelectContent>
               </Select>
             </div>
             <div>
               <Label className="text-xs font-medium text-secondary mb-1.5">
-                Mensaje
+                {isEN ? "Message" : "Mensaje"}
               </Label>
               <Textarea
                 required
                 rows={4}
-                placeholder="¿En qué podemos ayudarte?"
+                placeholder={isEN ? "How can we help you?" : "¿En qué podemos ayudarte?"}
                 value={formData.message}
                 onChange={(e) =>
                   setFormData({ ...formData, message: e.target.value })
@@ -334,7 +358,7 @@ function ContactSection() {
               type="submit"
               className="w-full bg-primary hover:bg-primary/90 text-white rounded-lg py-3.5 font-medium text-sm"
             >
-              Enviar Mensaje <Send className="w-4 h-4 ml-1" />
+              {isEN ? "Send Message" : "Enviar Mensaje"} <Send className="w-4 h-4 ml-1" />
             </Button>
           </form>
         </ScrollReveal>
@@ -343,13 +367,15 @@ function ContactSection() {
   );
 }
 
-function NewsletterSection() {
+function NewsletterSection({ isEN }: { isEN: boolean }) {
   const [email, setEmail] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast.success(
-      "¡Suscripción exitosa! Revisa tu email para el código de descuento."
+      isEN
+        ? "Subscribed! Check your email for the discount code."
+        : "¡Suscripción exitosa! Revisa tu email para el código de descuento."
     );
     setEmail("");
   };
@@ -361,10 +387,12 @@ function NewsletterSection() {
           <div className="bg-primary rounded-2xl p-8 md:p-10 text-white">
             <Mail className="w-8 h-8 mx-auto mb-4 text-white/60" />
             <h3 className="font-serif text-xl mb-2">
-              Recibe ofertas exclusivas
+              {isEN ? "Receive exclusive offers" : "Recibe ofertas exclusivas"}
             </h3>
             <p className="text-sm text-white/60 font-light mb-6">
-              Suscríbete y obtén un 10% de descuento en tu primera reserva
+              {isEN
+                ? "Subscribe and get 10% off your first booking"
+                : "Suscríbete y obtén un 10% de descuento en tu primera reserva"}
             </p>
             <form onSubmit={handleSubmit} className="flex gap-2">
               <Input
@@ -379,7 +407,7 @@ function NewsletterSection() {
                 type="submit"
                 className="bg-white text-primary px-5 rounded-lg text-sm font-medium hover:bg-white/90 flex-shrink-0"
               >
-                Suscribir
+                {isEN ? "Subscribe" : "Suscribir"}
               </Button>
             </form>
           </div>

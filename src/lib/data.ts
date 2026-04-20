@@ -17,7 +17,7 @@ export const PROPERTY = {
   pricePerNight: 89,
   cleaningFee: 35,
   serviceFeePercent: 0.08,
-  minStay: 2,
+  minStay: 1,
   maxStay: 30,
   checkIn: "15:00",
   checkOut: "11:00",
@@ -255,6 +255,34 @@ export const FAQS = [
     question: "¿Cómo funciona el acceso al apartamento?",
     answer:
       "Acceso 100% autónomo con cerradura inteligente. Recibirás un código único 24 horas antes de tu llegada por email y WhatsApp. No necesitas coordinar horarios ni esperar a nadie. El código cambia con cada huésped para mayor seguridad.",
+  },
+];
+
+export const FAQS_EN = [
+  {
+    question: "What is the cancellation policy?",
+    answer:
+      "Free cancellation up to 7 days before check-in. After that, 50% of the total booking will be charged. No-show: 100% of the total. Force majeure cancellations are evaluated individually.",
+  },
+  {
+    question: "What time is check-in and check-out?",
+    answer:
+      "Check-in from 3:00 PM and check-out before 11:00 AM. We offer early check-in (12:00 PM) and late check-out (1:00 PM) at no extra cost, subject to availability. Contact us to confirm.",
+  },
+  {
+    question: "Is parking available?",
+    answer:
+      "We don't have our own parking as it's a historic building. However, there are 3 public parking lots within a 2-minute walk with rates starting at $5 USD per day. You can also arrange valet parking with us ($15 USD/day).",
+  },
+  {
+    question: "Is it close to the beach?",
+    answer:
+      "Yes! Güibia Beach is just a 10-minute walk away (800m). It's an urban beach with views of the Caribbean Sea and the best sunsets in Santo Domingo. If you prefer white sand beaches, Boca Chica is 30 minutes by taxi and Juan Dolio is 45 minutes.",
+  },
+  {
+    question: "How does apartment access work?",
+    answer:
+      "100% autonomous access with a smart lock. You'll receive a unique code 24 hours before your arrival via email and WhatsApp. No need to coordinate schedules or wait for anyone. The code changes with each guest for added security.",
   },
 ];
 
