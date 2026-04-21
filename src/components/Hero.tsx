@@ -55,7 +55,7 @@ export function Hero() {
             <Button
               onClick={() => handleScrollTo("#propiedad")}
               variant="outline"
-              className="text-white/80 px-5 py-3.5 rounded-full font-medium text-sm border-white/20 hover:bg-white/10 inline-flex items-center gap-2"
+              className="text-white px-5 py-3.5 rounded-full font-medium text-sm border-white/40 bg-black/20 hover:bg-black/30 inline-flex items-center gap-2"
             >
               <Play className="w-4 h-4" /> {isEN ? "View Details" : "Ver Detalles"}
             </Button>
