@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { useLocale } from "next-intl";
-import Image from "next/image";
 
 const TERRACE_IMAGES = [
   "https://res.cloudinary.com/dspogotur/image/upload/v1776751144/babula_shots-12_ncfyou.webp",
@@ -39,8 +38,9 @@ export function Gallery() {
 
   return (
     <>
-      <section id="galeria" className="px-6 md:px-12 py-16 md:py-24">
-        <div className="max-w-[1200px] mx-auto">
+      <section id="galeria" className="py-16 md:py-24">
+        {/* Heading — constrained width with padding */}
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <div className="text-center mb-10">
             <ScrollReveal>
               <p className="text-xs font-medium tracking-widest uppercase text-secondary mb-3">
@@ -56,33 +56,28 @@ export function Gallery() {
               </p>
             </ScrollReveal>
           </div>
-          <ScrollReveal>
-            {/* 2-col × 2-row grid, no gap, full-width */}
-            <div className="grid grid-cols-2">
-              {[
-                { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751144/babula_shots-12_ncfyou.webp",  alt: isEN ? "Terrace view" : "Vista terraza" },
-                { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751143/babula_shots-8_2_uzxkes.webp", alt: isEN ? "Terrace" : "Terraza" },
-                { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751142/babula_shots-8_zb3a43.webp",   alt: isEN ? "Terrace space" : "Espacio terraza" },
-                { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751142/babula_shots-5_utlkdy.webp",   alt: isEN ? "Terrace lounge" : "Terraza lounge" },
-              ].map((img, i) => (
-                <div
-                  key={i}
-                  className="relative aspect-square overflow-hidden cursor-pointer group"
-                  onClick={() => openLightbox(i)}
-                >
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="50vw"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-                </div>
-              ))}
-            </div>
-          </ScrollReveal>
         </div>
+
+        {/* Grid — full viewport width, no crop, original ratio */}
+        <ScrollReveal>
+          <div className="grid grid-cols-2">
+            {[
+              { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751144/babula_shots-12_ncfyou.webp",  alt: isEN ? "Terrace view" : "Vista terraza" },
+              { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751143/babula_shots-8_2_uzxkes.webp", alt: isEN ? "Terrace" : "Terraza" },
+              { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751142/babula_shots-8_zb3a43.webp",   alt: isEN ? "Terrace space" : "Espacio terraza" },
+              { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751142/babula_shots-5_utlkdy.webp",   alt: isEN ? "Terrace lounge" : "Terraza lounge" },
+            ].map((img, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={i}
+                src={img.src}
+                alt={img.alt}
+                className="w-full h-auto block cursor-pointer hover:brightness-90 transition-[filter] duration-300"
+                onClick={() => openLightbox(i)}
+              />
+            ))}
+          </div>
+        </ScrollReveal>
       </section>
 
       {/* Lightbox */}
@@ -118,11 +113,10 @@ export function Gallery() {
               >
                 <ChevronRight className="w-10 h-10" />
               </Button>
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={TERRACE_IMAGES[lightboxIndex]}
                 alt={`Terraza ${lightboxIndex + 1}`}
-                width={1200}
-                height={900}
                 className="max-w-[90vw] max-h-[85vh] rounded-lg object-contain"
               />
               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 text-sm">
