@@ -1,7 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Lock, Check, Loader2 } from "lucide-react";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements,
+  PaymentElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,6 +21,10 @@ import {
 } from "@/components/ui/dialog";
 import { PROPERTY } from "@/lib/data";
 import { toast } from "sonner";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
 
 interface BookingResult {
   nights: number;
@@ -33,6 +44,189 @@ interface StripeCheckoutProps {
   locale?: string;
 }
 
+// Inner form that uses Stripe hooks — must be inside <Elements>
+function PaymentForm({
+  isEN,
+  name,
+  setName,
+  email,
+  setEmail,
+  phone,
+  setPhone,
+  notes,
+  setNotes,
+  booking,
+  checkIn,
+  checkOut,
+  guests,
+  onSuccess,
+}: {
+  isEN: boolean;
+  name: string;
+  setName: (v: string) => void;
+  email: string;
+  setEmail: (v: string) => void;
+  phone: string;
+  setPhone: (v: string) => void;
+  notes: string;
+  setNotes: (v: string) => void;
+  booking: BookingResult;
+  checkIn: string;
+  checkOut: string;
+  guests: string;
+  onSuccess: (id: string) => void;
+}) {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [processing, setProcessing] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!stripe || !elements) return;
+
+    if (!name.trim() || !email.trim()) {
+      toast.error(
+        isEN
+          ? "Please fill in your name and email"
+          : "Por favor, completa tu nombre y email"
+      );
+      return;
+    }
+
+    setProcessing(true);
+    const { error, paymentIntent } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: window.location.href,
+        receipt_email: email,
+        payment_method_data: {
+          billing_details: { name, email, phone },
+        },
+      },
+      redirect: "if_required",
+    });
+
+    if (error) {
+      toast.error(error.message ?? (isEN ? "Payment failed" : "Pago fallido"));
+      setProcessing(false);
+    } else if (paymentIntent?.status === "succeeded") {
+      onSuccess("CLM-" + paymentIntent.id.slice(-8).toUpperCase());
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <Label className="text-xs font-medium text-secondary">
+            {isEN ? "Full name" : "Nombre completo"}
+          </Label>
+          <Input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder={isEN ? "Your full name" : "Tu nombre completo"}
+            required
+            className="mt-1.5"
+          />
+        </div>
+        <div>
+          <Label className="text-xs font-medium text-secondary">Email</Label>
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="tu@email.com"
+            required
+            className="mt-1.5"
+          />
+        </div>
+      </div>
+      <div>
+        <Label className="text-xs font-medium text-secondary">
+          {isEN ? "Phone (WhatsApp, optional)" : "Teléfono (WhatsApp, opcional)"}
+        </Label>
+        <Input
+          type="tel"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="+1 (829) 000-0000"
+          className="mt-1.5"
+        />
+      </div>
+      <div>
+        <Label className="text-xs font-medium text-secondary">
+          {isEN ? "Special request (optional)" : "Petición especial (opcional)"}
+        </Label>
+        <Textarea
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          placeholder={isEN ? "Late check-in, allergies, etc." : "Late check-in, alergias, etc."}
+          rows={2}
+          className="mt-1.5 resize-none"
+        />
+      </div>
+
+      {/* Price summary */}
+      <div className="bg-surface rounded-xl p-4 space-y-2 border border-warm-border">
+        <div className="flex justify-between text-sm">
+          <span className="text-warm-muted">
+            ${Math.round(booking.nightsTotal / booking.nights)} ×{" "}
+            {booking.nights} {isEN ? "nights" : "noches"}
+          </span>
+          <span className="font-medium">${booking.nightsTotal.toFixed(0)}</span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-warm-muted">{isEN ? "Cleaning" : "Limpieza"}</span>
+          <span className="font-medium">${PROPERTY.cleaningFee}</span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-warm-muted">{isEN ? "Service (8%)" : "Servicio (8%)"}</span>
+          <span className="font-medium">${booking.serviceFee.toFixed(0)}</span>
+        </div>
+        <div className="gradient-divider my-2" />
+        <div className="flex justify-between font-semibold">
+          <span>Total</span>
+          <span>${booking.total.toFixed(0)}</span>
+        </div>
+      </div>
+
+      {/* Stripe card element */}
+      <div className="rounded-lg border border-warm-border p-3 bg-card">
+        <PaymentElement
+          options={{
+            layout: "tabs",
+            fields: { billingDetails: { name: "never", email: "never" } },
+          }}
+        />
+      </div>
+
+      <Button
+        type="submit"
+        disabled={!stripe || processing}
+        className="w-full py-3.5 bg-gradient-to-r from-[#635BFF] to-[#7A73FF] hover:opacity-90 text-white rounded-lg font-medium text-sm"
+      >
+        {processing ? (
+          <Loader2 className="w-4 h-4 animate-spin" />
+        ) : (
+          <>
+            <Lock className="w-3.5 h-3.5 mr-1.5" />
+            {isEN
+              ? `Pay $${booking.total.toFixed(0)}`
+              : `Pagar $${booking.total.toFixed(0)}`}
+          </>
+        )}
+      </Button>
+
+      <p className="text-center text-xs text-secondary flex items-center justify-center gap-1">
+        <Lock className="w-3 h-3" />
+        {isEN
+          ? "Secured by Stripe. We never store your card data."
+          : "Protegido por Stripe. No guardamos tu tarjeta."}
+      </p>
+    </form>
+  );
+}
+
 export function StripeCheckout({
   open,
   onOpenChange,
@@ -47,7 +241,8 @@ export function StripeCheckout({
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
-  const [processing, setProcessing] = useState(false);
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [loadingIntent, setLoadingIntent] = useState(false);
   const [success, setSuccess] = useState(false);
   const [reservationId, setReservationId] = useState("");
 
@@ -59,30 +254,40 @@ export function StripeCheckout({
     });
   };
 
-  const handlePayment = async (method: "stripe" | "paypal") => {
-    if (!name.trim() || !email.trim()) {
-      toast.error(isEN ? "Please fill in your name and email" : "Por favor, completa tu nombre y email");
-      return;
-    }
-
-    setProcessing(true);
-
-    // Simulate payment processing
-    await new Promise((resolve) => setTimeout(resolve, 2500));
-
-    const resId = "CLM-" + Date.now().toString(36).toUpperCase();
-    setReservationId(resId);
-    setProcessing(false);
-    setSuccess(true);
-    toast.success(isEN ? "Booking confirmed!" : "¡Reserva confirmada exitosamente!");
-  };
+  // Create PaymentIntent when dialog opens
+  useEffect(() => {
+    if (!open || clientSecret) return;
+    setLoadingIntent(true);
+    const amountCents = Math.round(booking.total * 100);
+    fetch("/api/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        amount: amountCents,
+        nights: booking.nights,
+        checkIn,
+        checkOut,
+        guests,
+        guestName: name,
+        guestEmail: email,
+      }),
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.clientSecret) setClientSecret(data.clientSecret);
+        else toast.error(isEN ? "Could not initialize payment" : "No se pudo inicializar el pago");
+      })
+      .catch(() =>
+        toast.error(isEN ? "Network error" : "Error de red")
+      )
+      .finally(() => setLoadingIntent(false));
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleClose = () => {
     onOpenChange(false);
-    // Reset after animation
     setTimeout(() => {
       setSuccess(false);
-      setProcessing(false);
+      setClientSecret(null);
       setName("");
       setEmail("");
       setPhone("");
@@ -90,169 +295,104 @@ export function StripeCheckout({
     }, 300);
   };
 
+  const handleSuccess = (id: string) => {
+    setReservationId(id);
+    setSuccess(true);
+    toast.success(isEN ? "Booking confirmed!" : "¡Reserva confirmada!");
+  };
+
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-[480px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-[520px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="font-serif text-xl">
             {isEN ? "Complete Booking" : "Completar Reserva"}
           </DialogTitle>
-          <p className="text-sm text-secondary">
+          <p className="text-sm text-muted-foreground">
             Casa La Maria · {formatDate(checkIn)} — {formatDate(checkOut)}
           </p>
         </DialogHeader>
 
-        {!processing && !success && (
-          <div className="space-y-4">
-            <div>
-              <Label className="text-xs font-medium text-secondary">
-                {isEN ? "Full name" : "Nombre completo"}
-              </Label>
-              <Input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder={isEN ? "As it appears on your ID" : "Como aparece en tu documento"}
-                className="mt-1.5"
-              />
-            </div>
-            <div>
-              <Label className="text-xs font-medium text-secondary">
-                Email
-              </Label>
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="tu@email.com"
-                className="mt-1.5"
-              />
-            </div>
-            <div>
-              <Label className="text-xs font-medium text-secondary">
-                {isEN ? "Phone (WhatsApp)" : "Teléfono (WhatsApp)"}
-              </Label>
-              <Input
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="+1 (829) 000-0000"
-                className="mt-1.5"
-              />
-            </div>
-            <div>
-              <Label className="text-xs font-medium text-secondary">
-                {isEN ? "Special request (optional)" : "Petición especial (opcional)"}
-              </Label>
-              <Textarea
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                placeholder={isEN ? "Late check-in, allergies, etc." : "Late check-in, alergias, etc."}
-                rows={2}
-                className="mt-1.5 resize-none"
-              />
-            </div>
-
-            <div className="bg-surface rounded-xl p-4 space-y-2 border border-warm-border">
-              <div className="flex justify-between text-sm">
-                <span className="text-warm-muted">
-                  ${Math.round(booking.nightsTotal / booking.nights)} ×{" "}
-                  {booking.nights} {isEN ? "nights" : "noches"}
-                </span>
-                <span className="font-medium">
-                  ${booking.nightsTotal.toFixed(0)}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-warm-muted">{isEN ? "Cleaning" : "Limpieza"}</span>
-                <span className="font-medium">${PROPERTY.cleaningFee}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-warm-muted">{isEN ? "Service (8%)" : "Servicio (8%)"}</span>
-                <span className="font-medium">
-                  ${booking.serviceFee.toFixed(0)}
-                </span>
-              </div>
-              <div className="gradient-divider my-2" />
-              <div className="flex justify-between font-semibold">
-                <span>{isEN ? "Total" : "Total"}</span>
-                <span>${booking.total.toFixed(0)}</span>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Button
-                onClick={() => handlePayment("stripe")}
-                className="w-full py-3.5 bg-gradient-to-r from-[#635BFF] to-[#7A73FF] hover:opacity-90 text-white rounded-lg font-medium text-sm transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(99,91,255,0.4)]"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-7.076-2.19l-.894 5.549C4.726 22.825 8.004 24 11.276 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-7.153-7.305z" />
-                </svg>
-                {isEN ? "Pay with Stripe" : "Pagar con Stripe"}
-              </Button>
-              <Button
-                onClick={() => handlePayment("paypal")}
-                className="w-full py-3.5 bg-[#FFC439] hover:bg-[#F0B723] text-[#003087] rounded-lg font-semibold text-sm transition-all hover:-translate-y-0.5"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="#003087"
-                >
-                  <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c1.655 2.89.496 6.643-3.39 7.752l.006-.01c-.49.14-1.03.22-1.61.22h-2.19a1.06 1.06 0 0 0-1.047.903l-1.12 7.106-.322 2.034a.556.556 0 0 0 .548.642h3.882c.46 0 .85-.334.922-.788l.038-.188.734-4.642.047-.254a.931.931 0 0 1 .922-.789h.582c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471-.28-.32-.626-.585-1.016-.788z" />
-                </svg>
-                {isEN ? "Pay with PayPal" : "Pagar con PayPal"}
-              </Button>
-            </div>
-
-            <div className="flex items-center gap-2 text-xs text-secondary">
-              <Lock className="w-3 h-3" />
-              <span>{isEN ? "Secure and encrypted payment. We don't store your data." : "Pago seguro y encriptado. No almacenamos tus datos."}</span>
-            </div>
-          </div>
-        )}
-
-        {processing && (
+        {/* Loading PaymentIntent */}
+        {loadingIntent && (
           <div className="text-center py-12">
-            <Loader2 className="w-12 h-12 border-3 border-warm-border border-t-primary rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-sm font-medium">{isEN ? "Processing your booking..." : "Procesando tu reserva..."}</p>
-            <p className="text-xs text-secondary mt-1">
-              {isEN ? "This may take a few seconds" : "Esto puede tomar unos segundos"}
+            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3 text-primary" />
+            <p className="text-sm text-muted-foreground">
+              {isEN ? "Preparing secure checkout..." : "Preparando pago seguro..."}
             </p>
           </div>
         )}
 
+        {/* Payment form */}
+        {!loadingIntent && !success && clientSecret && (
+          <Elements
+            stripe={stripePromise}
+            options={{
+              clientSecret,
+              appearance: {
+                theme: "stripe",
+                variables: {
+                  colorPrimary: "#2B2B2B",
+                  borderRadius: "8px",
+                  fontFamily: "Inter, sans-serif",
+                },
+              },
+            }}
+          >
+            <PaymentForm
+              isEN={isEN}
+              name={name}
+              setName={setName}
+              email={email}
+              setEmail={setEmail}
+              phone={phone}
+              setPhone={setPhone}
+              notes={notes}
+              setNotes={setNotes}
+              booking={booking}
+              checkIn={checkIn}
+              checkOut={checkOut}
+              guests={guests}
+              onSuccess={handleSuccess}
+            />
+          </Elements>
+        )}
+
+        {/* No publishable key configured */}
+        {!loadingIntent && !success && !clientSecret && (
+          <div className="text-center py-8 text-sm text-muted-foreground">
+            {isEN
+              ? "Payment system not configured. Please contact us directly."
+              : "Sistema de pago no configurado. Contáctanos directamente."}
+          </div>
+        )}
+
+        {/* Success screen */}
         {success && (
           <div className="text-center py-8">
             <div className="w-16 h-16 bg-green-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <Check className="w-8 h-8 text-green-accent" />
             </div>
-            <h3 className="font-serif text-xl mb-2">{isEN ? "Booking Confirmed!" : "¡Reserva Confirmada!"}</h3>
+            <h3 className="font-serif text-xl mb-2">
+              {isEN ? "Booking Confirmed!" : "¡Reserva Confirmada!"}
+            </h3>
             <p className="text-sm text-warm-muted font-light mb-4">
               {isEN
-                ? "We've sent you an email with all the details and the access code."
-                : "Te hemos enviado un email con los detalles y el código de acceso."}
+                ? "A confirmation has been sent to your email."
+                : "Te hemos enviado una confirmación por email."}
             </p>
-
-            {/* Check-in / Check-out times */}
             <div className="bg-surface rounded-xl border border-warm-border p-4 text-left space-y-2 mb-4">
               <div className="flex justify-between text-sm">
-                <span className="text-warm-muted font-medium">{isEN ? "Check-in" : "Check-in"}</span>
+                <span className="text-warm-muted font-medium">Check-in</span>
                 <span className="font-semibold">{formatDate(checkIn)} · 3:00 PM</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-warm-muted font-medium">{isEN ? "Check-out" : "Check-out"}</span>
+                <span className="text-warm-muted font-medium">Check-out</span>
                 <span className="font-semibold">{formatDate(checkOut)} · 11:00 AM</span>
               </div>
             </div>
-
             <p className="text-xs text-secondary">
-              {isEN ? "Booking ID:" : "ID de reserva:"}{", "}
+              {isEN ? "Booking ID:" : "ID de reserva:"}{" "}
               <span className="font-mono font-medium">{reservationId}</span>
             </p>
             <Button

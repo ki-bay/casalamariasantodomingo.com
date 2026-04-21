@@ -4,3 +4,7 @@ node_modules
 
 out/
 .open-next/
+
+# Local env files (never commit secret keys)
+.env.local
+.env*.local
