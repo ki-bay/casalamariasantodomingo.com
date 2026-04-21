@@ -42,7 +42,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages({ locale });
 
   return (
-    <NextIntlClientProvider messages={messages}>
+    <NextIntlClientProvider locale={locale} messages={messages}>
       <ThemeProvider defaultTheme="dark" storageKey="casalamaria-theme">
         <SchemaMarkup />
         <div className="paper-texture" />

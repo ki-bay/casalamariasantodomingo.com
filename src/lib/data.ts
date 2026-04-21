@@ -25,6 +25,13 @@ export const PROPERTY = {
   reviewCount: 47,
 };
 
+export const PROPERTY_EN = {
+  description:
+    "Casa La Maria is a boutique apartment located in a restored 16th-century building on the iconic Calle Las Damas, the oldest street in the Americas. Our space blends the authenticity of coral stone walls with a contemporary interior design of clean lines.",
+  shortDescription:
+    "A one-bedroom boutique retreat in the heart of the first city of the Americas. Where colonial history meets modern comfort.",
+};
+
 export const AMENITIES = [
   { name: "WiFi de alta velocidad", icon: "wifi" },
   { name: "Aire acondicionado", icon: "snowflake" },
@@ -160,6 +167,86 @@ export const RATING_BREAKDOWN = [
   { category: "Comunicación", score: 5.0 },
   { category: "Ubicación", score: 4.9 },
   { category: "Calidad/Precio", score: 4.8 },
+  { category: "Check-in", score: 5.0 },
+];
+
+export const AMENITIES_EN = [
+  { name: "High-speed WiFi", icon: "wifi" },
+  { name: "Air conditioning", icon: "snowflake" },
+  { name: "Full kitchen", icon: "cooking-pot" },
+  { name: 'Smart TV 55"', icon: "tv" },
+  { name: "Nespresso coffee maker", icon: "coffee" },
+  { name: "Washer/dryer", icon: "shirt" },
+  { name: "Smart lock", icon: "lock" },
+  { name: "Private terrace", icon: "sun" },
+  { name: "Shared pool", icon: "waves" },
+  { name: "Nearby parking", icon: "car" },
+  { name: "Premium bedding", icon: "bed" },
+  { name: "Hair dryer", icon: "wind" },
+  { name: "Kitchen utensils", icon: "utensils" },
+  { name: "Iron & board", icon: "shirt" },
+  { name: "Smoke detector", icon: "shield-check" },
+];
+
+export const HOUSE_RULES_EN = [
+  {
+    title: "Check-in: 3:00 PM — Check-out: 11:00 AM",
+    subtitle: "Early check-in / late check-out subject to availability",
+    icon: "clock",
+  },
+  {
+    title: "No parties or events",
+    subtitle: "The space is for rest and tranquility",
+    icon: "ban",
+  },
+  {
+    title: "No smoking",
+    subtitle: "Throughout the entire interior of the apartment",
+    icon: "cigarette-off",
+  },
+  {
+    title: "No pets",
+    subtitle: "Due to allergies of other guests",
+    icon: "dog",
+  },
+  {
+    title: "Quiet hours after 10:00 PM",
+    subtitle: "Respect for neighbors in the historic building",
+    icon: "volume-x",
+  },
+];
+
+export const POLICIES_EN = [
+  {
+    title: "Free cancellation (7 days)",
+    subtitle:
+      "Full refund if you cancel at least 7 days in advance. After that: 50% of the total.",
+    icon: "calendar-x",
+  },
+  {
+    title: "Secure payment with Stripe / PayPal",
+    subtitle: "Your payment is protected. We do not store card data.",
+    icon: "credit-card",
+  },
+  {
+    title: "Refundable deposit: $100 USD",
+    subtitle:
+      "Temporarily held and released 48h after check-out if there is no damage.",
+    icon: "shield",
+  },
+  {
+    title: "Minimum stay: 1 night",
+    subtitle:
+      "Maximum stay: 30 nights. Discounts available from 7 nights.",
+    icon: "file-text",
+  },
+];
+
+export const RATING_BREAKDOWN_EN = [
+  { category: "Cleanliness", score: 5.0 },
+  { category: "Communication", score: 5.0 },
+  { category: "Location", score: 4.9 },
+  { category: "Value", score: 4.8 },
   { category: "Check-in", score: 5.0 },
 ];
 

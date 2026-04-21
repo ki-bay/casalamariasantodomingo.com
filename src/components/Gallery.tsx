@@ -10,9 +10,21 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { GALLERY_IMAGES, LIGHTBOX_IMAGES } from "@/lib/data";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 
+const GALLERY_LABELS_EN: Record<string, string> = {
+  "Sala Principal": "Living Room",
+  "Dormitorio": "Bedroom",
+  "Baño": "Bathroom",
+  "Cocina": "Kitchen",
+  "Terraza": "Terrace",
+  "Piscina": "Pool",
+};
+
 export function Gallery() {
+  const locale = useLocale();
+  const isEN = locale === "en";
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const openLightbox = (index: number) => setLightboxIndex(index);
@@ -35,10 +47,10 @@ export function Gallery() {
           <div className="text-center mb-10">
             <ScrollReveal>
               <p className="text-xs font-medium tracking-widest uppercase text-secondary mb-3">
-                Galería
+                {isEN ? "Gallery" : "Galería"}
               </p>
               <h2 className="font-serif text-2xl md:text-[30px] tracking-tight">
-                Espacios que <em className="italic">inspiran</em>
+                {isEN ? <>Spaces that <em className="italic">inspire</em></> : <>Espacios que <em className="italic">inspiran</em></>}
               </h2>
             </ScrollReveal>
           </div>
@@ -66,13 +78,13 @@ export function Gallery() {
                     }
                   />
                   <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full">
-                    {img.label}
+                    {isEN ? (GALLERY_LABELS_EN[img.label] ?? img.label) : img.label}
                   </div>
                 </div>
               ))}
             </div>
             <p className="text-center text-xs text-secondary mt-4">
-              Haz clic en cualquier imagen para ampliar
+              {isEN ? "Click any image to enlarge" : "Haz clic en cualquier imagen para ampliar"}
             </p>
           </ScrollReveal>
         </div>

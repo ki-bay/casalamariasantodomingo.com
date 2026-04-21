@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { NEARBY_PLACES } from "@/lib/data";
+import { useLocale } from "next-intl";
 
 const PLACE_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   landmark: Landmark,
@@ -23,20 +24,23 @@ const PLACE_ICONS: Record<string, React.ComponentType<{ className?: string }>> =
 };
 
 export function Location() {
+  const locale = useLocale();
+  const isEN = locale === "en";
   return (
     <section id="ubicacion" className="px-6 md:px-12 py-16 md:py-24">
       <div className="max-w-[1200px] mx-auto">
         <ScrollReveal>
           <div className="text-center mb-10">
             <p className="text-xs font-medium tracking-widest uppercase text-secondary mb-3">
-              Ubicación
+              {isEN ? "Location" : "Ubicación"}
             </p>
             <h2 className="font-serif text-2xl md:text-[30px] tracking-tight">
-              En el corazón de la <em className="italic">historia</em>
+              {isEN ? <>In the heart of <em className="italic">history</em></> : <>En el corazón de la <em className="italic">historia</em></>}
             </h2>
             <p className="text-sm text-warm-muted font-light mt-3 max-w-md mx-auto">
-              Calle Las Damas, Zona Colonial — a pasos de los monumentos más
-              importantes de Santo Domingo
+              {isEN
+                ? "Calle Las Damas, Zona Colonial — steps away from the most important monuments of Santo Domingo"
+                : "Calle Las Damas, Zona Colonial — a pasos de los monumentos más importantes de Santo Domingo"}
             </p>
           </div>
         </ScrollReveal>
@@ -58,7 +62,7 @@ export function Location() {
               </div>
             </div>
             <div className="space-y-3">
-              <h3 className="font-serif text-lg mb-4">Cerca de ti</h3>
+              <h3 className="font-serif text-lg mb-4">{isEN ? "Nearby" : "Cerca de ti"}</h3>
               {NEARBY_PLACES.map((place) => {
                 const IconComp = PLACE_ICONS[place.icon];
                 return (
