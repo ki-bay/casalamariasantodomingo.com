@@ -9,18 +9,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { GALLERY_IMAGES, LIGHTBOX_IMAGES } from "@/lib/data";
 import { useLocale } from "next-intl";
 import Image from "next/image";
 
-const GALLERY_LABELS_EN: Record<string, string> = {
-  "Sala Principal": "Living Room",
-  "Dormitorio": "Bedroom",
-  "Baño": "Bathroom",
-  "Cocina": "Kitchen",
-  "Terraza": "Terrace",
-  "Piscina": "Pool",
-};
+const TERRACE_IMAGES = [
+  "https://res.cloudinary.com/dspogotur/image/upload/v1776751144/babula_shots-12_ncfyou.webp",
+  "https://res.cloudinary.com/dspogotur/image/upload/v1776751143/babula_shots-8_2_uzxkes.webp",
+  "https://res.cloudinary.com/dspogotur/image/upload/v1776751142/babula_shots-8_zb3a43.webp",
+  "https://res.cloudinary.com/dspogotur/image/upload/v1776751142/babula_shots-5_utlkdy.webp",
+];
 
 export function Gallery() {
   const locale = useLocale();
@@ -32,12 +29,12 @@ export function Gallery() {
   const prev = () =>
     setLightboxIndex((prev) =>
       prev !== null
-        ? (prev - 1 + LIGHTBOX_IMAGES.length) % LIGHTBOX_IMAGES.length
+        ? (prev - 1 + TERRACE_IMAGES.length) % TERRACE_IMAGES.length
         : null
     );
   const next = () =>
     setLightboxIndex((prev) =>
-      prev !== null ? (prev + 1) % LIGHTBOX_IMAGES.length : null
+      prev !== null ? (prev + 1) % TERRACE_IMAGES.length : null
     );
 
   return (
@@ -60,45 +57,27 @@ export function Gallery() {
             </ScrollReveal>
           </div>
           <ScrollReveal>
-            {/* Desktop: 3-col + 2-col combo, no gap */}
-            <div className="hidden md:grid md:grid-cols-3 grid-rows-2">
-              {GALLERY_IMAGES.slice(0, 5).map((img, index) => (
+            {/* 2-col × 2-row grid, no gap, full-width */}
+            <div className="grid grid-cols-2">
+              {[
+                { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751144/babula_shots-12_ncfyou.webp",  alt: isEN ? "Terrace view" : "Vista terraza" },
+                { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751143/babula_shots-8_2_uzxkes.webp", alt: isEN ? "Terrace" : "Terraza" },
+                { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751142/babula_shots-8_zb3a43.webp",   alt: isEN ? "Terrace space" : "Espacio terraza" },
+                { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751142/babula_shots-5_utlkdy.webp",   alt: isEN ? "Terrace lounge" : "Terraza lounge" },
+              ].map((img, i) => (
                 <div
-                  key={index}
-                  className={`relative overflow-hidden cursor-pointer group ${
-                    index < 3 ? "aspect-[4/3]" : "aspect-[3/2]"
-                  }`}
-                  onClick={() => openLightbox(index)}
+                  key={i}
+                  className="relative aspect-square overflow-hidden cursor-pointer group"
+                  onClick={() => openLightbox(i)}
                 >
                   <Image
                     src={img.src}
                     alt={img.alt}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="33vw"
+                    sizes="50vw"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-                </div>
-              ))}
-            </div>
-            {/* Mobile: single column, full width */}
-            <div className="md:hidden flex flex-col">
-              {GALLERY_IMAGES.map((img, index) => (
-                <div
-                  key={index}
-                  className="relative w-full aspect-[4/3] overflow-hidden cursor-pointer group"
-                  onClick={() => openLightbox(index)}
-                >
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="100vw"
-                  />
-                  <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full">
-                    {isEN ? (GALLERY_LABELS_EN[img.label] ?? img.label) : img.label}
-                  </div>
                 </div>
               ))}
             </div>
@@ -140,14 +119,14 @@ export function Gallery() {
                 <ChevronRight className="w-10 h-10" />
               </Button>
               <Image
-                src={LIGHTBOX_IMAGES[lightboxIndex]}
-                alt={`Imagen ${lightboxIndex + 1}`}
+                src={TERRACE_IMAGES[lightboxIndex]}
+                alt={`Terraza ${lightboxIndex + 1}`}
                 width={1200}
                 height={900}
                 className="max-w-[90vw] max-h-[85vh] rounded-lg object-contain"
               />
               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 text-sm">
-                {lightboxIndex + 1} / {LIGHTBOX_IMAGES.length}
+                {lightboxIndex + 1} / {TERRACE_IMAGES.length}
               </div>
             </div>
           )}
