@@ -39,16 +39,45 @@ export function Navbar() {
   const isEN = pathname.startsWith('/en');
   const NAV_LINKS = isEN ? NAV_LINKS_EN : NAV_LINKS_ES;
   const bookHref = isEN ? "/en/apartments" : "/es/apartamentos";
-  const oppositeLang = isEN ? "/es" : "/en";
   const oppositeLangLabel = isEN ? "ES" : "EN";
+
+  // Map current path to equivalent in the other language
+  const getOppositePath = useCallback(() => {
+    const pathMap: Record<string, string> = {
+      "/es": "/en",
+      "/en": "/es",
+      "/es/apartamentos": "/en/apartments",
+      "/en/apartments": "/es/apartamentos",
+      "/es/contacto": "/en/contact",
+      "/en/contact": "/es/contacto",
+      "/es/galeria": "/en/gallery",
+      "/en/gallery": "/es/galeria",
+      "/es/reserva": "/en/book",
+      "/en/book": "/es/reserva",
+      "/es/terminos": "/en/terms",
+      "/en/terms": "/es/terminos",
+      "/es/blog": "/en/blog",
+      "/en/blog": "/es/blog",
+    };
+    // Handle dynamic slug pages like /es/apartamentos/suite or /en/apartments/studio
+    const apartamentoMatch = pathname.match(/^\/es\/apartamentos\/(.+)$/);
+    if (apartamentoMatch) return `/en/apartments/${apartamentoMatch[1]}`;
+    const apartmentMatch = pathname.match(/^\/en\/apartments\/(.+)$/);
+    if (apartmentMatch) return `/es/apartamentos/${apartmentMatch[1]}`;
+    const blogEsMatch = pathname.match(/^\/es\/blog\/(.+)$/);
+    if (blogEsMatch) return `/en/blog/${blogEsMatch[1]}`;
+    const blogEnMatch = pathname.match(/^\/en\/blog\/(.+)$/);
+    if (blogEnMatch) return `/es/blog/${blogEnMatch[1]}`;
+    return pathMap[pathname] ?? (isEN ? "/es" : "/en");
+  }, [pathname, isEN]);
 
   const handleLangSwitch = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     // Save scroll position ratio (works across pages of different heights)
     const scrollRatio = window.scrollY / document.documentElement.scrollHeight;
     sessionStorage.setItem("langSwitchScroll", String(scrollRatio));
-    router.push(oppositeLang);
-  }, [oppositeLang, router]);
+    router.push(getOppositePath());
+  }, [getOppositePath, router]);
 
   // Restore scroll position after language switch
   useEffect(() => {
@@ -87,7 +116,7 @@ export function Navbar() {
         {/* Left: language + theme toggles */}
         <div className="flex items-center gap-2">
           <a
-            href={oppositeLang}
+            href={getOppositePath()}
             onClick={handleLangSwitch}
             className="text-[12px] font-semibold text-muted-foreground hover:text-foreground border border-border rounded-full px-3 py-1 transition-colors flex items-center gap-1 cursor-pointer"
           >

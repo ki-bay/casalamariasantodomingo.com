@@ -313,7 +313,7 @@ function ContactSection({ isEN }: { isEN: boolean }) {
         <ScrollReveal delay={0.1}>
           <form
             onSubmit={handleSubmit}
-            className="bg-card rounded-2xl border border-warm-border p-6 md:p-8 space-y-4"
+            className="bg-white rounded-2xl border border-warm-border p-6 md:p-8 space-y-4"
           >
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -327,7 +327,7 @@ function ContactSection({ isEN }: { isEN: boolean }) {
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }
-                  className="bg-card border-warm-border"
+                  className="bg-white border-warm-border"
                 />
               </div>
               <div>
@@ -342,7 +342,7 @@ function ContactSection({ isEN }: { isEN: boolean }) {
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
-                  className="bg-card border-warm-border"
+                  className="bg-white border-warm-border"
                 />
               </div>
             </div>
@@ -356,7 +356,7 @@ function ContactSection({ isEN }: { isEN: boolean }) {
                   setFormData({ ...formData, subject: v })
                 }
               >
-                <SelectTrigger className="bg-card border-warm-border">
+                <SelectTrigger className="bg-white border-warm-border">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -392,7 +392,7 @@ function ContactSection({ isEN }: { isEN: boolean }) {
                 onChange={(e) =>
                   setFormData({ ...formData, message: e.target.value })
                 }
-                className="bg-card border-warm-border resize-none"
+                className="bg-white border-warm-border resize-none"
               />
             </div>
             <Button
