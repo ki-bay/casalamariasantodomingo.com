@@ -66,7 +66,7 @@ export function Hero() {
               variant="outline"
               className="text-white px-5 py-3.5 rounded-full font-medium text-sm border-white/40 bg-black/20 hover:bg-black/30 inline-flex items-center gap-2"
             >
-              <Play className="w-4 h-4" /> {isEN ? "View Details" : "Ver Detalles"}
+              <Play className="w-4 h-4" /> {isEN ? "Read More" : "Leer Más"}
             </Button>
           </div>
           <div className="flex items-center gap-6 text-white/60 text-xs">

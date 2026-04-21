@@ -35,8 +35,7 @@ export function Footer() {
   ];
 
   const infoLinks = [
-    { href: "#", label: isEN ? "Cancellation policy" : "Política de cancelación" },
-    { href: "#", label: isEN ? "Terms & conditions" : "Términos y condiciones" },
+    { href: `/${locale}/terminos`, label: isEN ? "Terms & conditions" : "Términos y condiciones" },
     { href: "#", label: isEN ? "Privacy policy" : "Política de privacidad" },
     { href: "#", label: "FAQ" },
   ];
@@ -117,8 +116,8 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">
             {isEN
-              ? "© 2025 Casa La Maria — Colonial Zone. All rights reserved."
-              : "© 2025 Casa La Maria — Zona Colonial. Todos los derechos reservados."}
+              ? `© ${new Date().getFullYear()} Casa La Maria — Colonial Zone. All rights reserved.`
+              : `© ${new Date().getFullYear()} Casa La Maria — Zona Colonial. Todos los derechos reservados.`}
           </p>
           <div className="flex items-center gap-4">
             <a href="#" aria-label="Instagram" className="text-muted-foreground hover:text-foreground transition-colors">

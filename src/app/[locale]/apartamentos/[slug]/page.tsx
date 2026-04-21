@@ -51,7 +51,7 @@ const AMENITY_LABELS: Record<string, { es: string; en: string }> = {
   wifi: { es: "WiFi de alta velocidad", en: "High-speed WiFi" },
   ac: { es: "Aire acondicionado", en: "Air conditioning" },
   tv: { es: "Smart TV", en: "Smart TV" },
-  kitchen: { es: "Cocina privada equipada", en: "Fully equipped private kitchen" },
+  kitchen: { es: "Cocina privada", en: "Private kitchen" },
   coffee_maker: { es: "Cafetera", en: "Coffee maker" },
   terrace: { es: "Terraza privada", en: "Private terrace" },
   balcony: { es: "Balcón privado", en: "Private balcony" },
@@ -162,9 +162,6 @@ export default async function ApartmentDetailPage({ params }: Props) {
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
               <div className="absolute bottom-4 left-4 flex gap-2">
-                {apt.has_balcony && (
-                  <Badge className="bg-accent text-accent-foreground">{isEN ? "Balcony" : "Balcón"}</Badge>
-                )}
                 {apt.has_terrace && (
                   <Badge variant="secondary">{isEN ? "Terrace" : "Terraza"}</Badge>
                 )}
@@ -218,10 +215,9 @@ export default async function ApartmentDetailPage({ params }: Props) {
 
             {/* Policies */}
             <div className="mt-10 p-5 bg-muted/50 rounded-xl border border-border">
-              <h2 className="font-serif text-lg text-foreground mb-3">{isEN ? "Cancellation policies" : "Políticas de cancelación"}</h2>
+              <h2 className="font-serif text-lg text-foreground mb-3">{isEN ? "Cancellation policy" : "Política de cancelación"}</h2>
               <div className="space-y-2 text-sm text-muted-foreground">
-                <p>✓ <strong className="text-foreground">{isEN ? "Non-refundable rate:" : "Tarifa no reembolsable:"}</strong> {isEN ? "Pay at property before arrival." : "Pago al alojamiento antes de llegar."}</p>
-                <p>✓ <strong className="text-foreground">{isEN ? "Flexible rate:" : "Tarifa flexible:"}</strong> {isEN ? "Free cancellation before August 4, 2026. No upfront payment." : "Cancelación gratis antes del 4 de agosto de 2026. Sin pago por adelantado."}</p>
+                <p>✕ <strong className="text-foreground">{isEN ? "Non-refundable:" : "No reembolsable:"}</strong> {isEN ? "Unfortunately, this rate is non-refundable. Payment is required before arrival. See our Terms & Conditions for full details." : "Desafortunadamente, esta tarifa no es reembolsable. El pago es obligatorio antes de la llegada. Consulta nuestros Términos y Condiciones para más detalles."}</p>
               </div>
             </div>
           </div>

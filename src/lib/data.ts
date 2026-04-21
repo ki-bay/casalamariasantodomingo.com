@@ -44,7 +44,6 @@ export const AMENITIES = [
   { name: "Piscina compartida", icon: "waves" },
   { name: "Parqueo cercano", icon: "car" },
   { name: "Ropa de cama premium", icon: "bed" },
-  { name: "Secador de pelo", icon: "wind" },
   { name: "Utensilios de cocina", icon: "utensils" },
   { name: "Plancha y tabla", icon: "shirt" },
   { name: "Detector de humo", icon: "shield-check" },
@@ -80,9 +79,9 @@ export const HOUSE_RULES = [
 
 export const POLICIES = [
   {
-    title: "Cancelación gratuita (7 días)",
+    title: "Tarifa no reembolsable",
     subtitle:
-      "Reembolso completo si cancelas con al menos 7 días de anticipación. Después: 50% del total.",
+      "Desafortunadamente esta tarifa no es reembolsable. El pago es requerido antes de la llegada. Consulta nuestros Términos y Condiciones.",
     icon: "calendar-x",
   },
   {
@@ -99,7 +98,7 @@ export const POLICIES = [
   {
     title: "Estancia mínima: 2 noches",
     subtitle:
-      "Estancia máxima: 30 noches. Descuentos disponibles desde 7 noches.",
+      "Estancia máxima: 30 noches.",
     icon: "file-text",
   },
 ];
@@ -182,7 +181,6 @@ export const AMENITIES_EN = [
   { name: "Shared pool", icon: "waves" },
   { name: "Nearby parking", icon: "car" },
   { name: "Premium bedding", icon: "bed" },
-  { name: "Hair dryer", icon: "wind" },
   { name: "Kitchen utensils", icon: "utensils" },
   { name: "Iron & board", icon: "shirt" },
   { name: "Smoke detector", icon: "shield-check" },
@@ -218,9 +216,9 @@ export const HOUSE_RULES_EN = [
 
 export const POLICIES_EN = [
   {
-    title: "Free cancellation (7 days)",
+    title: "Non-refundable rate",
     subtitle:
-      "Full refund if you cancel at least 7 days in advance. After that: 50% of the total.",
+      "Unfortunately this rate is non-refundable. Payment is required before arrival. Please see our Terms & Conditions.",
     icon: "calendar-x",
   },
   {
@@ -237,7 +235,7 @@ export const POLICIES_EN = [
   {
     title: "Minimum stay: 1 night",
     subtitle:
-      "Maximum stay: 30 nights. Discounts available from 7 nights.",
+      "Maximum stay: 30 nights.",
     icon: "file-text",
   },
 ];
@@ -321,7 +319,7 @@ export const FAQS = [
   {
     question: "¿Cuál es la política de cancelación?",
     answer:
-      "Cancelación gratuita hasta 7 días antes del check-in. Después de ese plazo, se cobrará el 50% del total de la reserva. No-show: 100% del total. Las cancelaciones por fuerza mayor se evalúan individualmente.",
+      "Todas nuestras reservas son no reembolsables. El pago es requerido antes de la llegada. En caso de fuerza mayor o circunstancias excepcionales, cada caso es evaluado individualmente. Consulta nuestros Términos y Condiciones para más detalles.",
   },
   {
     question: "¿A qué hora es el check-in y check-out?",
@@ -349,7 +347,7 @@ export const FAQS_EN = [
   {
     question: "What is the cancellation policy?",
     answer:
-      "Free cancellation up to 7 days before check-in. After that, 50% of the total booking will be charged. No-show: 100% of the total. Force majeure cancellations are evaluated individually.",
+      "All bookings are non-refundable. Payment is required before arrival. In cases of force majeure or exceptional circumstances, each case is evaluated individually. Please see our Terms & Conditions for full details.",
   },
   {
     question: "What time is check-in and check-out?",

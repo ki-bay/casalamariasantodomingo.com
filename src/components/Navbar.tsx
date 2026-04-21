@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Menu, X, Sun, Moon, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/ThemeProvider";
@@ -17,7 +17,7 @@ const NAV_LINKS_ES = [
   { href: "/es", label: "Inicio", anchor: null },
   { href: "/es/apartamentos", label: "Apartamentos", anchor: null },
   { href: "/es#galeria", label: "Galería", anchor: "galeria" },
-  { href: "/es#ubicacion", label: "Ubicación", anchor: "ubicacion" },
+  { href: "/es/contacto", label: "Contacto", anchor: null },
   { href: "/es/blog", label: "Blog", anchor: null },
 ];
 
@@ -25,7 +25,7 @@ const NAV_LINKS_EN = [
   { href: "/en", label: "Home", anchor: null },
   { href: "/en/apartments", label: "Apartments", anchor: null },
   { href: "/en#gallery", label: "Gallery", anchor: "gallery" },
-  { href: "/en#location", label: "Location", anchor: "location" },
+  { href: "/en/contact", label: "Contact", anchor: null },
   { href: "/en/blog", label: "Blog", anchor: null },
 ];
 
@@ -35,11 +35,46 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const { theme, toggle } = useTheme();
   const pathname = usePathname();
+  const router = useRouter();
   const isEN = pathname.startsWith('/en');
   const NAV_LINKS = isEN ? NAV_LINKS_EN : NAV_LINKS_ES;
-  const bookHref = isEN ? "/en/book" : "/es/reserva";
+  const bookHref = isEN ? "/en/apartments" : "/es/apartamentos";
   const oppositeLang = isEN ? "/es" : "/en";
   const oppositeLangLabel = isEN ? "ES" : "EN";
+
+  const handleLangSwitch = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    // Save scroll position ratio (works across pages of different heights)
+    const scrollRatio = window.scrollY / document.documentElement.scrollHeight;
+    sessionStorage.setItem("langSwitchScroll", String(scrollRatio));
+    // Trigger buzz animation
+    document.documentElement.style.transition = "opacity 80ms ease, transform 80ms ease";
+    document.documentElement.style.opacity = "0.6";
+    document.documentElement.style.transform = "scale(0.995)";
+    setTimeout(() => {
+      document.documentElement.style.opacity = "1";
+      document.documentElement.style.transform = "scale(1)";
+      setTimeout(() => {
+        document.documentElement.style.transition = "";
+        document.documentElement.style.transform = "";
+      }, 80);
+    }, 80);
+    router.push(oppositeLang);
+  }, [oppositeLang, router]);
+
+  // Restore scroll position after language switch
+  useEffect(() => {
+    const saved = sessionStorage.getItem("langSwitchScroll");
+    if (saved) {
+      sessionStorage.removeItem("langSwitchScroll");
+      const ratio = parseFloat(saved);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          window.scrollTo({ top: ratio * document.documentElement.scrollHeight, behavior: "instant" as ScrollBehavior });
+        });
+      });
+    }
+  }, [pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -71,9 +106,24 @@ export function Navbar() {
       style={{ top: visible ? "24px" : "-80px" }}
     >
       <div className="bg-background/90 backdrop-blur-md rounded-full px-5 py-3 flex items-center justify-between border border-border shadow-lg">
-        <Link href={isEN ? "/en" : "/es"} className="font-serif text-lg text-foreground tracking-tight shrink-0">
-          Casa La Maria
-        </Link>
+        {/* Left: language + theme toggles */}
+        <div className="flex items-center gap-2">
+          <a
+            href={oppositeLang}
+            onClick={handleLangSwitch}
+            className="text-[12px] font-semibold text-muted-foreground hover:text-foreground border border-border rounded-full px-3 py-1 transition-colors flex items-center gap-1 cursor-pointer"
+          >
+            <Globe className="w-3 h-3" />
+            {oppositeLangLabel}
+          </a>
+          <button
+            onClick={toggle}
+            className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+          </button>
+        </div>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-5">
@@ -98,39 +148,19 @@ export function Navbar() {
           ))}
         </div>
 
-        {/* Right controls */}
-        <div className="hidden md:flex items-center gap-2">
-          {/* Language toggle */}
-          <Link
-            href={oppositeLang}
-            className="text-[12px] font-semibold text-muted-foreground hover:text-foreground border border-border rounded-full px-3 py-1 transition-colors flex items-center gap-1"
-          >
-            <Globe className="w-3 h-3" />
-            {oppositeLangLabel}
-          </Link>
-          {/* Theme toggle */}
-          <button
-            onClick={toggle}
-            className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
-          </button>
-          {/* CTA */}
-          <Link href={bookHref}>
+        {/* Right: CTA + mobile hamburger */}
+        <div className="flex items-center gap-2">
+          <Link href={bookHref} className="hidden md:block">
             <Button className="!py-2 !px-4 !text-xs !rounded-full !bg-accent !text-accent-foreground hover:!opacity-90">
               {isEN ? "Book now" : "Reservar"}
             </Button>
           </Link>
-        </div>
-
-        {/* Mobile hamburger */}
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden p-2 h-auto w-auto">
-              <Menu className="w-5 h-5" />
-            </Button>
-          </SheetTrigger>
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden p-2 h-auto w-auto">
+                <Menu className="w-5 h-5" />
+              </Button>
+            </SheetTrigger>
           <SheetContent side="right" className="w-full bg-background pt-16 px-8">
             <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
             <div className="flex flex-col gap-6">
@@ -157,20 +187,14 @@ export function Navbar() {
               <div className="flex items-center gap-3 mt-4">
                 <Link href={bookHref} onClick={() => setOpen(false)}>
                   <Button className="bg-accent text-accent-foreground hover:opacity-90">
-                    {isEN ? "Book now" : "Reservar ahora"}
+                    {isEN ? "See apartments" : "Ver apartamentos"}
                   </Button>
                 </Link>
-                <Link href={oppositeLang} onClick={() => setOpen(false)}
-                  className="text-sm font-semibold border border-border rounded-full px-3 py-2 flex items-center gap-1 text-muted-foreground">
-                  <Globe className="w-3.5 h-3.5" /> {oppositeLangLabel}
-                </Link>
-                <button onClick={toggle} className="p-2 border border-border rounded-full text-muted-foreground">
-                  {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                </button>
               </div>
             </div>
           </SheetContent>
-        </Sheet>
+          </Sheet>
+        </div>
       </div>
     </nav>
   );

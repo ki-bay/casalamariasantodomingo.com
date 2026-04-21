@@ -47,22 +47,26 @@ export function Gallery() {
           <div className="text-center mb-10">
             <ScrollReveal>
               <p className="text-xs font-medium tracking-widest uppercase text-secondary mb-3">
-                {isEN ? "Gallery" : "Galería"}
+                {isEN ? "Terraza" : "Terraza"}
               </p>
               <h2 className="font-serif text-2xl md:text-[30px] tracking-tight">
-                {isEN ? <>Spaces that <em className="italic">inspire</em></> : <>Espacios que <em className="italic">inspiran</em></>}
+                {isEN ? <>A breath of fresh <em className="italic">air</em></> : <>Un respiro de <em className="italic">brisa</em></>}
               </h2>
+              <p className="text-sm text-muted-foreground font-light mt-4 max-w-lg mx-auto leading-relaxed">
+                {isEN
+                  ? "Step up to the terrace and let the Caribbean breeze wash over you — sea views, soft wind, and the perfect spot to lose yourself in a good book."
+                  : "Sube a la terraza y déjate envolver por la brisa caribeña — vistas al mar, viento suave y el lugar ideal para perderte en un buen libro."}
+              </p>
             </ScrollReveal>
           </div>
           <ScrollReveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-              {GALLERY_IMAGES.map((img, index) => (
+            {/* Desktop: 3-col + 2-col combo, no gap */}
+            <div className="hidden md:grid md:grid-cols-3 grid-rows-2">
+              {GALLERY_IMAGES.slice(0, 5).map((img, index) => (
                 <div
                   key={index}
-                  className={`relative overflow-hidden rounded-lg cursor-pointer group ${
-                    img.isMain
-                      ? "col-span-2 row-span-2 aspect-square md:aspect-auto md:h-[448px]"
-                      : "aspect-[4/3]"
+                  className={`relative overflow-hidden cursor-pointer group ${
+                    index < 3 ? "aspect-[4/3]" : "aspect-[3/2]"
                   }`}
                   onClick={() => openLightbox(index)}
                 >
@@ -71,11 +75,26 @@ export function Gallery() {
                     alt={img.alt}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes={
-                      img.isMain
-                        ? "(max-width: 768px) 100vw, 50vw"
-                        : "(max-width: 768px) 50vw, 25vw"
-                    }
+                    sizes="33vw"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                </div>
+              ))}
+            </div>
+            {/* Mobile: single column, full width */}
+            <div className="md:hidden flex flex-col">
+              {GALLERY_IMAGES.map((img, index) => (
+                <div
+                  key={index}
+                  className="relative w-full aspect-[4/3] overflow-hidden cursor-pointer group"
+                  onClick={() => openLightbox(index)}
+                >
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="100vw"
                   />
                   <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full">
                     {isEN ? (GALLERY_LABELS_EN[img.label] ?? img.label) : img.label}
@@ -83,9 +102,6 @@ export function Gallery() {
                 </div>
               ))}
             </div>
-            <p className="text-center text-xs text-secondary mt-4">
-              {isEN ? "Click any image to enlarge" : "Haz clic en cualquier imagen para ampliar"}
-            </p>
           </ScrollReveal>
         </div>
       </section>
