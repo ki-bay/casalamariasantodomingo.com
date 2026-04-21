@@ -40,7 +40,7 @@ export function Hero() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#2B2B2B]/70 via-[#2B2B2B]/50 to-background" />
       </div>
-      <div className="max-w-[1200px] mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center relative z-10">
+      <div className="max-w-[1200px] mx-auto flex items-center relative z-10">
         <ScrollReveal>
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
             <span className="w-2 h-2 bg-green-accent rounded-full animate-pulse" />
@@ -87,36 +87,7 @@ export function Hero() {
             </div>
           </div>
         </ScrollReveal>
-        <ScrollReveal delay={0.15} className="hidden md:block">
-          <div className="relative">
-            <div className="absolute -inset-4 bg-gradient-to-br from-white/10 to-transparent rounded-3xl blur-2xl" />
-            <Image
-              src="https://picsum.photos/seed/clm-interior-living/600/750.jpg"
-              alt="Interior de Casa La Maria"
-              width={600}
-              height={750}
-              className="relative rounded-2xl shadow-2xl w-full object-cover aspect-[4/5] border border-white/10"
-            />
-            <div className="absolute bottom-4 left-4 right-4 bg-card/95 backdrop-blur-sm rounded-xl p-4 flex items-center justify-between border border-border/50">
-              <div>
-                <p className="text-xs text-muted-foreground mb-0.5">{isEN ? "From" : "Desde"}</p>
-                <p className="text-xl font-semibold text-foreground">
-                  ${PROPERTY.pricePerNight}{" "}
-                  <span className="text-sm font-normal text-muted-foreground">
-                    / {isEN ? "night" : "noche"}
-                  </span>
-                </p>
-              </div>
-              <div className="text-right">
-                <p className="text-xs text-muted-foreground mb-0.5">{isEN ? "Available" : "Disponible"}</p>
-                <p className="text-sm font-medium text-green-accent flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 bg-green-accent rounded-full" />{" "}
-                  {isEN ? "View dates" : "Ver fechas"}
-                </p>
-              </div>
-            </div>
-          </div>
-        </ScrollReveal>
+
       </div>
     </header>
   );

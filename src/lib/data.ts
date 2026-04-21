@@ -10,7 +10,7 @@ export const PROPERTY = {
   country: "República Dominicana",
   lat: 18.469990300133684,
   lng: -69.88640158707528,
-  maxGuests: 2,
+  maxGuests: 4,
   bedrooms: 1,
   bathrooms: 1,
   size: 55,
@@ -155,10 +155,10 @@ export const NEARBY_PLACES = [
   { name: "Alcázar de Colón", icon: "landmark", time: "2 min" },
   { name: "Catedral Primada", icon: "church", time: "4 min" },
   { name: "Panteón Nacional", icon: "building", time: "3 min" },
-  { name: "Playa Güibia", icon: "palm-tree", time: "10 min" },
-  { name: "Aeropuerto SDQ", icon: "plane", time: "30 min" },
+  { name: "Playa Güibia", icon: "palm-tree", time: "25 min" },
+  { name: "Aeropuerto SDQ", icon: "plane", time: "35 min" },
   { name: "Blue Mall", icon: "shopping-bag", time: "15 min" },
-  { name: "Restaurante Lulú", icon: "wine", time: "1 min" },
+  { name: "Restaurante Jalao", icon: "wine", time: "5 min" },
 ];
 
 export const RATING_BREAKDOWN = [
@@ -329,12 +329,12 @@ export const FAQS = [
   {
     question: "¿Hay estacionamiento disponible?",
     answer:
-      "No tenemos estacionamiento propio por ser un edificio histórico. Sin embargo, hay 3 parqueos públicos a menos de 2 minutos caminando con tarifas desde $5 USD por día. También puedes coordinar un servicio de valet parking con nosotros ($15 USD/día).",
+      "No tenemos estacionamiento propio por ser un edificio histórico. Sin embargo, hay espacios disponibles en la vía pública en la zona. En caso de emergencia, contamos con 2 plazas reservadas sin costo adicional para nuestros huéspedes. Contáctanos para coordinar.",
   },
   {
     question: "¿Está cerca de la playa?",
     answer:
-      "¡Sí! La Playa Güibia está a solo 10 minutos caminando (800m). Es una playa urbana con vistas al Mar Caribe y los mejores atardeceres de Santo Domingo. Si prefieres playas de arena blanca, Boca Chica está a 30 minutos en taxi y Juan Dolio a 45 minutos.",
+      "¡Sí! La Playa Güibia está a 25 minutos caminando. Es una playa urbana con vistas al Mar Caribe y los mejores atardeceres de Santo Domingo. Si prefieres playas de arena blanca, Boca Chica está a 30 minutos en taxi y Juan Dolio a 45 minutos.",
   },
   {
     question: "¿Cómo funciona el acceso al apartamento?",
@@ -357,12 +357,12 @@ export const FAQS_EN = [
   {
     question: "Is parking available?",
     answer:
-      "We don't have our own parking as it's a historic building. However, there are 3 public parking lots within a 2-minute walk with rates starting at $5 USD per day. You can also arrange valet parking with us ($15 USD/day).",
+      "We don't have our own parking as it's a historic building. However, there is street parking available in the area. In case of emergency, we have 2 reserved spaces at no extra cost for our guests. Contact us to arrange.",
   },
   {
     question: "Is it close to the beach?",
     answer:
-      "Yes! Güibia Beach is just a 10-minute walk away (800m). It's an urban beach with views of the Caribbean Sea and the best sunsets in Santo Domingo. If you prefer white sand beaches, Boca Chica is 30 minutes by taxi and Juan Dolio is 45 minutes.",
+      "Yes! Güibia Beach is a 25-minute walk away. It's an urban beach with views of the Caribbean Sea and the best sunsets in Santo Domingo. If you prefer white sand beaches, Boca Chica is 30 minutes by taxi and Juan Dolio is 45 minutes.",
   },
   {
     question: "How does apartment access work?",
