@@ -177,8 +177,8 @@ export default function ContactoPage() {
                       <Phone className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                      <p className="text-xs text-secondary">WhatsApp</p>
-                      <p className="text-sm font-medium">+1 (829) 000-0000</p>
+                      <p className="text-xs text-secondary">Tel./WhatsApp</p>
+                      <p className="text-sm font-medium">+1 (829) 406-7269</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -236,7 +236,7 @@ export default function ContactoPage() {
             <ScrollReveal delay={0.1}>
               <form
                 onSubmit={handleSubmit}
-                className="bg-white rounded-2xl border border-warm-border p-6 md:p-8 space-y-4"
+                className="bg-card rounded-2xl border border-warm-border p-6 md:p-8 space-y-4"
               >
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -250,7 +250,7 @@ export default function ContactoPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
-                      className="bg-white border-warm-border"
+                      className="bg-card border-warm-border"
                     />
                   </div>
                   <div>
@@ -265,7 +265,7 @@ export default function ContactoPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
-                      className="bg-white border-warm-border"
+                      className="bg-card border-warm-border"
                     />
                   </div>
                 </div>
@@ -279,7 +279,7 @@ export default function ContactoPage() {
                       setFormData({ ...formData, subject: v })
                     }
                   >
-                    <SelectTrigger className="bg-white border-warm-border">
+                    <SelectTrigger className="bg-card border-warm-border">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -315,7 +315,7 @@ export default function ContactoPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, message: e.target.value })
                     }
-                    className="bg-white border-warm-border resize-none"
+                    className="bg-card border-warm-border resize-none"
                   />
                 </div>
                 <Button

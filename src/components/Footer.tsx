@@ -36,8 +36,8 @@ export function Footer() {
 
   const infoLinks = [
     { href: `/${locale}/terminos`, label: isEN ? "Terms & conditions" : "Términos y condiciones" },
-    { href: "#", label: isEN ? "Privacy policy" : "Política de privacidad" },
-    { href: "#", label: "FAQ" },
+    { href: `/${locale}/terminos#privacidad`, label: isEN ? "Privacy policy" : "Política de privacidad" },
+    { href: `/${locale}#faq`, label: "FAQ" },
   ];
 
   return (

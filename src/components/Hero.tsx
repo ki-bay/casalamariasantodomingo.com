@@ -40,8 +40,8 @@ export function Hero() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#2B2B2B]/70 via-[#2B2B2B]/50 to-background" />
       </div>
-      <div className="max-w-[1200px] mx-auto flex items-center relative z-10">
-        <ScrollReveal>
+      <div className="max-w-[1200px] mx-auto flex items-center md:justify-end relative z-10">
+        <ScrollReveal className="md:max-w-[560px]">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
             <span className="w-2 h-2 bg-green-accent rounded-full animate-pulse" />
             <span className="text-white/90 text-xs font-medium tracking-wide">

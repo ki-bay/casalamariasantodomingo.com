@@ -139,6 +139,29 @@ export default function TerminosPage() {
                 {isEN ? "Last updated: April 2026" : "Última actualización: Abril 2026"}
               </p>
             </section>
+
+            {/* Privacy Policy */}
+            <section id="privacidad" className="border-t border-border pt-8 mt-8">
+              <h2 className="font-serif text-2xl text-foreground mb-6">
+                {isEN ? "Privacy Policy" : "Política de Privacidad"}
+              </h2>
+              <section>
+                <h3 className="font-serif text-lg text-foreground mb-2">{isEN ? "1. Data We Collect" : "1. Datos que Recopilamos"}</h3>
+                <p>{isEN ? "We collect the information you provide when making a booking or contacting us: name, email address, phone number, booking dates, and payment details (processed securely by Stripe)." : "Recopilamos la información que nos proporcionas al hacer una reserva o contactarnos: nombre, correo electrónico, teléfono, fechas de reserva y datos de pago (procesados de forma segura por Stripe)."}</p>
+              </section>
+              <section className="mt-4">
+                <h3 className="font-serif text-lg text-foreground mb-2">{isEN ? "2. How We Use Your Data" : "2. Cómo Usamos tus Datos"}</h3>
+                <p>{isEN ? "Your data is used exclusively to process and manage your booking, respond to inquiries, and improve our services. We do not sell or share your personal data with third parties, except where required to complete your booking (Stripe, communication providers)." : "Tus datos se utilizan exclusivamente para procesar y gestionar tu reserva, responder consultas y mejorar nuestros servicios. No vendemos ni compartimos tus datos personales con terceros, salvo lo necesario para completar tu reserva (Stripe, proveedores de comunicación)."}</p>
+              </section>
+              <section className="mt-4">
+                <h3 className="font-serif text-lg text-foreground mb-2">{isEN ? "3. Data Retention" : "3. Retención de Datos"}</h3>
+                <p>{isEN ? "We retain booking and contact data for up to 3 years for legal and accounting purposes. You may request deletion of your data at any time by contacting us." : "Conservamos los datos de reservas y contacto hasta 3 años por razones legales y contables. Puedes solicitar la eliminación de tus datos en cualquier momento contactándonos."}</p>
+              </section>
+              <section className="mt-4">
+                <h3 className="font-serif text-lg text-foreground mb-2">{isEN ? "4. Your Rights" : "4. Tus Derechos"}</h3>
+                <p>{isEN ? "You have the right to access, correct, or delete your personal data. To exercise these rights, contact us at info@casalamariazonacolonial.com." : "Tienes derecho a acceder, corregir o eliminar tus datos personales. Para ejercer estos derechos, contáctanos en info@casalamariazonacolonial.com."}</p>
+              </section>
+            </section>
           </div>
         </div>
       </div>
