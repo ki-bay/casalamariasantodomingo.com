@@ -13,7 +13,7 @@ import { useLocale } from "next-intl";
 
 const TERRACE_IMAGES = [
   "https://res.cloudinary.com/dspogotur/image/upload/v1776751144/babula_shots-12_ncfyou.webp",
-  "https://res.cloudinary.com/dspogotur/image/upload/v1776751143/babula_shots-8_2_uzxkes.webp",
+  "https://res.cloudinary.com/dspogotur/image/upload/v1776752748/babula_shots_wie6nu.webp",
   "https://res.cloudinary.com/dspogotur/image/upload/v1776751142/babula_shots-8_zb3a43.webp",
   "https://res.cloudinary.com/dspogotur/image/upload/v1776751142/babula_shots-5_utlkdy.webp",
 ];
@@ -63,7 +63,7 @@ export function Gallery() {
           <div className="grid grid-cols-1 md:grid-cols-2">
             {[
               { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751144/babula_shots-12_ncfyou.webp",  alt: isEN ? "Terrace view" : "Vista terraza" },
-              { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751143/babula_shots-8_2_uzxkes.webp", alt: isEN ? "Terrace" : "Terraza" },
+              { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776752748/babula_shots_wie6nu.webp", alt: isEN ? "Terrace" : "Terraza" },
               { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751142/babula_shots-8_zb3a43.webp",   alt: isEN ? "Terrace space" : "Espacio terraza" },
               { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751142/babula_shots-5_utlkdy.webp",   alt: isEN ? "Terrace lounge" : "Terraza lounge" },
             ].map((img, i) => (
