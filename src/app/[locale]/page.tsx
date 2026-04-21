@@ -12,13 +12,12 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { FAQS, FAQS_EN } from "@/lib/data";
 import { PROPERTY } from "@/lib/data";
 import {
-  BedDouble,
-  Bath,
-  Users,
-  Ruler,
+  MapPin,
+  Building2,
+  ShieldCheck,
+  Sun,
   Mail,
   Phone,
-  MapPin,
   MessageCircle,
   Send,
   X,
@@ -52,38 +51,38 @@ export default function HomePage() {
       <Navbar />
       <Hero />
 
-      {/* Quick Stats */}
+      {/* Benefit Highlights */}
       <section className="px-6 md:px-12 -mt-8 relative z-10 mb-20">
         <div className="max-w-[1200px] mx-auto">
           <ScrollReveal>
             <div className="bg-card rounded-2xl border border-warm-border p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 shadow-[0_2px_20px_-10px_rgba(0,0,0,0.03)]">
               <div className="text-center">
                 <div className="w-10 h-10 mx-auto mb-3 bg-surface rounded-lg flex items-center justify-center">
-                  <BedDouble className="w-5 h-5 text-primary" />
+                  <MapPin className="w-5 h-5 text-primary" />
                 </div>
-                <p className="font-semibold text-sm">{isEN ? "1 Bedroom" : "1 Dormitorio"}</p>
-                <p className="text-xs text-secondary mt-0.5">{isEN ? "Queen size bed" : "Cama queen size"}</p>
+                <p className="font-semibold text-sm">{isEN ? "Prime Location" : "Ubicación Privilegiada"}</p>
+                <p className="text-xs text-secondary mt-0.5">{isEN ? "UNESCO Colonial Zone" : "Zona Colonial, Patrimonio UNESCO"}</p>
               </div>
               <div className="text-center">
                 <div className="w-10 h-10 mx-auto mb-3 bg-surface rounded-lg flex items-center justify-center">
-                  <Bath className="w-5 h-5 text-primary" />
+                  <Building2 className="w-5 h-5 text-primary" />
                 </div>
-                <p className="font-semibold text-sm">{isEN ? "1 Bathroom" : "1 Baño"}</p>
-                <p className="text-xs text-secondary mt-0.5">{isEN ? "Hot water" : "Agua caliente"}</p>
+                <p className="font-semibold text-sm">{isEN ? "5 Apartments" : "5 Apartamentos"}</p>
+                <p className="text-xs text-secondary mt-0.5">{isEN ? "In the same property" : "En la misma propiedad"}</p>
               </div>
               <div className="text-center">
                 <div className="w-10 h-10 mx-auto mb-3 bg-surface rounded-lg flex items-center justify-center">
-                  <Users className="w-5 h-5 text-primary" />
+                  <ShieldCheck className="w-5 h-5 text-primary" />
                 </div>
-                <p className="font-semibold text-sm">{isEN ? "2 Guests" : "2 Huéspedes"}</p>
-                <p className="text-xs text-secondary mt-0.5">{isEN ? "Maximum capacity" : "Máximo capacidad"}</p>
+                <p className="font-semibold text-sm">{isEN ? "Quality Guaranteed" : "Calidad Garantizada"}</p>
+                <p className="text-xs text-secondary mt-0.5">{isEN ? "Impeccable cleanliness" : "Limpieza impecable"}</p>
               </div>
               <div className="text-center">
                 <div className="w-10 h-10 mx-auto mb-3 bg-surface rounded-lg flex items-center justify-center">
-                  <Ruler className="w-5 h-5 text-primary" />
+                  <Sun className="w-5 h-5 text-primary" />
                 </div>
-                <p className="font-semibold text-sm">55 m²</p>
-                <p className="text-xs text-secondary mt-0.5">{isEN ? "Private space" : "Espacio privado"}</p>
+                <p className="font-semibold text-sm">{isEN ? "Private Terrace" : "Terraza Privada"}</p>
+                <p className="text-xs text-secondary mt-0.5">{isEN ? "Colonial City views" : "Vistas a la Ciudad Colonial"}</p>
               </div>
             </div>
           </ScrollReveal>

@@ -38,7 +38,7 @@ export function Hero() {
           className="object-cover hidden md:block"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#2B2B2B]/70 via-[#2B2B2B]/50 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
       </div>
       <div className="max-w-[1200px] mx-auto flex items-center md:justify-end relative z-10">
         <ScrollReveal className="md:max-w-[560px]">

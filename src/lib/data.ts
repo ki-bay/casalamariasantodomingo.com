@@ -4,7 +4,7 @@ export const PROPERTY = {
   description:
     "Casa La Maria es un apartamento boutique ubicado en una edificación restaurada del siglo XVI en la emblemática Calle Las Damas, la calle más antigua de América. Nuestro espacio combina la autenticidad de los muros de piedra coralina con un diseño interior contemporáneo de líneas limpias.",
   shortDescription:
-    "Un refugio boutique de un dormitorio en el corazón de la primera ciudad de América. Donde la historia colonial se encuentra con el confort moderno.",
+    "Disfruta de un refugio exclusivo de un dormitorio situado en el epicentro de la Ciudad Colonial de Santo Domingo, la primera ciudad fundada en América. Este espacio ha sido diseñado como un santuario donde la majestuosidad de la arquitectura histórica se fusiona en perfecta armonía con el confort contemporáneo más exigente. Aquí, podrás sumergirte en el legado de siglos pasados mientras gozas de todas las comodidades modernas, creando una experiencia de alojamiento inigualable en el corazón del Caribe.",
   address: "Parmenio Troncoso 4, Santo Domingo 10210",
   city: "Santo Domingo",
   country: "República Dominicana",
@@ -29,7 +29,7 @@ export const PROPERTY_EN = {
   description:
     "Casa La Maria is a boutique apartment located in a restored 16th-century building on the iconic Calle Las Damas, the oldest street in the Americas. Our space blends the authenticity of coral stone walls with a contemporary interior design of clean lines.",
   shortDescription:
-    "A one-bedroom boutique retreat in the heart of the first city of the Americas. Where colonial history meets modern comfort.",
+    "Enjoy an exclusive one-bedroom retreat nestled in the epicenter of the Colonial City of Santo Domingo, the first city founded in the Americas. This space has been designed as a sanctuary where the majesty of historic architecture blends in perfect harmony with the most refined contemporary comfort. Here, you can immerse yourself in the legacy of centuries past while enjoying all modern amenities, creating an unparalleled lodging experience in the heart of the Caribbean.",
 };
 
 export const AMENITIES = [
