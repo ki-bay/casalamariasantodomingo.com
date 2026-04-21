@@ -68,7 +68,7 @@ export function Location() {
                 return (
                   <div
                     key={place.name}
-                    className="flex items-center gap-3 p-3 bg-white rounded-lg border border-warm-border"
+                    className="flex items-center gap-3 p-3 bg-card rounded-lg border border-warm-border"
                   >
                     {IconComp && (
                       <IconComp className="w-4 h-4 text-primary flex-shrink-0" />

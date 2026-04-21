@@ -73,7 +73,7 @@ export function Reviews() {
               {REVIEWS.map((review) => (
                 <div
                   key={review.name}
-                  className="bg-white border border-warm-border rounded-xl p-7 transition-all hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"
+                  className="bg-card border border-warm-border rounded-xl p-7 transition-all hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-xs font-semibold text-primary">

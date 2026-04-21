@@ -207,7 +207,7 @@ export function BookingWidget() {
                     return (
                       <div
                         key={amenity.name}
-                        className="bg-white border border-warm-border rounded-xl p-5 flex items-center gap-3.5 transition-all hover:border-primary hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
+                        className="bg-card border border-warm-border rounded-xl p-5 flex items-center gap-3.5 transition-all hover:border-primary hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
                       >
                         {IconComp && (
                           <IconComp className="w-5 h-5 text-primary flex-shrink-0" />
@@ -226,7 +226,7 @@ export function BookingWidget() {
                     return (
                       <div
                         key={rule.title}
-                        className="flex items-start gap-3 p-4 bg-white border border-warm-border rounded-lg"
+                        className="flex items-start gap-3 p-4 bg-card border border-warm-border rounded-lg"
                       >
                         {IconComp && (
                           <IconComp className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
@@ -250,7 +250,7 @@ export function BookingWidget() {
                     return (
                       <div
                         key={policy.title}
-                        className="flex items-start gap-3 p-4 bg-white border border-warm-border rounded-lg"
+                        className="flex items-start gap-3 p-4 bg-card border border-warm-border rounded-lg"
                       >
                         {IconComp && (
                           <IconComp className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
@@ -273,7 +273,7 @@ export function BookingWidget() {
         {/* Right: Booking Widget */}
         <div id="reserva" className="md:col-span-1">
           <div className="md:sticky md:top-[100px]">
-            <div className="bg-white rounded-2xl border border-warm-border p-6 shadow-[0_2px_20px_-10px_rgba(0,0,0,0.03)]">
+            <div className="bg-card rounded-2xl border border-warm-border p-6 shadow-[0_2px_20px_-10px_rgba(0,0,0,0.03)]">
               <div className="flex items-baseline justify-between mb-5">
                 <div>
                   <span className="text-2xl font-semibold">
@@ -304,7 +304,7 @@ export function BookingWidget() {
                         setCheckIn(e.target.value);
                         setShowBreakdown(false);
                       }}
-                      className="bg-white border-warm-border rounded-lg text-sm"
+                      className="bg-card border-warm-border rounded-lg text-sm"
                     />
                   </div>
                   <div>
@@ -319,7 +319,7 @@ export function BookingWidget() {
                         setCheckOut(e.target.value);
                         setShowBreakdown(false);
                       }}
-                      className="bg-white border-warm-border rounded-lg text-sm"
+                      className="bg-card border-warm-border rounded-lg text-sm"
                     />
                   </div>
                 </div>
@@ -328,7 +328,7 @@ export function BookingWidget() {
                     {isEN ? "Guests" : "Huéspedes"}
                   </Label>
                   <Select value={guests} onValueChange={setGuests}>
-                    <SelectTrigger className="bg-white border-warm-border rounded-lg text-sm">
+                    <SelectTrigger className="bg-card border-warm-border rounded-lg text-sm">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>

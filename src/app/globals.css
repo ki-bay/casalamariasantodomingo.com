@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --color-background: var(--background);
@@ -37,9 +37,9 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --color-surface: #FAFAF8;
-  --color-warm-border: #E6E2DB;
-  --color-warm-muted: #555555;
+  --color-surface: var(--surface);
+  --color-warm-border: var(--warm-border);
+  --color-warm-muted: var(--warm-muted);
   --color-green-accent: #22C55E;
   --color-amber-star: #F59E0B;
   --radius-sm: calc(var(--radius) - 4px);
@@ -81,6 +81,9 @@
   --sidebar-accent-foreground: #2B2B2B;
   --sidebar-border: #E6E2DB;
   --sidebar-ring: #2B2B2B;
+  --surface: #FAFAF8;
+  --warm-border: #E6E2DB;
+  --warm-muted: #555555;
 }
 
 /* ============================================================
@@ -95,8 +98,8 @@
   --popover-foreground: #F0EDE8;
   --primary: #E8D5B0;
   --primary-foreground: #0D0D0D;
-  --secondary: #2A2A2A;
-  --secondary-foreground: #C8B99A;
+  --secondary: #9A9186;
+  --secondary-foreground: #0D0D0D;
   --muted: #1E1E1E;
   --muted-foreground: #9A9186;
   --accent: #C8963C;
@@ -105,9 +108,9 @@
   --border: #2A2A2A;
   --input: #2A2A2A;
   --ring: #C8963C;
-  --color-surface: #161616;
-  --color-warm-border: #2A2A2A;
-  --color-warm-muted: #9A9186;
+  --surface: #161616;
+  --warm-border: #2A2A2A;
+  --warm-muted: #9A9186;
   --sidebar: #161616;
   --sidebar-foreground: #F0EDE8;
   --sidebar-primary: #E8D5B0;

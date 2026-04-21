@@ -36,6 +36,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es" className="dark scroll-smooth" suppressHydrationWarning>
+      <head>
+        {/* Sync theme from localStorage BEFORE paint to prevent flash */}
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('casalamaria-theme');if(t==='light'){document.documentElement.classList.remove('dark');}}catch(e){}})()` }} />
+      </head>
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased bg-background text-foreground`}>
         {children}
       </body>

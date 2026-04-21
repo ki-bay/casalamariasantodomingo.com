@@ -55,7 +55,7 @@ export default function HomePage() {
       <section className="px-6 md:px-12 -mt-8 relative z-10 mb-20">
         <div className="max-w-[1200px] mx-auto">
           <ScrollReveal>
-            <div className="bg-white rounded-2xl border border-warm-border p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 shadow-[0_2px_20px_-10px_rgba(0,0,0,0.03)]">
+            <div className="bg-card rounded-2xl border border-warm-border p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 shadow-[0_2px_20px_-10px_rgba(0,0,0,0.03)]">
               <div className="text-center">
                 <div className="w-10 h-10 mx-auto mb-3 bg-surface rounded-lg flex items-center justify-center">
                   <BedDouble className="w-5 h-5 text-primary" />
@@ -155,7 +155,7 @@ function FAQSection({ isEN }: { isEN: boolean }) {
               <AccordionItem
                 key={i}
                 value={`faq-${i}`}
-                className="border border-warm-border rounded-xl overflow-hidden bg-white px-5 data-[state=open]:border-primary"
+                className="border border-warm-border rounded-xl overflow-hidden bg-card px-5 data-[state=open]:border-primary"
               >
                 <AccordionTrigger className="text-sm font-medium text-left py-5 hover:no-underline">
                   {faq.question}
@@ -272,7 +272,7 @@ function ContactSection({ isEN }: { isEN: boolean }) {
         <ScrollReveal delay={0.1}>
           <form
             onSubmit={handleSubmit}
-            className="bg-white rounded-2xl border border-warm-border p-6 md:p-8 space-y-4"
+            className="bg-card rounded-2xl border border-warm-border p-6 md:p-8 space-y-4"
           >
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -286,7 +286,7 @@ function ContactSection({ isEN }: { isEN: boolean }) {
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }
-                  className="bg-white border-warm-border"
+                  className="bg-card border-warm-border"
                 />
               </div>
               <div>
@@ -301,7 +301,7 @@ function ContactSection({ isEN }: { isEN: boolean }) {
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
-                  className="bg-white border-warm-border"
+                  className="bg-card border-warm-border"
                 />
               </div>
             </div>
@@ -315,7 +315,7 @@ function ContactSection({ isEN }: { isEN: boolean }) {
                   setFormData({ ...formData, subject: v })
                 }
               >
-                <SelectTrigger className="bg-white border-warm-border">
+                <SelectTrigger className="bg-card border-warm-border">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -351,7 +351,7 @@ function ContactSection({ isEN }: { isEN: boolean }) {
                 onChange={(e) =>
                   setFormData({ ...formData, message: e.target.value })
                 }
-                className="bg-white border-warm-border resize-none"
+                className="bg-card border-warm-border resize-none"
               />
             </div>
             <Button
