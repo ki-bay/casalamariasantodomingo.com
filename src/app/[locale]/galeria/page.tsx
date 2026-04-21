@@ -54,7 +54,7 @@ export default function GaleriaPage() {
           <ScrollReveal>
             <div className="text-center mb-10">
               <p className="text-xs font-medium tracking-widest uppercase text-secondary mb-3">
-                {isEN ? "Gallery" : "Galería"}
+                {isEN ? "Terrace" : "Terraza"}
               </p>
               <h1 className="font-serif text-3xl md:text-4xl tracking-tight mb-4">
                 {isEN ? (

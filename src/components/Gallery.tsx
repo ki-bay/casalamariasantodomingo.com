@@ -38,7 +38,7 @@ export function Gallery() {
 
   return (
     <>
-      <section id="galeria" className="py-16 md:py-24">
+      <section id="terraza" className="py-16 md:py-24">
         {/* Heading — constrained width with padding */}
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <div className="text-center mb-10">

@@ -122,6 +122,9 @@
 }
 
 @layer base {
+  html {
+    font-size: 112%; /* ~12% larger than the 16px browser default */
+  }
   * {
     @apply border-border outline-ring/50;
   }
@@ -135,6 +138,12 @@
 ::-webkit-scrollbar-track { background: var(--background); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
+
+/* Date input calendar icon: force light rendering in dark mode */
+.dark input[type="date"],
+.dark input[type="datetime-local"] {
+  color-scheme: dark;
+}
 
 /* Gradient divider */
 .gradient-divider {

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, BedDouble, Bath, Users, Ruler, Wifi, Wind, Tv, UtensilsCrossed, Coffee, Sun, Building2, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, BedDouble, Bath, Users, Ruler, Wifi, Wind, Tv, UtensilsCrossed, Coffee, Sun, CheckCircle2 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -34,7 +34,6 @@ const AMENITY_ICONS: Record<string, React.ReactNode> = {
   kitchen: <UtensilsCrossed className="w-4 h-4" />,
   coffee_maker: <Coffee className="w-4 h-4" />,
   terrace: <Sun className="w-4 h-4" />,
-  balcony: <Building2 className="w-4 h-4" />,
   city_view: <Sun className="w-4 h-4" />,
   private_entrance: <CheckCircle2 className="w-4 h-4" />,
   desk: <CheckCircle2 className="w-4 h-4" />,
@@ -54,7 +53,6 @@ const AMENITY_LABELS: Record<string, { es: string; en: string }> = {
   kitchen: { es: "Cocina privada", en: "Private kitchen" },
   coffee_maker: { es: "Cafetera", en: "Coffee maker" },
   terrace: { es: "Terraza privada", en: "Private terrace" },
-  balcony: { es: "Balcón privado", en: "Private balcony" },
   city_view: { es: "Vistas a la ciudad", en: "City views" },
   private_entrance: { es: "Acceso privado", en: "Private entrance" },
   desk: { es: "Escritorio", en: "Desk" },

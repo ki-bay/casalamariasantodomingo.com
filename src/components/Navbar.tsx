@@ -16,7 +16,7 @@ import {
 const NAV_LINKS_ES = [
   { href: "/es", label: "Inicio", anchor: null },
   { href: "/es/apartamentos", label: "Apartamentos", anchor: null },
-  { href: "/es#galeria", label: "Galería", anchor: "galeria" },
+  { href: "/es#terraza", label: "Terraza", anchor: "terraza" },
   { href: "/es/contacto", label: "Contacto", anchor: null },
   { href: "/es/blog", label: "Blog", anchor: null },
 ];
@@ -24,7 +24,7 @@ const NAV_LINKS_ES = [
 const NAV_LINKS_EN = [
   { href: "/en", label: "Home", anchor: null },
   { href: "/en/apartments", label: "Apartments", anchor: null },
-  { href: "/en#gallery", label: "Gallery", anchor: "gallery" },
+  { href: "/en#terrace", label: "Terrace", anchor: "terrace" },
   { href: "/en/contact", label: "Contact", anchor: null },
   { href: "/en/blog", label: "Blog", anchor: null },
 ];
@@ -43,32 +43,45 @@ export function Navbar() {
 
   // Map current path to equivalent in the other language
   const getOppositePath = useCallback(() => {
+    const currentPrefix = isEN ? '/en' : '/es';
+    const targetPrefix = isEN ? '/es' : '/en';
+
+    // next-intl middleware may strip locale from the pathname — normalize to locale-less path
+    const normalizedPath = pathname.startsWith(currentPrefix)
+      ? pathname.slice(currentPrefix.length) || '/'
+      : pathname;
+
+    // Paths that differ between locales
     const pathMap: Record<string, string> = {
-      "/es": "/en",
-      "/en": "/es",
-      "/es/apartamentos": "/en/apartments",
-      "/en/apartments": "/es/apartamentos",
-      "/es/contacto": "/en/contact",
-      "/en/contact": "/es/contacto",
-      "/es/galeria": "/en/gallery",
-      "/en/gallery": "/es/galeria",
-      "/es/reserva": "/en/book",
-      "/en/book": "/es/reserva",
-      "/es/terminos": "/en/terms",
-      "/en/terms": "/es/terminos",
-      "/es/blog": "/en/blog",
-      "/en/blog": "/es/blog",
+      '/apartamentos': '/apartments',
+      '/apartments': '/apartamentos',
+      '/contacto': '/contact',
+      '/contact': '/contacto',
+      '/galeria': '/gallery',
+      '/gallery': '/galeria',
+      '/reserva': '/book',
+      '/book': '/reserva',
+      '/terminos': '/terms',
+      '/terms': '/terminos',
     };
-    // Handle dynamic slug pages like /es/apartamentos/suite or /en/apartments/studio
-    const apartamentoMatch = pathname.match(/^\/es\/apartamentos\/(.+)$/);
-    if (apartamentoMatch) return `/en/apartments/${apartamentoMatch[1]}`;
-    const apartmentMatch = pathname.match(/^\/en\/apartments\/(.+)$/);
-    if (apartmentMatch) return `/es/apartamentos/${apartmentMatch[1]}`;
-    const blogEsMatch = pathname.match(/^\/es\/blog\/(.+)$/);
-    if (blogEsMatch) return `/en/blog/${blogEsMatch[1]}`;
-    const blogEnMatch = pathname.match(/^\/en\/blog\/(.+)$/);
-    if (blogEnMatch) return `/es/blog/${blogEnMatch[1]}`;
-    return pathMap[pathname] ?? (isEN ? "/es" : "/en");
+
+    // Dynamic: /apartamentos/[slug] ↔ /apartments/[slug]
+    const aptMatch = normalizedPath.match(/^\/(apartamentos|apartments)\/(.+)$/);
+    if (aptMatch) {
+      const seg = isEN ? 'apartamentos' : 'apartments';
+      return `${targetPrefix}/${seg}/${aptMatch[2]}`;
+    }
+    // Dynamic: /blog/[slug]
+    const blogMatch = normalizedPath.match(/^\/blog\/(.+)$/);
+    if (blogMatch) return `${targetPrefix}/blog/${blogMatch[1]}`;
+
+    // Static mapped path
+    const mapped = pathMap[normalizedPath];
+    if (mapped) return `${targetPrefix}${mapped}`;
+
+    // Same path name both locales (/, /blog, /admin, etc)
+    if (normalizedPath === '/') return targetPrefix;
+    return `${targetPrefix}${normalizedPath}`;
   }, [pathname, isEN]);
 
   const handleLangSwitch = useCallback((e: React.MouseEvent) => {

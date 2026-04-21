@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { BedDouble, Users, Ruler, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 interface Apartment {
   id: string;
@@ -71,11 +70,6 @@ export function ApartmentCard({ apartment, locale }: Props) {
           <div className="absolute inset-0 bg-gradient-to-br from-muted to-muted-foreground/10 flex items-center justify-center">
             <BedDouble className="w-12 h-12 text-muted-foreground/30" />
           </div>
-        )}
-        {apartment.has_balcony && (
-          <Badge className="absolute top-3 left-3 bg-accent text-accent-foreground text-[10px]">
-            {isEN ? "Balcony" : "Balcón"}
-          </Badge>
         )}
       </Link>
 

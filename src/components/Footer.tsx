@@ -28,7 +28,7 @@ export function Footer() {
 
   const navLinks = [
     { href: `/${locale}/apartamentos`, label: isEN ? "Apartments" : "Apartamentos" },
-    { href: `/${locale}#galeria`, label: isEN ? "Gallery" : "Galería" },
+    { href: `/${locale}#terraza`, label: isEN ? "Terrace" : "Terraza" },
     { href: `/${locale}#ubicacion`, label: isEN ? "Location" : "Ubicación" },
     { href: `/${locale}/blog`, label: "Blog" },
     { href: `/${locale}/contacto`, label: isEN ? "Contact" : "Contacto" },
