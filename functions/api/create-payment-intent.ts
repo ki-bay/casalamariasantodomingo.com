@@ -46,7 +46,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
   const { amount, nights, checkIn, checkOut, guests, guestName, guestEmail } = body;
 
-  if (!amount || amount < 100 || !checkIn || !checkOut || !guestEmail) {
+  if (!amount || amount < 100 || !checkIn || !checkOut) {
     return new Response(
       JSON.stringify({ error: "Missing required fields" }),
       { status: 400, headers: corsHeaders }
@@ -65,13 +65,13 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       metadata: {
         checkIn,
         checkOut,
-        guests,
+        guests: guests ?? "",
         nights: String(nights),
-        guestName,
-        guestEmail,
+        guestName: guestName ?? "",
+        guestEmail: guestEmail ?? "",
         property: "Casa La Maria",
       },
-      receipt_email: guestEmail,
+      ...(guestEmail ? { receipt_email: guestEmail } : {}),
       description: `Casa La Maria — ${nights} night${nights > 1 ? "s" : ""}: ${checkIn} → ${checkOut}`,
     });
 
