@@ -13,7 +13,7 @@ export function SchemaMarkup() {
         email: "info@casalamariazonacolonial.com",
         address: {
           "@type": "PostalAddress",
-          streetAddress: "Callejón Regina, Parmenio Troncoso",
+          streetAddress: "Parmenio Troncoso 4",
           addressLocality: "Santo Domingo",
           addressRegion: "Distrito Nacional",
           postalCode: "10210",
@@ -21,8 +21,8 @@ export function SchemaMarkup() {
         },
         geo: {
           "@type": "GeoCoordinates",
-          latitude: 18.4725,
-          longitude: -69.8819,
+          latitude: 18.469990300133684,
+          longitude: -69.88640158707528,
         },
         priceRange: "DOP 5,603 - DOP 7,680",
         starRating: {

@@ -78,16 +78,6 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  const handleAnchorClick = (anchor: string | null) => {
-    setOpen(false);
-    if (!anchor) return;
-    const el = document.querySelector(`#${anchor}`);
-    if (el) {
-      const pos = el.getBoundingClientRect().top + window.pageYOffset - 100;
-      window.scrollTo({ top: pos, behavior: "smooth" });
-    }
-  };
-
   return (
     <nav
       className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-48px)] max-w-[960px] transition-all duration-300"
@@ -116,23 +106,13 @@ export function Navbar() {
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-5">
           {NAV_LINKS.map((link) => (
-            link.anchor ? (
-              <button
-                key={link.href}
-                onClick={() => handleAnchorClick(link.anchor)}
-                className="text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {link.label}
-              </button>
-            ) : (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {link.label}
-              </Link>
-            )
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {link.label}
+            </Link>
           ))}
         </div>
 
@@ -153,24 +133,14 @@ export function Navbar() {
             <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
             <div className="flex flex-col gap-6">
               {NAV_LINKS.map((link) => (
-                link.anchor ? (
-                  <button
-                    key={link.href}
-                    onClick={() => handleAnchorClick(link.anchor)}
-                    className="text-2xl font-serif text-foreground text-left"
-                  >
-                    {link.label}
-                  </button>
-                ) : (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    className="text-2xl font-serif text-foreground text-left"
-                  >
-                    {link.label}
-                  </Link>
-                )
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="text-2xl font-serif text-foreground text-left"
+                >
+                  {link.label}
+                </Link>
               ))}
               <div className="flex items-center gap-3 mt-4">
                 <Link href={bookHref} onClick={() => setOpen(false)}>

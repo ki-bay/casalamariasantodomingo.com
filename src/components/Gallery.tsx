@@ -60,7 +60,7 @@ export function Gallery() {
 
         {/* Grid — full viewport width, no crop, original ratio */}
         <ScrollReveal>
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-1 md:grid-cols-2">
             {[
               { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751144/babula_shots-12_ncfyou.webp",  alt: isEN ? "Terrace view" : "Vista terraza" },
               { src: "https://res.cloudinary.com/dspogotur/image/upload/v1776751143/babula_shots-8_2_uzxkes.webp", alt: isEN ? "Terrace" : "Terraza" },

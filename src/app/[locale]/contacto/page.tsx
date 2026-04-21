@@ -190,7 +190,7 @@ export default function ContactoPage() {
                         {isEN ? "Address" : "Dirección"}
                       </p>
                       <p className="text-sm font-medium">
-                        Calle Las Damas, Zona Colonial, Santo Domingo 10210
+                        Parmenio Troncoso 4, Santo Domingo 10210
                       </p>
                     </div>
                   </div>
