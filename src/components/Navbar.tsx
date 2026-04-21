@@ -47,18 +47,6 @@ export function Navbar() {
     // Save scroll position ratio (works across pages of different heights)
     const scrollRatio = window.scrollY / document.documentElement.scrollHeight;
     sessionStorage.setItem("langSwitchScroll", String(scrollRatio));
-    // Trigger buzz animation
-    document.documentElement.style.transition = "opacity 80ms ease, transform 80ms ease";
-    document.documentElement.style.opacity = "0.6";
-    document.documentElement.style.transform = "scale(0.995)";
-    setTimeout(() => {
-      document.documentElement.style.opacity = "1";
-      document.documentElement.style.transform = "scale(1)";
-      setTimeout(() => {
-        document.documentElement.style.transition = "";
-        document.documentElement.style.transform = "";
-      }, 80);
-    }, 80);
     router.push(oppositeLang);
   }, [oppositeLang, router]);
 
