@@ -281,37 +281,16 @@ export const REVIEWS = [
 
 export const BLOG_POSTS = [
   {
-    slug: "lugares-imprescindibles-zona-colonial",
-    title: "10 lugares imprescindibles en la Zona Colonial de Santo Domingo",
+    slug: "zona-colonial-santo-domingo",
+    title: "Zona Colonial Santo Domingo: Qué Ver + Itinerario + Mapa (2026)",
     excerpt:
-      "Descubre los monumentos históricos, cafés escondidos y galerías de arte que hacen de la Zona Colonial un destino único en el Caribe.",
-    coverImage: "https://picsum.photos/seed/blog-colonial/600/380.jpg",
+      "Guía completa con todo lo que necesitas saber: lugares imprescindibles, itinerario de 1 y 2 días, mapa interactivo, restaurantes y consejos de seguridad. Patrimonio UNESCO.",
+    coverImage:
+      "https://res.cloudinary.com/dspogotur/image/upload/v1776784041/Fotografo_babula_shots_rd.webp",
     category: "Guía",
-    readTime: "5 min",
-    date: "12 Nov 2024",
-    content: `La Zona Colonial de Santo Domingo es un tesoro vivo de la historia americana. Declarada Patrimonio de la Humanidad por la UNESCO en 1990, esta zona alberga las primeras instituciones del Nuevo Mundo.\n\n## 1. Alcázar de Colón\nEl palacio del virrey Diego Colón, hijo del almirante, es una joya arquitectónica que combina estilos gótico y renacentista. Sus salas muestran mobiliario original y obras de arte del siglo XVI.\n\n## 2. Catedral Primada de América\nLa primera catedral construida en el continente americano. Su fachada de piedra coralina y su interior gótico son impresionantes. No te pierdas la capilla de la Inmaculada Concepción.\n\n## 3. Panteón Nacional\nOriginalmente una iglesia jesuita, hoy alberga los restos de los próceres dominicanos. Su altar de mármol y su cúpula son dignos de admiración.\n\n## 4. Calle Las Damas\nLa calle más antigua de América, donde se encuentra Casa La Maria. Pasear por ella es viajar en el tiempo entre edificios coloniales restaurados.\n\n## 5. Museo de las Casas Reales\nEste museo documenta la historia colonial de la isla con una impresionante colección de objetos y mapas antiguos.\n\n## 6. Plaza de España\nUna amplia plaza bordeada de restaurantes y terrazas, perfecta para disfrutar de una cena al aire libre con vista al río Ozama.\n\n## 7. Fortaleza Ozama\nLa fortaleza militar más antigua de América ofrece vistas panorámicas de la ciudad y el río desde su torre del Homenaje.\n\n## 8. Museo del Chocolate\nUna experiencia deliciosa donde puedes aprender sobre la historia del cacao en la isla y degustar chocolate artesanal.\n\n## 9. Parque Colón\nEl corazón de la Zona Colonial, con su estatua de Colón y la catedral de fondo, es el punto de encuentro perfecto.\n\n## 10. Malecón\nEl paseo marítimo de Santo Domingo ofrece las mejores puestas de sol del Caribe, a solo 10 minutos caminando desde Casa La Maria.`,
-  },
-  {
-    slug: "guia-gastronomica-casa-la-maria",
-    title: "Guía gastronómica: dónde comer cerca de Casa La Maria",
-    excerpt:
-      "Desde comida criolla tradicional hasta cocina de autor, te contamos los mejores restaurantes a menos de 5 minutos caminando.",
-    coverImage: "https://picsum.photos/seed/blog-comida-sd/600/380.jpg",
-    category: "Gastronomía",
-    readTime: "7 min",
-    date: "28 Oct 2024",
-    content: `Santo Domingo es un paraíso gastronómico, y la Zona Colonial concentra algunos de los mejores restaurantes del Caribe. Aquí te presentamos nuestras recomendaciones favoritas, todas a poca distancia de Casa La Maria.\n\n## Comida Criolla Tradicional\n\n### Restaurante Lulú (1 min)\nJusto al salir de Casa La Maria. Especialidades: mangú con los tres golpes, sancocho y mofongo. El ambiente es acogedor y los precios muy razonables.\n\n### La Atarazana (3 min)\nEn una antigua bodega colonial junto al río. Es famoso por su pescado frito con tostones y su ambiente rústico-auténtico.\n\n## Cocina de Autor\n\n### Pat'e Palo (4 min)\nEl primer restaurante europeo de la Zona Colonial. Su menú fusiona técnicas francesas con ingredientes dominicanos. Reserva imprescindible.\n\n### Mesón de Bari (5 min)\nCocina mediterránea con toque caribeño en un patio colonial iluminado con velas. El risotto de camarones es espectacular.\n\n## Café y Repostería\n\n### El Convento (2 min)\nCafetería boutique en un antiguo convento. Café orgánico dominicano y pasteles artesanales. Perfecto para desayunar.`,
-  },
-  {
-    slug: "playa-guibia-secreto-santo-domingo",
-    title: "Playa Güibia: el secreto mejor guardado de Santo Domingo",
-    excerpt:
-      "A solo 10 minutos caminando de Casa La Maria, esta playa urbana ofrece las mejores puestas de sol de la capital dominicana.",
-    coverImage: "https://picsum.photos/seed/blog-playa-guibia/600/380.jpg",
-    category: "Playas",
-    readTime: "4 min",
-    date: "15 Oct 2024",
-    content: `La Playa Güibia es una joya urbana que muchos turistas desconocen. Ubicada en el Malecón de Santo Domingo, a solo 800 metros de Casa La Maria, esta playa ofrece una experiencia auténtica y relajada.\n\n## Lo que hace especial a Güibia\n\nA diferencia de las playas turísticas, Güibia es donde van los locales. Aquí encontrarás familias disfrutando del atardecer, parejas caminando por el Malecón y surfistas aprovechando las olas del atardecer.\n\n## Mejor momento para ir\n\nEl atardecer es mágico. Llega alrededor de las 5:00 PM, compra una piña fría de los vendedores ambulantes y siéntate en el malecón a disfrutar del espectáculo de colores sobre el Mar Caribe.\n\n## Actividades\n\n- Surf: Las olas son perfectas para principiantes\n- Paddleboard: Se pueden alquilar tablas cerca\n- Voleibol de playa: Partidas espontáneas al atardecer\n- Senderismo: El Malecón se extiende por kilómetros`,
+    readTime: "8 min",
+    date: "21 Abr 2026",
+    content: "",
   },
 ];
 
