@@ -4,7 +4,7 @@ import { useLocale } from "next-intl";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { PROPERTY, LONG_STAY_DISCOUNTS } from "@/lib/data";
+import { PROPERTY } from "@/lib/data";
 import { StripeCheckout } from "@/components/StripeCheckout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -123,7 +123,7 @@ export default function ReservaPage() {
           {/* Step 1: Dates */}
           {step === 1 && (
             <ScrollReveal>
-              <div className="bg-white rounded-2xl border border-warm-border p-6 md:p-8">
+              <div className="bg-card rounded-2xl border border-warm-border p-6 md:p-8">
                 <div className="flex items-center gap-2 mb-6">
                   <CalendarDays className="w-5 h-5 text-primary" />
                   <h2 className="font-serif text-xl">{isEN ? "Select your dates" : "Selecciona tus fechas"}</h2>
@@ -137,7 +137,7 @@ export default function ReservaPage() {
                       min={today}
                       value={checkIn}
                       onChange={(e) => setCheckIn(e.target.value)}
-                      className="bg-white border-warm-border rounded-lg"
+                      className="bg-card border-warm-border rounded-lg"
                     />
                     <p className="text-xs text-secondary mt-1">3:00 PM</p>
                   </div>
@@ -148,7 +148,7 @@ export default function ReservaPage() {
                       min={checkIn || today}
                       value={checkOut}
                       onChange={(e) => setCheckOut(e.target.value)}
-                      className="bg-white border-warm-border rounded-lg"
+                      className="bg-card border-warm-border rounded-lg"
                     />
                     <p className="text-xs text-secondary mt-1">11:00 AM</p>
                   </div>
@@ -159,7 +159,7 @@ export default function ReservaPage() {
                     {isEN ? "Guests" : "Huéspedes"}
                   </Label>
                   <Select value={guests} onValueChange={setGuests}>
-                    <SelectTrigger className="bg-white border-warm-border rounded-lg">
+                    <SelectTrigger className="bg-card border-warm-border rounded-lg">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -194,18 +194,6 @@ export default function ReservaPage() {
                   </div>
                 )}
 
-                <div className="bg-surface rounded-xl border border-warm-border p-4 space-y-2 mb-6">
-                  <p className="text-xs font-medium text-secondary mb-2">
-                    {isEN ? "Long-stay discounts" : "Descuentos por estancia"}
-                  </p>
-                  {LONG_STAY_DISCOUNTS.map((d) => (
-                    <div key={d.minNights} className="flex justify-between text-sm">
-                      <span>{d.minNights}+ {isEN ? "nights" : "noches"}</span>
-                      <span className="font-medium text-green-accent">{d.label}</span>
-                    </div>
-                  ))}
-                </div>
-
                 <Button
                   onClick={handleNext}
                   className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg py-3.5 font-medium"
@@ -219,7 +207,7 @@ export default function ReservaPage() {
           {/* Step 2: Details & Payment */}
           {step === 2 && (
             <ScrollReveal>
-              <div className="bg-white rounded-2xl border border-warm-border p-6 md:p-8">
+              <div className="bg-card rounded-2xl border border-warm-border p-6 md:p-8">
                 <div className="flex items-center gap-2 mb-6">
                   <CreditCard className="w-5 h-5 text-primary" />
                   <h2 className="font-serif text-xl">

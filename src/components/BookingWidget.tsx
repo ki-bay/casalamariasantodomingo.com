@@ -39,7 +39,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { PROPERTY, AMENITIES, AMENITIES_EN, HOUSE_RULES, HOUSE_RULES_EN, POLICIES, POLICIES_EN, LONG_STAY_DISCOUNTS, BOOKED_DATES } from "@/lib/data";
+import { PROPERTY, AMENITIES, AMENITIES_EN, HOUSE_RULES, HOUSE_RULES_EN, POLICIES, POLICIES_EN, BOOKED_DATES } from "@/lib/data";
 import { StripeCheckout } from "@/components/StripeCheckout";
 import { useLocale } from "next-intl";
 
@@ -385,24 +385,6 @@ export function BookingWidget() {
               <p className="text-center text-xs text-secondary mt-3">
                 {isEN ? "You won't be charged yet" : "No se te cobrará nada aún"}
               </p>
-            </div>
-
-            {/* Long stay discount */}
-            <div className="mt-4 bg-surface rounded-xl border border-warm-border p-4 space-y-2">
-              <p className="text-xs font-medium text-secondary mb-2">
-                {isEN ? "Long-stay discounts" : "Descuentos por estancia"}
-              </p>
-              {LONG_STAY_DISCOUNTS.map((d) => (
-                <div
-                  key={d.minNights}
-                  className="flex justify-between text-sm"
-                >
-                  <span>{d.minNights}+ {isEN ? "nights" : "noches"}</span>
-                  <span className="font-medium text-green-accent">
-                    {d.label}
-                  </span>
-                </div>
-              ))}
             </div>
           </div>
         </div>

@@ -88,18 +88,18 @@ export function Hero() {
               height={750}
               className="relative rounded-2xl shadow-2xl w-full object-cover aspect-[4/5] border border-white/10"
             />
-            <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-sm rounded-xl p-4 flex items-center justify-between">
+            <div className="absolute bottom-4 left-4 right-4 bg-card/95 backdrop-blur-sm rounded-xl p-4 flex items-center justify-between border border-border/50">
               <div>
-                <p className="text-xs text-secondary mb-0.5">{isEN ? "From" : "Desde"}</p>
-                <p className="text-xl font-semibold text-primary">
+                <p className="text-xs text-muted-foreground mb-0.5">{isEN ? "From" : "Desde"}</p>
+                <p className="text-xl font-semibold text-foreground">
                   ${PROPERTY.pricePerNight}{" "}
-                  <span className="text-sm font-normal text-secondary">
+                  <span className="text-sm font-normal text-muted-foreground">
                     / {isEN ? "night" : "noche"}
                   </span>
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-xs text-secondary mb-0.5">{isEN ? "Available" : "Disponible"}</p>
+                <p className="text-xs text-muted-foreground mb-0.5">{isEN ? "Available" : "Disponible"}</p>
                 <p className="text-sm font-medium text-green-accent flex items-center gap-1">
                   <span className="w-1.5 h-1.5 bg-green-accent rounded-full" />{" "}
                   {isEN ? "View dates" : "Ver fechas"}
