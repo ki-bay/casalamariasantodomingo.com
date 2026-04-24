@@ -4,7 +4,7 @@ export const PROPERTY = {
   description:
     "Casa La Maria es un apartamento ubicado en una edificación restaurada del siglo XVI en la emblemática Calle Parmenio Troncoso. Nuestro espacio combina la autenticidad de los muros de piedra coralina con un diseño interior contemporáneo de líneas limpias. El apartamento de 55m² está diseñado para parejas o viajeros solos que buscan una experiencia íntima y cultural en el corazón del Distrito Colonial, declarado Patrimonio de la Humanidad por la UNESCO. Cada detalle ha sido cuidadosamente seleccionado: desde la ropa de cama de algodón egipcio hasta las obras de arte de artistas dominicanos locales. Desde tu puerta, caminas directamente al Alcázar de Colón, la Catedral Primada de América, el Panteón Nacional y decenas de restaurantes, cafés y galerías de arte. La Playa Güibia está a solo 25 minutos a pie.",
   shortDescription:
-    "Disfruta de un refugio exclusivo de un dormitorio situado en el epicentro de la Ciudad Colonial de Santo Domingo, la primera ciudad fundada en América. Este espacio ha sido diseñado como un santuario donde la majestuosidad de la arquitectura histórica se fusiona en perfecta armonía con el confort contemporáneo más exigente. Aquí, podrás sumergirte en el legado de siglos pasados mientras gozas de todas las comodidades modernas, creando una experiencia de alojamiento inigualable en el corazón del Caribe.",
+    "",
   address: "Parmenio Troncoso 4, Santo Domingo 10210",
   city: "Santo Domingo",
   country: "República Dominicana",
