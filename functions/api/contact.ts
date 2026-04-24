@@ -1,6 +1,11 @@
+/// <reference types="@cloudflare/workers-types" />
+
 interface Env {
-  RESEND_API_KEY?: string;           // resend.com API key (add in Cloudflare Pages → Settings → Env vars)
-  CONTACT_EMAIL_TO?: string;          // defaults to info@casalamariazonacolonial.com
+  // Supabase Edge Function (Hostinger SMTP relay)
+  NEXT_PUBLIC_SUPABASE_URL: string;  // e.g. https://blwodrambvrhapjplqhx.supabase.co
+  EDGE_SECRET: string;               // shared secret set in Supabase secrets + here
+  // Optional override
+  CONTACT_EMAIL_TO?: string;         // defaults to info@casalamariazonacolonial.com
 }
 
 interface ContactRequest {
@@ -35,9 +40,10 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   }
 
   const to = context.env.CONTACT_EMAIL_TO ?? "info@casalamariazonacolonial.com";
-  const apiKey = context.env.RESEND_API_KEY;
+  const supabaseUrl = context.env.NEXT_PUBLIC_SUPABASE_URL;
+  const edgeSecret = context.env.EDGE_SECRET;
 
-  if (!apiKey) {
+  if (!supabaseUrl || !edgeSecret) {
     return new Response(JSON.stringify({ error: "Email service not configured" }), { status: 503, headers: corsHeaders });
   }
 
@@ -56,16 +62,15 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   `;
 
   try {
-    const res = await fetch("https://api.resend.com/emails", {
+    const res = await fetch(`${supabaseUrl}/functions/v1/send-email`, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${apiKey}`,
+        "Authorization": `Bearer ${edgeSecret}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Casa La Maria <web@casalamariazonacolonial.com>",
-        to: [to],
-        reply_to: email,
+        to,
+        replyTo: email,
         subject: `[Web] ${subject} — ${name}`,
         html,
       }),
