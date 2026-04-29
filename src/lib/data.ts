@@ -28,8 +28,7 @@ export const PROPERTY = {
 export const PROPERTY_EN = {
   description:
     "Casa La Maria is an apartment located in a restored 16th-century building on the emblematic Calle Parmenio Troncoso. Our space blends the authenticity of coral stone walls with a contemporary interior design of clean lines. The 55m² apartment is designed for couples or solo travelers seeking an intimate and cultural experience in the heart of the Colonial District, declared a UNESCO World Heritage Site. Every detail has been carefully selected: from Egyptian cotton bed linens to works by local Dominican artists. From your door, you walk directly to the Alcázar de Colón, the Catedral Primada de América, the Panteón Nacional and dozens of restaurants, cafés and art galleries. Playa Güibia is just 25 minutes on foot.",
-  shortDescription:
-    "Enjoy an exclusive one-bedroom retreat nestled in the epicenter of the Colonial City of Santo Domingo, the first city founded in the Americas. This space has been designed as a sanctuary where the majesty of historic architecture blends in perfect harmony with the most refined contemporary comfort. Here, you can immerse yourself in the legacy of centuries past while enjoying all modern amenities, creating an unparalleled lodging experience in the heart of the Caribbean.",
+  shortDescription: "",
 };
 
 export const AMENITIES = [
@@ -280,6 +279,18 @@ export const REVIEWS = [
 ];
 
 export const BLOG_POSTS = [
+  {
+    slug: "wine-tasting-ocoa-bay",
+    title: "Cata de Vinos en Ocoa Bay: La Experiencia de Viñedo Imprescindible en RD (2026)",
+    excerpt:
+      "El único viñedo sostenible del Caribe está a 2 horas de Santo Domingo. Tour, cata de KiBay, gastronomía farm-to-table y cómo reservar online desde $65 USD.",
+    coverImage:
+      "https://ocoabay.com/wp-content/uploads/2025/06/Wine-Tour-Tasting-01.webp",
+    category: "Experiencias",
+    readTime: "7 min",
+    date: "29 Abr 2026",
+    content: "",
+  },
   {
     slug: "zona-colonial-santo-domingo",
     title: "Zona Colonial Santo Domingo: Qué Ver + Itinerario + Mapa (2026)",

@@ -92,6 +92,48 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       alternates: { languages: { es: `${BASE}/es/blog`, en: `${BASE}/en/blog` } },
     },
 
+    // Blog post — Wine Tasting at Ocoa Bay
+    {
+      url: `${BASE}/es/blog/wine-tasting-ocoa-bay`,
+      lastModified: "2026-04-29",
+      changeFrequency: "monthly",
+      priority: 0.9,
+      alternates: {
+        languages: {
+          es: `${BASE}/es/blog/wine-tasting-ocoa-bay`,
+          en: `${BASE}/en/blog/wine-tasting-ocoa-bay`,
+        },
+      },
+      images: [
+        "https://ocoabay.com/wp-content/uploads/2025/06/Wine-Tour-Tasting-01.webp",
+        "https://ocoabay.com/wp-content/uploads/2025/06/Wine-Tour-Tasting-02.webp",
+        "https://ocoabay.com/wp-content/uploads/2025/06/Wine-Tour-Tasting-03.webp",
+        "https://ocoabay.com/wp-content/uploads/2025/06/full-experiences.jpg",
+        "https://ocoabay.com/wp-content/uploads/2025/06/gastronomy.webp",
+        "https://ocoabay.com/wp-content/uploads/2025/06/Beach-img.webp",
+      ],
+    },
+    {
+      url: `${BASE}/en/blog/wine-tasting-ocoa-bay`,
+      lastModified: "2026-04-29",
+      changeFrequency: "monthly",
+      priority: 0.9,
+      alternates: {
+        languages: {
+          es: `${BASE}/es/blog/wine-tasting-ocoa-bay`,
+          en: `${BASE}/en/blog/wine-tasting-ocoa-bay`,
+        },
+      },
+      images: [
+        "https://ocoabay.com/wp-content/uploads/2025/06/Wine-Tour-Tasting-01.webp",
+        "https://ocoabay.com/wp-content/uploads/2025/06/Wine-Tour-Tasting-02.webp",
+        "https://ocoabay.com/wp-content/uploads/2025/06/Wine-Tour-Tasting-03.webp",
+        "https://ocoabay.com/wp-content/uploads/2025/06/full-experiences.jpg",
+        "https://ocoabay.com/wp-content/uploads/2025/06/gastronomy.webp",
+        "https://ocoabay.com/wp-content/uploads/2025/06/Beach-img.webp",
+      ],
+    },
+
     // Blog post — Zona Colonial
     {
       url: `${BASE}/es/blog/zona-colonial-santo-domingo`,
