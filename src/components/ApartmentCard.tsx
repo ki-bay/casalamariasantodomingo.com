@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { BedDouble, Users, Ruler, Star } from "lucide-react";
+import { BedDouble, Users, Ruler } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { formatApartmentPrice } from "@/lib/format-price";
 
 interface Apartment {
   id: string;
@@ -18,8 +18,10 @@ interface Apartment {
   max_guests: number;
   has_balcony: boolean;
   has_terrace: boolean;
-  price_standard_dop: number;
-  price_flexible_dop: number;
+  price_standard_dop: number | null;
+  price_flexible_dop: number | null;
+  price_base_usd: number | null;
+  price_currency: string | null;
   images: { url: string; alt_es: string; alt_en: string }[];
 }
 
@@ -29,22 +31,11 @@ interface Props {
 }
 
 export function ApartmentCard({ apartment, locale }: Props) {
-  const [rateUSD, setRateUSD] = useState<number>(0.0167);
   const isEN = locale === "en";
-
-  useEffect(() => {
-    fetch("https://open.er-api.com/v6/latest/DOP")
-      .then(r => r.json())
-      .then(d => { if (d.rates?.USD) setRateUSD(d.rates.USD); })
-      .catch(() => {});
-  }, []);
 
   const name = isEN ? apartment.name_en : apartment.name_es;
   const description = isEN ? apartment.description_en : apartment.description_es;
-  const price = apartment.price_standard_dop;
-  const priceDisplay = isEN
-    ? `$${(price * rateUSD).toFixed(0)}`
-    : `DOP ${price.toLocaleString('es-DO')}`;
+  const priceDisplay = formatApartmentPrice(apartment, isEN);
 
   const href = isEN
     ? `/en/apartments/${apartment.slug}`

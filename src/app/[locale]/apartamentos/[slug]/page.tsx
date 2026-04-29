@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/lib/supabase";
 import { ApartmentPriceBlock } from "@/components/ApartmentPriceBlock";
+import { formatApartmentPrice } from "@/lib/format-price";
 
 type Apartment = {
   id: string; slug: string; name_es: string; name_en: string;
@@ -18,7 +19,8 @@ type Apartment = {
   size_m2: number; max_guests: number;
   bed_config_es: string; bed_config_en: string;
   has_balcony: boolean; has_terrace: boolean;
-  price_standard_dop: number; price_flexible_dop: number;
+  price_standard_dop: number | null; price_flexible_dop: number | null;
+  price_base_usd: number | null; price_currency: string | null;
   amenities: string[]; images: { url: string; alt_es: string; alt_en: string }[];
   lodgify_property_id: string;
 };
@@ -78,7 +80,7 @@ async function getApartment(slug: string): Promise<Apartment | null> {
 async function getSimilar(currentSlug: string): Promise<Apartment[]> {
   const { data } = await supabase
     .from('apartments')
-    .select('id,slug,name_es,name_en,price_standard_dop,images,bedrooms,size_m2,max_guests')
+    .select('id,slug,name_es,name_en,price_standard_dop,price_base_usd,price_currency,images,bedrooms,size_m2,max_guests')
     .eq('available', true)
     .neq('slug', currentSlug)
     .order('sort_order')
@@ -271,7 +273,7 @@ export default async function ApartmentDetailPage({ params }: Props) {
                     {isEN ? s.name_en : s.name_es}
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
-                    {isEN ? "From" : "Desde"} DOP {s.price_standard_dop?.toLocaleString('es-DO')}
+                    {isEN ? "From" : "Desde"} {formatApartmentPrice(s, isEN)}
                   </p>
                 </Link>
               ))}
