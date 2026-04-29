@@ -6,7 +6,7 @@ const intlMiddleware = createMiddleware(routing);
 
 const ADMIN_COOKIE = 'clm_admin';
 
-/** Matches /es/admin or /en/admin (and sub-paths), but NOT /*/admin/login */
+// Matches /es/admin or /en/admin (and sub-paths), but NOT the admin login page
 function isProtectedAdminRoute(pathname: string): boolean {
   return (
     /^\/(es|en)\/admin/.test(pathname) &&
