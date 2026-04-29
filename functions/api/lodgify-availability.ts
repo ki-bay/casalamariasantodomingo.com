@@ -27,6 +27,17 @@ const cors = {
 };
 
 export const onRequest: PagesFunction<Env> = async (context) => {
+  try {
+    return await handle(context);
+  } catch (err) {
+    return json(
+      { error: "Function crashed", reason: err instanceof Error ? err.message : String(err), stack: err instanceof Error ? err.stack?.split("\n").slice(0, 5).join(" | ") : undefined },
+      500,
+    );
+  }
+};
+
+async function handle(context: Parameters<PagesFunction<Env>>[0]): Promise<Response> {
   if (context.request.method === "OPTIONS") {
     return new Response(null, { status: 204, headers: cors });
   }
@@ -52,25 +63,41 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     return json({ error: "from must be before to" }, 400);
   }
 
-  const res = await fetch(
-    `${LODGIFY_BASE}/v2/availability/${propertyId}?start=${from}&end=${to}`,
-    {
-      headers: {
-        "X-ApiKey": context.env.LODGIFY_API_KEY,
-        Accept: "application/json",
+  let res: Response;
+  try {
+    res = await fetch(
+      `${LODGIFY_BASE}/v2/availability/${propertyId}?start=${from}&end=${to}`,
+      {
+        headers: {
+          "X-ApiKey": context.env.LODGIFY_API_KEY,
+          Accept: "application/json",
+        },
       },
-    },
-  );
-
-  if (!res.ok) {
-    const body = await res.text().catch(() => "");
+    );
+  } catch (err) {
     return json(
-      { error: "Lodgify availability error", status: res.status, body: body.slice(0, 200) },
+      { error: "Lodgify fetch failed", reason: err instanceof Error ? err.message : String(err) },
       502,
     );
   }
 
-  const data = (await res.json()) as unknown;
+  const bodyText = await res.text().catch(() => "");
+  if (!res.ok) {
+    return json(
+      { error: "Lodgify availability error", status: res.status, body: bodyText.slice(0, 300) },
+      502,
+    );
+  }
+
+  let data: unknown;
+  try {
+    data = JSON.parse(bodyText);
+  } catch {
+    return json(
+      { error: "Lodgify returned non-JSON", preview: bodyText.slice(0, 300) },
+      502,
+    );
+  }
   const roomEntries = Array.isArray(data) ? (data as Array<{ periods?: AvailPeriod[] }>) : [data as { periods?: AvailPeriod[] }];
   const periods: AvailPeriod[] = roomEntries.flatMap((r) => r?.periods ?? []);
 
@@ -90,7 +117,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     available: blocked.length === 0,
     blocked,
   });
-};
+}
 
 function isISODate(s: string): boolean {
   return /^\d{4}-\d{2}-\d{2}$/.test(s);

@@ -29,6 +29,17 @@ const cors = {
 };
 
 export const onRequest: PagesFunction<Env> = async (context) => {
+  try {
+    return await handle(context);
+  } catch (err) {
+    return json(
+      { error: "Function crashed", reason: err instanceof Error ? err.message : String(err), stack: err instanceof Error ? err.stack?.split("\n").slice(0, 5).join(" | ") : undefined },
+      500,
+    );
+  }
+};
+
+async function handle(context: Parameters<PagesFunction<Env>>[0]): Promise<Response> {
   if (context.request.method === "OPTIONS") {
     return new Response(null, { status: 204, headers: cors });
   }
@@ -125,7 +136,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     breakdown: first.breakdown ?? first.amount_breakdown ?? null,
     raw: first,
   });
-};
+}
 
 function isISODate(s: string): boolean {
   return /^\d{4}-\d{2}-\d{2}$/.test(s);
