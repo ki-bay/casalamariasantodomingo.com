@@ -26,10 +26,13 @@ const cors = {
   "Cache-Control": "no-store",
 };
 
-export const onRequestOptions: PagesFunction = async () =>
-  new Response(null, { status: 204, headers: cors });
-
-export const onRequestGet: PagesFunction<Env> = async (context) => {
+export const onRequest: PagesFunction<Env> = async (context) => {
+  if (context.request.method === "OPTIONS") {
+    return new Response(null, { status: 204, headers: cors });
+  }
+  if (context.request.method !== "GET") {
+    return json({ error: "Method not allowed" }, 405);
+  }
   if (!context.env.LODGIFY_API_KEY) {
     return json({ error: "Lodgify not configured" }, 500);
   }
