@@ -113,6 +113,27 @@ async function syncProperty(
   const roomType = (property.rooms ?? [])[0];
   const roomTypeId = roomType?.id ?? null;
 
+  // ── Infer room layout from the listing name when Lodgify itself has it
+  // unset. Casa La Maria's units in Lodgify have null for bedrooms / bathrooms
+  // / max_people / area; we fall back to the naming convention. Once those
+  // fields are filled in the Lodgify dashboard, the explicit Lodgify values
+  // take precedence.
+  const nameLower = (property.name ?? "").toLowerCase();
+  const isTwoBedroom = nameLower.includes("twobedroom") || nameLower.includes("two bedroom");
+  const isOneBedroom = nameLower.includes("onebedroom") || nameLower.includes("one bedroom");
+  const inferredBedrooms = isTwoBedroom ? 2 : isOneBedroom ? 1 : 1;
+  const inferredMaxGuests = isTwoBedroom ? 4 : isOneBedroom ? 2 : 2;
+  const inferredSizeM2 = isTwoBedroom ? 70 : isOneBedroom ? 45 : null;
+
+  // ── Compose a unit-distinct display name. Lodgify's internal_name is the
+  // unit identifier (1A, 1B, 2A, 2B, 3B); the listing name is shared across
+  // units of the same layout. We append the unit code so each card is
+  // visually distinct on the website.
+  const unitCode = (property.internal_name ?? "").trim();
+  const baseName = property.name ?? `Apartamento ${propertyId}`;
+  const composedNameEs = unitCode ? `${baseName} — Unidad ${unitCode}` : baseName;
+  const composedNameEn = unitCode ? `${baseName} — Unit ${unitCode}` : baseName;
+
   // ── Upsert apartment record ──
   // Slug is built from name + last 4 digits of Lodgify ID to guarantee
   // uniqueness across properties that share the same name (common for
@@ -129,16 +150,19 @@ async function syncProperty(
     lodgify_property_id: String(propertyId),
     lodgify_room_type_id: roomTypeId ? String(roomTypeId) : null,
     slug, // deterministic from name + last 4 of ID — same every sync
-    name_es: property.name ?? `Apartamento ${propertyId}`,
-    name_en: existing?.name_en ?? property.name ?? `Apartment ${propertyId}`,
+    name_es: composedNameEs,
+    name_en: existing?.name_en ?? composedNameEn,
     description_es: stripHtml(property.description ?? ""),
     description_en: existing?.description_en ?? "", // manual EN
-    bedrooms: property.bedrooms ?? roomType?.bedrooms ?? 1,
-    bathrooms: Math.round(property.bathrooms ?? roomType?.bathrooms ?? 1),
-    size_m2: property.area ?? null,
-    max_guests: property.max_people ?? roomType?.max_people ?? 4,
+    bedrooms: property.bedrooms ?? roomType?.bedrooms ?? inferredBedrooms,
+    bathrooms: Math.round(property.bathrooms ?? roomType?.bathrooms ?? inferredBedrooms),
+    size_m2: property.area ?? inferredSizeM2,
+    max_guests: property.max_people ?? roomType?.max_people ?? inferredMaxGuests,
     price_currency: property.currency_code ?? "USD",
-    price_base_usd: property.min_price ?? null,
+    // original_min_price is the published rate (e.g. 70 USD); min_price is
+    // the dynamic-pricing-adjusted floor (e.g. 59.85). The published rate
+    // is what guests should see on cards.
+    price_base_usd: property.original_min_price ?? property.min_price ?? null,
     available: true,
     lodgify_synced_at: new Date().toISOString(),
     lodgify_raw: property,
@@ -352,6 +376,7 @@ function json(body: unknown, status = 200) {
 type LodgifyProperty = {
   id: number;
   name?: string;
+  internal_name?: string;
   description?: string;
   bedrooms?: number;
   bathrooms?: number;
@@ -359,6 +384,7 @@ type LodgifyProperty = {
   max_people?: number;
   currency_code?: string;
   min_price?: number;
+  original_min_price?: number;
   rooms?: Array<{
     id: number;
     name?: string;
