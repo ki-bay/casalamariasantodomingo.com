@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/lib/supabase";
 import { ApartmentPriceBlock } from "@/components/ApartmentPriceBlock";
+import { ApartmentGallery } from "@/components/ApartmentGallery";
 import { formatApartmentPrice } from "@/lib/format-price";
 
 type Apartment = {
@@ -197,6 +198,16 @@ export default async function ApartmentDetailPage({ params }: Props) {
 
             {/* Description */}
             <p className="text-muted-foreground leading-relaxed mb-10">{description}</p>
+
+            {/* Photo gallery */}
+            {apt.images && apt.images.length > 1 && (
+              <div className="mb-10">
+                <h2 className="font-serif text-xl text-foreground mb-4">
+                  {isEN ? "Photos" : "Fotos"}
+                </h2>
+                <ApartmentGallery images={apt.images} locale={locale} />
+              </div>
+            )}
 
             {/* Amenities */}
             <div>
