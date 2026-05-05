@@ -208,10 +208,6 @@ function PaymentForm({
           <span className="text-warm-muted">{isEN ? "Cleaning" : "Limpieza"}</span>
           <span className="font-medium">${PROPERTY.cleaningFee}</span>
         </div>
-        <div className="flex justify-between text-sm">
-          <span className="text-warm-muted">{isEN ? "Service (8%)" : "Servicio (8%)"}</span>
-          <span className="font-medium">${booking.serviceFee.toFixed(0)}</span>
-        </div>
         <div className="gradient-divider my-2" />
         <div className="flex justify-between font-semibold">
           <span>Total</span>

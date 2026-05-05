@@ -106,11 +106,9 @@ function ReservaInner() {
 
     const discountedPrice = pricePerNight * (1 - discount);
     const nightsTotal = discountedPrice * nights;
-    const serviceFee =
-      Math.round(nightsTotal * PROPERTY.serviceFeePercent * 100) / 100;
-    const total = nightsTotal + PROPERTY.cleaningFee + serviceFee;
+    const total = nightsTotal + PROPERTY.cleaningFee;
 
-    return { nights, nightsTotal, serviceFee, total, discount, pricePerNight };
+    return { nights, nightsTotal, serviceFee: 0, total, discount, pricePerNight };
   };
 
   const result = calculatePrice();
@@ -298,14 +296,6 @@ function ReservaInner() {
                         ${PROPERTY.cleaningFee}
                       </span>
                     </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-warm-muted">
-                        {isEN ? "Service fee (8%)" : "Tarifa de servicio (8%)"}
-                      </span>
-                      <span className="font-medium">
-                        ${result.serviceFee.toFixed(0)}
-                      </span>
-                    </div>
                     <div className="gradient-divider my-2" />
                     <div className="flex justify-between text-base font-semibold">
                       <span>Total</span>
@@ -358,14 +348,6 @@ function ReservaInner() {
                       </span>
                       <span className="font-medium">
                         ${PROPERTY.cleaningFee}
-                      </span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-warm-muted">
-                        {isEN ? "Service (8%)" : "Servicio (8%)"}
-                      </span>
-                      <span className="font-medium">
-                        ${result.serviceFee.toFixed(0)}
                       </span>
                     </div>
                     <div className="gradient-divider my-2" />
