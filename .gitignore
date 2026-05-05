@@ -6,5 +6,12 @@ out/
 .open-next/
 
 # Local env files (never commit secret keys)
+.env
 .env.local
 .env*.local
+
+# Supabase CLI working dir
+supabase/.temp/
+
+# TypeScript incremental build cache
+tsconfig.tsbuildinfo

@@ -1,7 +1,11 @@
 // Supabase Edge Function — deployed with: supabase functions deploy send-email
 // Secrets needed (set via: supabase secrets set KEY=value):
-//   SMTP_USER   = info@casalamariazonacolonial.com
-//   SMTP_PASS   = <your hostinger email password>
+//   SMTP_HOST   = smtp-relay.brevo.com           (default if unset)
+//   SMTP_PORT   = 587                            (default if unset)
+//   SMTP_USER   = <Brevo SMTP login, e.g. abc123@smtp-brevo.com>
+//   SMTP_PASS   = <Brevo SMTP key from Brevo dashboard → SMTP & API>
+//   SMTP_FROM   = "La Casa Maria" <info@casalamariazonacolonial.com>
+//                                                (verified sender / domain in Brevo)
 //   EDGE_SECRET = <random secret shared with CF Pages Functions>
 
 // @ts-nocheck  (Deno environment — no TypeScript project config applies here)
@@ -63,6 +67,9 @@ Deno.serve(async (req: Request) => {
 
   const smtpUser = Deno.env.get("SMTP_USER");
   const smtpPass = Deno.env.get("SMTP_PASS");
+  const smtpHost = Deno.env.get("SMTP_HOST") ?? "smtp-relay.brevo.com";
+  const smtpPort = Number(Deno.env.get("SMTP_PORT") ?? "587");
+  const smtpFrom = Deno.env.get("SMTP_FROM") ?? `"La Casa Maria" <info@casalamariazonacolonial.com>`;
 
   if (!smtpUser || !smtpPass) {
     return new Response(JSON.stringify({ error: "SMTP credentials not configured" }), {
@@ -73,14 +80,14 @@ Deno.serve(async (req: Request) => {
 
   try {
     const transporter = nodemailer.createTransport({
-      host: "smtp.hostinger.com",
-      port: 465,
-      secure: true, // SSL
+      host: smtpHost,
+      port: smtpPort,
+      secure: smtpPort === 465, // STARTTLS on 587, implicit TLS on 465
       auth: { user: smtpUser, pass: smtpPass },
     });
 
     const info = await transporter.sendMail({
-      from: payload.from ?? `"La Casa Maria" <${smtpUser}>`,
+      from: payload.from ?? smtpFrom,
       to: payload.to,
       cc: payload.cc,
       replyTo: payload.replyTo ?? smtpUser,
