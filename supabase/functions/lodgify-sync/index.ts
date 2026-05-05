@@ -142,9 +142,15 @@ async function syncProperty(
   const slug = `${baseSlug}-${String(propertyId).slice(-4)}`;
   const { data: existing } = await sb
     .from("apartments")
-    .select("id, name_en, description_en, images, sort_order")
+    .select("id, name_en, description_es, description_en, images, sort_order")
     .eq("lodgify_property_id", String(propertyId))
     .maybeSingle();
+
+  // Preserve manually-edited descriptions on both languages. Lodgify's
+  // description field is shared across all units of a layout (we'd
+  // overwrite five different per-unit blurbs with the same upstream
+  // string on every sync). First-time records still get Lodgify's text.
+  const lodgifyDescription = stripHtml(property.description ?? "");
 
   const upsertData = {
     lodgify_property_id: String(propertyId),
@@ -152,7 +158,7 @@ async function syncProperty(
     slug, // deterministic from name + last 4 of ID — same every sync
     name_es: composedNameEs,
     name_en: existing?.name_en ?? composedNameEn,
-    description_es: stripHtml(property.description ?? ""),
+    description_es: existing?.description_es || lodgifyDescription,
     description_en: existing?.description_en ?? "", // manual EN
     bedrooms: property.bedrooms ?? roomType?.bedrooms ?? inferredBedrooms,
     bathrooms: Math.round(property.bathrooms ?? roomType?.bathrooms ?? inferredBedrooms),
