@@ -42,6 +42,11 @@ interface StripeCheckoutProps {
   guests: string;
   booking: BookingResult;
   locale?: string;
+  // Lodgify routing — when caller is an apartment-specific page these are
+  // passed in; on the legacy single-listing /reserva page they're omitted
+  // and the server falls back to the main Casa La Maria listing.
+  propertyId?: number;
+  roomTypeId?: number;
 }
 
 // Inner form that uses Stripe hooks — must be inside <Elements>
@@ -59,6 +64,7 @@ function PaymentForm({
   checkIn,
   checkOut,
   guests,
+  clientSecret,
   onSuccess,
 }: {
   isEN: boolean;
@@ -74,6 +80,7 @@ function PaymentForm({
   checkIn: string;
   checkOut: string;
   guests: string;
+  clientSecret: string;
   onSuccess: (id: string) => void;
 }) {
   const stripe = useStripe();
@@ -94,6 +101,28 @@ function PaymentForm({
     }
 
     setProcessing(true);
+
+    // Push the filled-in form values onto the PaymentIntent metadata so the
+    // stripe-webhook can read them when creating the Lodgify booking. The
+    // PI was created with empty fields when the dialog opened.
+    const piId = clientSecret.split("_secret_")[0];
+    try {
+      await fetch("/api/update-payment-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          paymentIntentId: piId,
+          guestName: name,
+          guestEmail: email,
+          guestPhone: phone,
+          notes,
+        }),
+      });
+    } catch {
+      // non-fatal: we still proceed to confirmPayment, the booking just
+      // won't have these details in Lodgify until manually added.
+    }
+
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -235,6 +264,8 @@ export function StripeCheckout({
   guests,
   booking,
   locale = "es",
+  propertyId,
+  roomTypeId,
 }: StripeCheckoutProps) {
   const isEN = locale === "en";
   const [name, setName] = useState("");
@@ -270,6 +301,10 @@ export function StripeCheckout({
         guests,
         guestName: name,
         guestEmail: email,
+        guestPhone: phone,
+        notes,
+        propertyId,
+        roomTypeId,
       }),
     })
       .then((r) => r.json())
@@ -353,6 +388,7 @@ export function StripeCheckout({
               checkIn={checkIn}
               checkOut={checkOut}
               guests={guests}
+              clientSecret={clientSecret}
               onSuccess={handleSuccess}
             />
           </Elements>
