@@ -15,7 +15,7 @@ export const PROPERTY = {
   bathrooms: 1,
   size: 55,
   pricePerNight: 89,
-  cleaningFee: 35,
+  cleaningFee: 0,
   serviceFeePercent: 0,
   minStay: 1,
   maxStay: 30,

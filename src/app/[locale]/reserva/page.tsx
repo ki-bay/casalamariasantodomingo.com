@@ -288,14 +288,6 @@ function ReservaInner() {
                         ${result.nightsTotal.toFixed(0)}
                       </span>
                     </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-warm-muted">
-                        {isEN ? "Cleaning fee" : "Tarifa de limpieza"}
-                      </span>
-                      <span className="font-medium">
-                        ${PROPERTY.cleaningFee}
-                      </span>
-                    </div>
                     <div className="gradient-divider my-2" />
                     <div className="flex justify-between text-base font-semibold">
                       <span>Total</span>
@@ -340,14 +332,6 @@ function ReservaInner() {
                       </span>
                       <span className="font-medium">
                         ${result.nightsTotal.toFixed(0)}
-                      </span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-warm-muted">
-                        {isEN ? "Cleaning" : "Limpieza"}
-                      </span>
-                      <span className="font-medium">
-                        ${PROPERTY.cleaningFee}
                       </span>
                     </div>
                     <div className="gradient-divider my-2" />
