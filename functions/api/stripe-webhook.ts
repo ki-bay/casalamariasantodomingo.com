@@ -10,7 +10,11 @@
 
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
-import { lodgifyCreateBooking, splitFullName } from "../_lib/lodgify";
+import {
+  lodgifyCreateBooking,
+  lodgifyCreateBookingQuote,
+  splitFullName,
+} from "../_lib/lodgify";
 
 interface Env {
   STRIPE_SECRET_KEY: string;
@@ -163,6 +167,22 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       updated_at: new Date().toISOString(),
     })
     .eq("id", row?.id ?? -1);
+
+  // Best-effort: attach a Quote so Lodgify's dashboard populates
+  // total_amount from its rate calendar (otherwise the booking shows $0).
+  // Non-fatal — if this fails we still consider the webhook handled.
+  if (result.bookingId) {
+    const quote = await lodgifyCreateBookingQuote(env.LODGIFY_API_KEY, result.bookingId);
+    if (!quote.ok) {
+      await sb
+        .from("bookings")
+        .update({
+          lodgify_error: `quote-attach failed (HTTP ${quote.rawStatus}): ${quote.rawBody.slice(0, 400)}`,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", row?.id ?? -1);
+    }
+  }
 
   return text("ok", 200);
 };

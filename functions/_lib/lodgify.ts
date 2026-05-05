@@ -85,6 +85,49 @@ export async function lodgifyCreateBooking(
 }
 
 /**
+ * POST /v1/reservation/booking/{id}/Quote
+ *
+ * Creating a Quote forces Lodgify to compute total_amount from its rate
+ * calendar and attach it to the booking. Without this, bookings created
+ * via the public API show total_amount=0 in the Lodgify dashboard even
+ * though the calendar block is correct.
+ *
+ * Note: Lodgify's Public API does not expose any way to set total_paid
+ * (the "amount received" / "paid" status). Stripe + our Supabase
+ * bookings table remain the source of truth for actual payment;
+ * Lodgify's dashboard will always show the booking as "amount due".
+ *
+ * Returns the new quote id on 201, or {ok:false} with the raw body for
+ * non-2xx so the caller can log without throwing — this call is
+ * post-success polish, never load-bearing for blocking the calendar.
+ */
+export async function lodgifyCreateBookingQuote(
+  apiKey: string,
+  bookingId: number,
+): Promise<{ ok: boolean; quoteId?: number; rawStatus: number; rawBody: string }> {
+  const res = await fetch(
+    `${LODGIFY_BASE}/v1/reservation/booking/${bookingId}/Quote`,
+    {
+      method: "POST",
+      headers: {
+        "X-ApiKey": apiKey,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      // Empty body is enough — Lodgify computes total from its own rates.
+      // Fields like total_amount are recalculated server-side regardless
+      // of what we send (verified by probe).
+      body: "{}",
+    },
+  );
+  const text = await res.text();
+  if (!res.ok) return { ok: false, rawStatus: res.status, rawBody: text };
+  const trimmed = text.trim();
+  const idNum = /^\d+$/.test(trimmed) ? Number(trimmed) : undefined;
+  return { ok: true, quoteId: idNum, rawStatus: res.status, rawBody: text };
+}
+
+/**
  * GET /v1/reservation/booking/{id}
  */
 export async function lodgifyGetBooking(
