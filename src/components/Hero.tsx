@@ -22,20 +22,11 @@ export function Hero() {
   return (
     <header className="relative min-h-[90vh] pt-32 pb-20 px-6 md:px-12 overflow-hidden">
       <div className="absolute inset-0 -z-10">
-        {/* Mobile: vertical crop */}
         <Image
-          src="https://res.cloudinary.com/dspogotur/image/upload/v1776748961/Casa-la-maria-santo-domingo-zona-colonial_vertical_tpzitq.webp"
+          src="https://res.cloudinary.com/dspogotur/image/upload/v1776606232/casa_la_maria_santo_domingo_zona_colonial_eqyd8j.webp"
           alt="Casa La Maria Santo Domingo Zona Colonial"
           fill
-          className="object-cover md:hidden"
-          priority
-        />
-        {/* Tablet & desktop: horizontal crop */}
-        <Image
-          src="https://res.cloudinary.com/dspogotur/image/upload/v1776748962/air-bnb-Casa-la-maria-santo-domingo-zona-colonial-_horizontal_cdtw33.webp"
-          alt="Casa La Maria Santo Domingo Zona Colonial"
-          fill
-          className="object-cover hidden md:block"
+          className="object-cover"
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
