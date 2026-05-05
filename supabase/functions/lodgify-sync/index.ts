@@ -122,7 +122,9 @@ async function syncProperty(
   const isTwoBedroom = nameLower.includes("twobedroom") || nameLower.includes("two bedroom");
   const isOneBedroom = nameLower.includes("onebedroom") || nameLower.includes("one bedroom");
   const inferredBedrooms = isTwoBedroom ? 2 : isOneBedroom ? 1 : 1;
-  const inferredMaxGuests = isTwoBedroom ? 4 : isOneBedroom ? 2 : 2;
+  // All Casa La Maria units sleep up to 4 — the OneBedRoom layout has
+  // 2 queen beds in the bedroom (verified against Booking.com listing).
+  const inferredMaxGuests = 4;
   const inferredSizeM2 = isTwoBedroom ? 70 : isOneBedroom ? 45 : null;
 
   // ── Compose a unit-distinct display name. Lodgify's internal_name is the
@@ -142,7 +144,7 @@ async function syncProperty(
   const slug = `${baseSlug}-${String(propertyId).slice(-4)}`;
   const { data: existing } = await sb
     .from("apartments")
-    .select("id, name_en, description_es, description_en, images, sort_order")
+    .select("id, name_en, description_es, description_en, images, sort_order, price_base_usd, price_1guest_dop")
     .eq("lodgify_property_id", String(propertyId))
     .maybeSingle();
 
@@ -165,10 +167,13 @@ async function syncProperty(
     size_m2: property.area ?? inferredSizeM2,
     max_guests: property.max_people ?? roomType?.max_people ?? inferredMaxGuests,
     price_currency: property.currency_code ?? "USD",
-    // original_min_price is the published rate (e.g. 70 USD); min_price is
-    // the dynamic-pricing-adjusted floor (e.g. 59.85). The published rate
-    // is what guests should see on cards.
-    price_base_usd: property.original_min_price ?? property.min_price ?? null,
+    // Preserve manually-set price_base_usd if it was computed from
+    // per-occupancy DOP rates (price_1guest_dop). Otherwise use Lodgify's
+    // own pricing: original_min_price = published rate, min_price = the
+    // dynamic-pricing-adjusted floor.
+    price_base_usd: existing?.price_1guest_dop != null
+      ? existing?.price_base_usd
+      : (property.original_min_price ?? property.min_price ?? null),
     available: true,
     lodgify_synced_at: new Date().toISOString(),
     lodgify_raw: property,

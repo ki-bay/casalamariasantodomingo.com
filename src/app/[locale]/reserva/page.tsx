@@ -1,11 +1,14 @@
 "use client";
-import { useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useLocale } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { PROPERTY } from "@/lib/data";
 import { StripeCheckout } from "@/components/StripeCheckout";
+import { supabase } from "@/lib/supabase";
+import { nightlyUsdForGuests } from "@/lib/format-price";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,10 +22,31 @@ import {
 import { CalendarDays, CreditCard, Check } from "lucide-react";
 import { toast } from "sonner";
 
-export default function ReservaPage() {
+// Default fallback when no ?apt= param is given — the original main listing
+// (1B / TwoBedRoom). The homepage Reserva button comes here without a slug.
+const DEFAULT_SLUG = "casa-la-maria-zona-colonial-twobedroom-4785";
+
+type Apartment = {
+  slug: string;
+  name_es: string;
+  name_en: string;
+  max_guests: number;
+  lodgify_property_id: string;
+  lodgify_room_type_id: string | null;
+  price_1guest_dop: number | null;
+  price_2guest_dop: number | null;
+  price_4guest_dop: number | null;
+  price_base_usd: number | null;
+};
+
+function ReservaInner() {
   const locale = useLocale();
   const isEN = locale === "en";
+  const searchParams = useSearchParams();
+  const aptSlug = searchParams.get("apt") || DEFAULT_SLUG;
 
+  const [apartment, setApartment] = useState<Apartment | null>(null);
+  const [loadingApt, setLoadingApt] = useState(true);
   const [step, setStep] = useState(1);
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -36,26 +60,57 @@ export default function ReservaPage() {
     discount: number;
   } | null>(null);
 
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase
+        .from("apartments")
+        .select(
+          "slug, name_es, name_en, max_guests, lodgify_property_id, lodgify_room_type_id, price_1guest_dop, price_2guest_dop, price_4guest_dop, price_base_usd",
+        )
+        .eq("slug", aptSlug)
+        .maybeSingle();
+      if (!cancelled) {
+        setApartment(data as Apartment | null);
+        setLoadingApt(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [aptSlug]);
+
   const today = new Date().toISOString().split("T")[0];
 
   const calculatePrice = () => {
     if (!checkIn || !checkOut) return null;
     const nights = Math.round(
-      (new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 60 * 60 * 24)
+      (new Date(checkOut).getTime() - new Date(checkIn).getTime()) /
+        (1000 * 60 * 60 * 24),
     );
     if (nights < 1) return null;
 
+    // Long-stay discounts (kept from previous flow)
     let discount = 0;
     if (nights >= 28) discount = 0.2;
     else if (nights >= 14) discount = 0.15;
     else if (nights >= 7) discount = 0.1;
 
-    const discountedPrice = PROPERTY.pricePerNight * (1 - discount);
+    // Per-guest USD nightly rate from the apartment record. Falls back to
+    // the homepage PROPERTY.pricePerNight if Supabase didn't load (offline,
+    // unknown apt slug, etc.).
+    const guestCount = Math.max(1, Math.min(4, parseInt(guests, 10) || 2));
+    const pricePerNight =
+      (apartment ? nightlyUsdForGuests(apartment, guestCount) : null) ??
+      PROPERTY.pricePerNight;
+
+    const discountedPrice = pricePerNight * (1 - discount);
     const nightsTotal = discountedPrice * nights;
-    const serviceFee = Math.round(nightsTotal * PROPERTY.serviceFeePercent * 100) / 100;
+    const serviceFee =
+      Math.round(nightsTotal * PROPERTY.serviceFeePercent * 100) / 100;
     const total = nightsTotal + PROPERTY.cleaningFee + serviceFee;
 
-    return { nights, nightsTotal, serviceFee, total, discount };
+    return { nights, nightsTotal, serviceFee, total, discount, pricePerNight };
   };
 
   const result = calculatePrice();
@@ -63,14 +118,23 @@ export default function ReservaPage() {
   const handleNext = () => {
     if (step === 1) {
       if (!checkIn || !checkOut) {
-        toast.error(isEN ? "Please select check-in and check-out dates" : "Selecciona las fechas de check-in y check-out");
+        toast.error(
+          isEN
+            ? "Please select check-in and check-out dates"
+            : "Selecciona las fechas de check-in y check-out",
+        );
         return;
       }
       const nights = Math.round(
-        (new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 60 * 60 * 24)
+        (new Date(checkOut).getTime() - new Date(checkIn).getTime()) /
+          (1000 * 60 * 60 * 24),
       );
       if (nights < 1) {
-        toast.error(isEN ? "Check-out must be after check-in" : "La fecha de check-out debe ser posterior al check-in");
+        toast.error(
+          isEN
+            ? "Check-out must be after check-in"
+            : "La fecha de check-out debe ser posterior al check-in",
+        );
         return;
       }
       setStep(2);
@@ -82,19 +146,37 @@ export default function ReservaPage() {
     }
   };
 
+  const aptName = apartment ? (isEN ? apartment.name_en : apartment.name_es) : "";
+
   return (
     <main className="relative z-10 min-h-screen flex flex-col">
       <Navbar />
       <div className="pt-28 pb-16 px-6 md:px-12 flex-1">
         <div className="max-w-[800px] mx-auto">
           <ScrollReveal>
-            <div className="text-center mb-10">
+            <div className="text-center mb-8">
               <p className="text-xs font-medium tracking-widest uppercase text-secondary mb-3">
                 {isEN ? "Book" : "Reserva"}
               </p>
-              <h1 className="font-serif text-3xl md:text-4xl tracking-tight mb-4">
-                {isEN ? <>Book your <em className="italic">stay</em></> : <>Reserva tu <em className="italic">estancia</em></>}
+              <h1 className="font-serif text-3xl md:text-4xl tracking-tight mb-3">
+                {isEN ? (
+                  <>
+                    Book your <em className="italic">stay</em>
+                  </>
+                ) : (
+                  <>
+                    Reserva tu <em className="italic">estancia</em>
+                  </>
+                )}
               </h1>
+              {aptName && (
+                <p className="text-sm text-muted-foreground">{aptName}</p>
+              )}
+              {loadingApt && (
+                <p className="text-xs text-muted-foreground italic">
+                  {isEN ? "Loading apartment…" : "Cargando apartamento…"}
+                </p>
+              )}
             </div>
           </ScrollReveal>
 
@@ -107,12 +189,16 @@ export default function ReservaPage() {
               <div key={s.num} className="flex items-center gap-2">
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
-                    step >= s.num ? "bg-primary text-primary-foreground" : "bg-warm-border text-secondary"
+                    step >= s.num
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-warm-border text-secondary"
                   }`}
                 >
                   {step > s.num ? <Check className="w-4 h-4" /> : s.num}
                 </div>
-                <span className={`text-sm font-medium ${step >= s.num ? "text-primary" : "text-secondary"}`}>
+                <span
+                  className={`text-sm font-medium ${step >= s.num ? "text-primary" : "text-secondary"}`}
+                >
                   {s.label}
                 </span>
                 {s.num < 2 && <div className="w-12 h-px bg-warm-border mx-2" />}
@@ -126,12 +212,16 @@ export default function ReservaPage() {
               <div className="bg-card rounded-2xl border border-warm-border p-6 md:p-8">
                 <div className="flex items-center gap-2 mb-6">
                   <CalendarDays className="w-5 h-5 text-primary" />
-                  <h2 className="font-serif text-xl">{isEN ? "Select your dates" : "Selecciona tus fechas"}</h2>
+                  <h2 className="font-serif text-xl">
+                    {isEN ? "Select your dates" : "Selecciona tus fechas"}
+                  </h2>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div>
-                    <Label className="text-xs font-medium text-secondary mb-1.5">Check-in</Label>
+                    <Label className="text-xs font-medium text-secondary mb-1.5">
+                      Check-in
+                    </Label>
                     <Input
                       type="date"
                       min={today}
@@ -142,7 +232,9 @@ export default function ReservaPage() {
                     <p className="text-xs text-secondary mt-1">3:00 PM</p>
                   </div>
                   <div>
-                    <Label className="text-xs font-medium text-secondary mb-1.5">Check-out</Label>
+                    <Label className="text-xs font-medium text-secondary mb-1.5">
+                      Check-out
+                    </Label>
                     <Input
                       type="date"
                       min={checkIn || today}
@@ -163,8 +255,18 @@ export default function ReservaPage() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="1">{isEN ? "1 guest" : "1 huésped"}</SelectItem>
-                      <SelectItem value="2">{isEN ? "2 guests" : "2 huéspedes"}</SelectItem>
+                      <SelectItem value="1">
+                        {isEN ? "1 guest" : "1 huésped"}
+                      </SelectItem>
+                      <SelectItem value="2">
+                        {isEN ? "2 guests" : "2 huéspedes"}
+                      </SelectItem>
+                      <SelectItem value="3">
+                        {isEN ? "3 guests" : "3 huéspedes"}
+                      </SelectItem>
+                      <SelectItem value="4">
+                        {isEN ? "4 guests" : "4 huéspedes"}
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -173,18 +275,36 @@ export default function ReservaPage() {
                   <div className="bg-surface rounded-xl p-5 space-y-2 border border-warm-border mb-6">
                     <div className="flex justify-between text-sm">
                       <span className="text-warm-muted">
-                        ${PROPERTY.pricePerNight} × {result.nights} {isEN ? result.nights === 1 ? "night" : "nights" : result.nights === 1 ? "noche" : "noches"}
-                        {result.discount > 0 && ` (${Math.round(result.discount * 100)}% ${isEN ? "disc." : "desc."})`}
+                        ${result.pricePerNight} × {result.nights}{" "}
+                        {isEN
+                          ? result.nights === 1
+                            ? "night"
+                            : "nights"
+                          : result.nights === 1
+                            ? "noche"
+                            : "noches"}
+                        {result.discount > 0 &&
+                          ` (${Math.round(result.discount * 100)}% ${isEN ? "disc." : "desc."})`}
                       </span>
-                      <span className="font-medium">${result.nightsTotal.toFixed(0)}</span>
+                      <span className="font-medium">
+                        ${result.nightsTotal.toFixed(0)}
+                      </span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-warm-muted">{isEN ? "Cleaning fee" : "Tarifa de limpieza"}</span>
-                      <span className="font-medium">${PROPERTY.cleaningFee}</span>
+                      <span className="text-warm-muted">
+                        {isEN ? "Cleaning fee" : "Tarifa de limpieza"}
+                      </span>
+                      <span className="font-medium">
+                        ${PROPERTY.cleaningFee}
+                      </span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-warm-muted">{isEN ? "Service fee (8%)" : "Tarifa de servicio (8%)"}</span>
-                      <span className="font-medium">${result.serviceFee.toFixed(0)}</span>
+                      <span className="text-warm-muted">
+                        {isEN ? "Service fee (8%)" : "Tarifa de servicio (8%)"}
+                      </span>
+                      <span className="font-medium">
+                        ${result.serviceFee.toFixed(0)}
+                      </span>
                     </div>
                     <div className="gradient-divider my-2" />
                     <div className="flex justify-between text-base font-semibold">
@@ -219,17 +339,34 @@ export default function ReservaPage() {
                   <div className="bg-surface rounded-xl p-5 space-y-2 border border-warm-border mb-6">
                     <div className="flex justify-between text-sm">
                       <span className="text-warm-muted">
-                        ${PROPERTY.pricePerNight} × {result.nights} {isEN ? result.nights === 1 ? "night" : "nights" : result.nights === 1 ? "noche" : "noches"}
+                        ${result.pricePerNight} × {result.nights}{" "}
+                        {isEN
+                          ? result.nights === 1
+                            ? "night"
+                            : "nights"
+                          : result.nights === 1
+                            ? "noche"
+                            : "noches"}
                       </span>
-                      <span className="font-medium">${result.nightsTotal.toFixed(0)}</span>
+                      <span className="font-medium">
+                        ${result.nightsTotal.toFixed(0)}
+                      </span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-warm-muted">{isEN ? "Cleaning" : "Limpieza"}</span>
-                      <span className="font-medium">${PROPERTY.cleaningFee}</span>
+                      <span className="text-warm-muted">
+                        {isEN ? "Cleaning" : "Limpieza"}
+                      </span>
+                      <span className="font-medium">
+                        ${PROPERTY.cleaningFee}
+                      </span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-warm-muted">{isEN ? "Service (8%)" : "Servicio (8%)"}</span>
-                      <span className="font-medium">${result.serviceFee.toFixed(0)}</span>
+                      <span className="text-warm-muted">
+                        {isEN ? "Service (8%)" : "Servicio (8%)"}
+                      </span>
+                      <span className="font-medium">
+                        ${result.serviceFee.toFixed(0)}
+                      </span>
                     </div>
                     <div className="gradient-divider my-2" />
                     <div className="flex justify-between font-semibold">
@@ -240,7 +377,11 @@ export default function ReservaPage() {
                 )}
 
                 <div className="flex gap-3">
-                  <Button variant="outline" onClick={() => setStep(1)} className="border-warm-border">
+                  <Button
+                    variant="outline"
+                    onClick={() => setStep(1)}
+                    className="border-warm-border"
+                  >
                     {isEN ? "Back" : "Atrás"}
                   </Button>
                   <Button
@@ -266,9 +407,26 @@ export default function ReservaPage() {
           guests={guests}
           booking={bookingResult}
           locale={locale}
+          // Route the Stripe + Lodgify booking to the right unit
+          propertyId={
+            apartment ? Number(apartment.lodgify_property_id) : undefined
+          }
+          roomTypeId={
+            apartment?.lodgify_room_type_id
+              ? Number(apartment.lodgify_room_type_id)
+              : undefined
+          }
         />
       )}
     </main>
   );
 }
 
+export default function ReservaPage() {
+  // useSearchParams requires a Suspense boundary for static export
+  return (
+    <Suspense fallback={null}>
+      <ReservaInner />
+    </Suspense>
+  );
+}
