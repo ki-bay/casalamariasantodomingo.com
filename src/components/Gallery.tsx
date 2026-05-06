@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { useLocale } from "next-intl";
+import { cld, cldSrcSet } from "@/lib/cloudinary";
 
 const TERRACE_IMAGES = [
   "https://res.cloudinary.com/dspogotur/image/upload/v1776751144/babula_shots-12_ncfyou.webp",
@@ -70,8 +71,14 @@ export function Gallery() {
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 key={i}
-                src={img.src}
+                src={cld(img.src, { width: 800, aspectRatio: "3:2" })}
+                srcSet={cldSrcSet(img.src, [400, 600, 800, 1200])}
+                sizes="(max-width: 768px) 100vw, 50vw"
                 alt={img.alt}
+                width={1200}
+                height={800}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-auto block cursor-pointer hover:brightness-90 transition-[filter] duration-300"
                 onClick={() => openLightbox(i)}
               />
@@ -115,7 +122,7 @@ export function Gallery() {
               </Button>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={TERRACE_IMAGES[lightboxIndex]}
+                src={cld(TERRACE_IMAGES[lightboxIndex], { width: 1600, crop: "limit" })}
                 alt={`Terraza ${lightboxIndex + 1}`}
                 className="max-w-[90vw] max-h-[85vh] rounded-lg object-contain"
               />

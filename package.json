@@ -2,6 +2,13 @@
   "name": "nextjs_tailwind_shadcn_ts",
   "version": "0.2.0",
   "private": true,
+  "browserslist": [
+    "Chrome >= 90",
+    "Firefox >= 90",
+    "Safari >= 15",
+    "Edge >= 90",
+    "iOS >= 15"
+  ],
   "scripts": {
     "dev": "next dev -p 3000 2>&1 | tee dev.log",
     "build": "next build",

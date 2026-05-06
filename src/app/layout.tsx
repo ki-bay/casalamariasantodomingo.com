@@ -37,6 +37,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="es" className="dark scroll-smooth" suppressHydrationWarning>
       <head>
+        {/* Open the connection to Cloudinary in parallel with the HTML
+            parse so the LCP image starts downloading sooner. */}
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         {/* Sync theme from localStorage BEFORE paint to prevent flash */}
         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('casalamaria-theme');if(t==='light'){document.documentElement.classList.remove('dark');}}catch(e){}})()` }} />
       </head>

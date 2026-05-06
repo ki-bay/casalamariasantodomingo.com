@@ -6,6 +6,7 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { PROPERTY, PROPERTY_EN } from "@/lib/data";
 import { useLocale } from "next-intl";
 import Image from "next/image";
+import { cld } from "@/lib/cloudinary";
 
 export function Hero() {
   const locale = useLocale();
@@ -23,11 +24,16 @@ export function Hero() {
     <header className="relative min-h-[90vh] pt-32 pb-20 px-6 md:px-12 overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <Image
-          src="https://res.cloudinary.com/dspogotur/image/upload/v1776606232/casa_la_maria_santo_domingo_zona_colonial_eqyd8j.webp"
+          src={cld(
+            "https://res.cloudinary.com/dspogotur/image/upload/v1776606232/casa_la_maria_santo_domingo_zona_colonial_eqyd8j.webp",
+            { width: 1600, crop: "limit" },
+          )}
           alt="Casa La Maria Santo Domingo Zona Colonial"
           fill
           className="object-cover"
           priority
+          fetchPriority="high"
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
       </div>
