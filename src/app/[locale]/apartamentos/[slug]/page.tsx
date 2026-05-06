@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/lib/supabase";
 import { ApartmentPriceBlock } from "@/components/ApartmentPriceBlock";
 import { ApartmentGallery } from "@/components/ApartmentGallery";
+import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 import { formatApartmentPrice } from "@/lib/format-price";
 
 type Apartment = {
@@ -454,6 +455,12 @@ export default async function ApartmentDetailPage({ params }: Props) {
       </div>
 
       <Footer />
+
+      <StickyBookingCTA
+        apartmentSlug={apt.slug}
+        locale={locale}
+        fromPriceLabel={`${isEN ? "From" : "Desde"} ${formatApartmentPrice(apt, isEN)}`}
+      />
     </main>
   );
 }

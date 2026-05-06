@@ -11,6 +11,7 @@ export const routing = defineRouting({
     '/reserva': { es: '/reserva', en: '/book' },
     '/contacto': { es: '/contacto', en: '/contact' },
     '/galeria': { es: '/galeria', en: '/gallery' },
+    '/por-que-reservar-directo': { es: '/por-que-reservar-directo', en: '/why-book-direct' },
     '/blog': '/blog',
     '/blog/[slug]': '/blog/[slug]',
     '/admin': '/admin',
