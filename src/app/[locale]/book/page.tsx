@@ -1,2 +1,2 @@
 // EN alias for /reserva
-export { default } from "../reserva/page";
+export { default, generateMetadata } from "../reserva/page";

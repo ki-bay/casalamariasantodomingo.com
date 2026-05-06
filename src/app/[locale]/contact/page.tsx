@@ -1,2 +1,2 @@
 // EN alias for /contacto
-export { default } from "../contacto/page";
+export { default, generateMetadata } from "../contacto/page";
