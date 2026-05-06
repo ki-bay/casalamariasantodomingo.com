@@ -23,13 +23,13 @@ export function Hero() {
   return (
     <header className="relative min-h-[90vh] pt-32 pb-20 px-6 md:px-12 overflow-hidden">
       <div className="absolute inset-0 -z-10">
-        {/* LCP image — aggressive sizing for mobile Lighthouse Performance.
-            Using a fixed 1100-px crop instead of letting Cloudinary scale
-            the source (903×1623 portrait); q_auto:eco trades a few % visual
-            quality for ~30 % byte savings. f_auto still serves AVIF / WebP
-            to supporting browsers. */}
+        {/* LCP image — the source is 903×1623 portrait. c_limit prevents
+            upscaling beyond that; q_auto:eco trades a small visual hit for
+            ~30 % byte savings; f_auto serves AVIF / WebP to supporting
+            browsers. On a Moto G Power (412 px) this 800-px image is
+            ~2× retina, plenty sharp. */}
         <Image
-          src="https://res.cloudinary.com/dspogotur/image/upload/c_fill,g_auto,w_1100,h_1400,q_auto:eco,f_auto/v1776606232/casa_la_maria_santo_domingo_zona_colonial_eqyd8j.webp"
+          src="https://res.cloudinary.com/dspogotur/image/upload/c_limit,w_800,q_auto:eco,f_auto/v1776606232/casa_la_maria_santo_domingo_zona_colonial_eqyd8j.webp"
           alt="Casa La Maria Santo Domingo Zona Colonial"
           fill
           className="object-cover"
