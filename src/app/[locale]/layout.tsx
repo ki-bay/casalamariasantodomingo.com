@@ -6,6 +6,7 @@ import { routing } from "@/i18n/routing";
 import { Toaster } from "@/components/ui/sonner";
 import { SchemaMarkup } from "@/components/SchemaMarkup";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { EmailCapture } from "@/components/EmailCapture";
 
 type Props = {
   children: React.ReactNode;
@@ -72,6 +73,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <SchemaMarkup locale={locale} />
         <div className="paper-texture" />
         {children}
+        <EmailCapture />
         <Toaster position="bottom-right" />
       </ThemeProvider>
     </NextIntlClientProvider>
