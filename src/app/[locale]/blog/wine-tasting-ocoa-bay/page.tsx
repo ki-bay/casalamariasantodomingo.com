@@ -40,7 +40,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ? "Ocoa Bay wine tasting, wine tour Dominican Republic, KiBay wine, vineyard Dominican Republic, things to do near Santo Domingo, day trip from Santo Domingo, Caribbean vineyard, Dominican wine, OcoaWines, Azua wine tour"
       : "cata de vinos Ocoa Bay, tour de vinos República Dominicana, vino KiBay, viñedo República Dominicana, qué hacer cerca de Santo Domingo, excursión desde Santo Domingo, viñedo caribeño, vinos dominicanos, OcoaWines, tour vino Azua",
     alternates: {
-      canonical: "https://casalamariazonacolonial.com/es/blog/wine-tasting-ocoa-bay",
+      canonical: isEN
+        ? "https://casalamariazonacolonial.com/en/blog/wine-tasting-ocoa-bay"
+        : "https://casalamariazonacolonial.com/es/blog/wine-tasting-ocoa-bay",
       languages: {
         es: "https://casalamariazonacolonial.com/es/blog/wine-tasting-ocoa-bay",
         en: "https://casalamariazonacolonial.com/en/blog/wine-tasting-ocoa-bay",

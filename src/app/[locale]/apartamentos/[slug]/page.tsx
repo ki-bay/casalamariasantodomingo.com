@@ -22,6 +22,7 @@ type Apartment = {
   has_balcony: boolean; has_terrace: boolean;
   price_standard_dop: number | null; price_flexible_dop: number | null;
   price_base_usd: number | null; price_currency: string | null;
+  price_1guest_dop: number | null; price_2guest_dop: number | null; price_4guest_dop: number | null;
   amenities: string[]; images: { url: string; alt_es: string; alt_en: string }[];
   lodgify_property_id: string;
 };
@@ -105,10 +106,38 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const name = isEN ? apt.name_en : apt.name_es;
   const desc = isEN ? apt.description_en : apt.description_es;
   const img = apt.images?.[0]?.url;
+  const SITE = "https://casalamariazonacolonial.com";
+  const canonicalEs = `${SITE}/es/apartamentos/${slug}`;
+  const canonicalEn = `${SITE}/en/apartments/${slug}`;
+  const canonical = isEN ? canonicalEn : canonicalEs;
+  const title = isEN
+    ? `${name} | Casa La Maria — Zona Colonial Santo Domingo`
+    : `${name} | Casa La Maria — Zona Colonial Santo Domingo`;
+  const trimmedDesc = desc?.slice(0, 160);
   return {
-    title: `${name} — Casa La Maria Zona Colonial`,
-    description: desc?.slice(0, 160),
-    openGraph: { title: name, description: desc?.slice(0, 160), images: img ? [{ url: img }] : [] }
+    title,
+    description: trimmedDesc,
+    alternates: {
+      canonical,
+      languages: { es: canonicalEs, en: canonicalEn },
+    },
+    openGraph: {
+      type: "website",
+      title: name,
+      description: trimmedDesc,
+      url: canonical,
+      siteName: "Casa La Maria",
+      locale: isEN ? "en_US" : "es_DO",
+      alternateLocale: isEN ? "es_DO" : "en_US",
+      images: img ? [{ url: img, alt: name }] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: name,
+      description: trimmedDesc,
+      images: img ? [img] : [],
+    },
+    robots: { index: true, follow: true },
   };
 }
 
@@ -292,38 +321,134 @@ export default async function ApartmentDetailPage({ params }: Props) {
           </section>
         )}
 
-        {/* JSON-LD Schema */}
+        {/* Page-specific JSON-LD: Apartment with per-occupancy Offers +
+            BreadcrumbList. The global LodgingBusiness graph (with
+            knowsAbout / areaServed / hasOfferCatalog) is injected once in
+            the locale layout — see SchemaMarkup.tsx. */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Accommodation",
-              "@id": `https://casalamariazonacolonial.com/apartamentos/${apt.slug}`,
-              "name": name,
-              "description": description,
-              "accommodationCategory": "Apartment",
-              "numberOfBedrooms": apt.bedrooms,
-              "numberOfBathroomsTotal": apt.bathrooms,
-              "floorSize": { "@type": "QuantitativeValue", "value": apt.size_m2, "unitCode": "MTK" },
-              "occupancy": { "@type": "QuantitativeValue", "maxValue": apt.max_guests },
-              "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Callejón Regina",
-                "addressLocality": "Santo Domingo",
-                "addressRegion": "Distrito Nacional",
-                "postalCode": "10210",
-                "addressCountry": "DO"
-              },
-              "image": apt.images?.map(i => i.url),
-              "url": `https://casalamariazonacolonial.com/apartamentos/${apt.slug}`,
-              "containedInPlace": { "@type": "ApartmentComplex", "name": "Casa La Maria", "url": "https://casalamariazonacolonial.com" },
-              "amenityFeature": apt.amenities?.map(a => ({
-                "@type": "LocationFeatureSpecification",
-                "name": AMENITY_LABELS[a]?.en || a,
-                "value": true
-              }))
-            })
+            __html: JSON.stringify((() => {
+              const SITE = "https://casalamariazonacolonial.com";
+              const canonical = isEN
+                ? `${SITE}/en/apartments/${apt.slug}`
+                : `${SITE}/es/apartamentos/${apt.slug}`;
+              const DOP_PER_USD = 60;
+              const usd1 = apt.price_1guest_dop != null ? Math.round(Number(apt.price_1guest_dop) / DOP_PER_USD) : null;
+              const usd2 = apt.price_2guest_dop != null ? Math.round(Number(apt.price_2guest_dop) / DOP_PER_USD) : null;
+              const usd4 = apt.price_4guest_dop != null ? Math.round(Number(apt.price_4guest_dop) / DOP_PER_USD) : null;
+              const offers = [
+                usd1 != null && {
+                  "@type": "Offer",
+                  name: isEN ? "1 guest rate" : "Tarifa para 1 huésped",
+                  priceCurrency: "USD",
+                  price: usd1,
+                  eligibleQuantity: { "@type": "QuantitativeValue", value: 1, unitText: "person" },
+                  availability: "https://schema.org/InStock",
+                  url: canonical,
+                },
+                usd2 != null && {
+                  "@type": "Offer",
+                  name: isEN ? "2 guest rate" : "Tarifa para 2 huéspedes",
+                  priceCurrency: "USD",
+                  price: usd2,
+                  eligibleQuantity: { "@type": "QuantitativeValue", value: 2, unitText: "person" },
+                  availability: "https://schema.org/InStock",
+                  url: canonical,
+                },
+                usd4 != null && {
+                  "@type": "Offer",
+                  name: isEN ? "4 guest rate" : "Tarifa para 4 huéspedes",
+                  priceCurrency: "USD",
+                  price: usd4,
+                  eligibleQuantity: { "@type": "QuantitativeValue", value: 4, unitText: "person" },
+                  availability: "https://schema.org/InStock",
+                  url: canonical,
+                },
+              ].filter(Boolean);
+
+              const apartment = {
+                "@type": "Apartment",
+                "@id": `${canonical}#apartment`,
+                name,
+                description,
+                url: canonical,
+                image: apt.images?.map((i) => ({
+                  "@type": "ImageObject",
+                  url: i.url,
+                  caption: isEN ? i.alt_en : i.alt_es,
+                })),
+                floorSize: apt.size_m2 != null
+                  ? { "@type": "QuantitativeValue", value: apt.size_m2, unitCode: "MTK" }
+                  : undefined,
+                numberOfBedrooms: apt.bedrooms,
+                numberOfRooms: apt.bedrooms,
+                numberOfBathroomsTotal: apt.bathrooms,
+                occupancy: {
+                  "@type": "QuantitativeValue",
+                  maxValue: apt.max_guests,
+                  minValue: 1,
+                },
+                address: {
+                  "@type": "PostalAddress",
+                  streetAddress: "Callejón Regina",
+                  addressLocality: "Santo Domingo",
+                  addressRegion: "Distrito Nacional",
+                  postalCode: "10210",
+                  addressCountry: "DO",
+                },
+                geo: {
+                  "@type": "GeoCoordinates",
+                  latitude: 18.469990300133684,
+                  longitude: -69.88640158707528,
+                },
+                containedInPlace: { "@id": `${SITE}/#business` },
+                amenityFeature: apt.amenities?.map((a) => ({
+                  "@type": "LocationFeatureSpecification",
+                  name: AMENITY_LABELS[a]?.en || a,
+                  value: true,
+                })),
+                ...(offers.length > 0 && usd1 != null && usd4 != null && {
+                  offers: {
+                    "@type": "AggregateOffer",
+                    priceCurrency: "USD",
+                    lowPrice: usd1,
+                    highPrice: usd4,
+                    offerCount: offers.length,
+                    offers,
+                  },
+                }),
+              };
+
+              const breadcrumb = {
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: isEN ? "Home" : "Inicio",
+                    item: isEN ? `${SITE}/en` : `${SITE}/es`,
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 2,
+                    name: isEN ? "Apartments" : "Apartamentos",
+                    item: isEN ? `${SITE}/en/apartments` : `${SITE}/es/apartamentos`,
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 3,
+                    name,
+                    item: canonical,
+                  },
+                ],
+              };
+
+              return {
+                "@context": "https://schema.org",
+                "@graph": [apartment, breadcrumb],
+              };
+            })()),
           }}
         />
       </div>

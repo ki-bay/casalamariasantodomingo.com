@@ -19,7 +19,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ? "Complete guide to Santo Domingo's Colonial Zone: top attractions, 1-day and 2-day itineraries, map, restaurants, safety tips and tours. UNESCO World Heritage Site."
       : "Guía completa de la Zona Colonial Santo Domingo: qué ver, itinerario de 1 y 2 días, mapa, precios, restaurantes, seguridad y tours. Patrimonio UNESCO.",
     alternates: {
-      canonical: "https://casalamariazonacolonial.com/es/blog/zona-colonial-santo-domingo",
+      canonical: isEN
+        ? "https://casalamariazonacolonial.com/en/blog/zona-colonial-santo-domingo"
+        : "https://casalamariazonacolonial.com/es/blog/zona-colonial-santo-domingo",
       languages: {
         es: "https://casalamariazonacolonial.com/es/blog/zona-colonial-santo-domingo",
         en: "https://casalamariazonacolonial.com/en/blog/zona-colonial-santo-domingo",
@@ -33,13 +35,37 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: isEN
         ? "Complete guide: top attractions, itineraries, map, restaurants and tips."
         : "Guía completa: lugares, itinerario, mapa, restaurantes y consejos.",
+      url: isEN
+        ? "https://casalamariazonacolonial.com/en/blog/zona-colonial-santo-domingo"
+        : "https://casalamariazonacolonial.com/es/blog/zona-colonial-santo-domingo",
+      siteName: "Casa La Maria",
+      locale: isEN ? "en_US" : "es_DO",
+      alternateLocale: isEN ? "es_DO" : "en_US",
       images: [
-        "https://res.cloudinary.com/dspogotur/image/upload/v1776784041/Fotografo_babula_shots_rd.webp",
+        {
+          url: "https://res.cloudinary.com/dspogotur/image/upload/v1776784041/Fotografo_babula_shots_rd.webp",
+          alt: isEN
+            ? "Santo Domingo Colonial Zone — UNESCO World Heritage Site"
+            : "Zona Colonial Santo Domingo — Patrimonio UNESCO",
+        },
       ],
       type: "article",
       publishedTime: "2026-04-21",
       modifiedTime: "2026-04-21",
     },
+    twitter: {
+      card: "summary_large_image",
+      title: isEN
+        ? "Santo Domingo Colonial Zone: 2026 Visitor Guide"
+        : "Zona Colonial Santo Domingo: Guía 2026",
+      description: isEN
+        ? "Top sights, itineraries, map and travel tips for the Colonial District."
+        : "Lugares top, itinerarios, mapa y consejos para la Zona Colonial.",
+      images: [
+        "https://res.cloudinary.com/dspogotur/image/upload/v1776784041/Fotografo_babula_shots_rd.webp",
+      ],
+    },
+    robots: { index: true, follow: true },
   };
 }
 

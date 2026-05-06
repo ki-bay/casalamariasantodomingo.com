@@ -4,22 +4,22 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ApartmentCard } from "@/components/ApartmentCard";
 import { supabase } from "@/lib/supabase";
+import { buildMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "seo" });
-  return {
-    title: t("apartments_title"),
-    description: t("apartments_desc"),
-    keywords: ["casa la maria santo domingo", "zona colonial apartamentos", "alquiler zona colonial", "boutique hotel colonial zone"],
-    openGraph: {
-      title: t("apartments_title"),
-      description: t("apartments_desc"),
-      type: "website",
-    }
-  };
+  return buildMetadata({
+    locale: locale === "en" ? "en" : "es",
+    pathEs: "/apartamentos",
+    pathEn: "/apartments",
+    titleEs: t("apartments_title"),
+    titleEn: t("apartments_title"),
+    descEs: t("apartments_desc"),
+    descEn: t("apartments_desc"),
+  });
 }
 
 async function getApartments() {

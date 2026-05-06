@@ -15,17 +15,42 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "seo" });
-  const isEn = locale === "en";
+  const isEN = locale === "en";
+  const SITE = "https://casalamariazonacolonial.com";
+  const HERO_IMAGE =
+    "https://res.cloudinary.com/dspogotur/image/upload/v1776606232/casa_la_maria_santo_domingo_zona_colonial_eqyd8j.webp";
+  const title = t("home_title");
+  const description = t("home_desc");
+  const canonical = isEN ? `${SITE}/en` : `${SITE}/es`;
   return {
-    title: t("home_title"),
-    description: t("home_desc"),
+    metadataBase: new URL(SITE),
+    title,
+    description,
     alternates: {
-      canonical: isEn ? "https://casalamariazonacolonial.com/en" : "https://casalamariazonacolonial.com/",
+      canonical,
       languages: {
-        "es": "https://casalamariazonacolonial.com/",
-        "en": "https://casalamariazonacolonial.com/en",
-      }
-    }
+        es: `${SITE}/es`,
+        en: `${SITE}/en`,
+      },
+    },
+    openGraph: {
+      type: "website",
+      title,
+      description,
+      url: canonical,
+      siteName: "Casa La Maria",
+      locale: isEN ? "en_US" : "es_DO",
+      alternateLocale: isEN ? "es_DO" : "en_US",
+      images: [{ url: HERO_IMAGE, alt: title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [HERO_IMAGE],
+    },
+    robots: { index: true, follow: true },
+    icons: { icon: "/icon.svg" },
   };
 }
 
@@ -44,7 +69,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <ThemeProvider defaultTheme="dark" storageKey="casalamaria-theme">
-        <SchemaMarkup />
+        <SchemaMarkup locale={locale} />
         <div className="paper-texture" />
         {children}
         <Toaster position="bottom-right" />
