@@ -280,6 +280,42 @@ export const REVIEWS = [
 
 export const BLOG_POSTS = [
   {
+    slug: "zona-colonial-vs-piantini",
+    title: "Zona Colonial vs Piantini: Dónde Quedarse en Santo Domingo (2026)",
+    excerpt:
+      "Comparación lado a lado: Zona Colonial (historia, peatonal, UNESCO) vs Piantini (moderno, malls, negocios). Pros, contras y árbol de decisión.",
+    coverImage:
+      "https://res.cloudinary.com/dspogotur/image/upload/v1776784038/Casa_la_Maria_zona_colonial_santo_domingo_hotel.webp",
+    category: "Guía de decisión",
+    readTime: "8 min",
+    date: "5 May 2026",
+    content: "",
+  },
+  {
+    slug: "hotels-vs-airbnb-santo-domingo",
+    title: "Hoteles vs Airbnb en Santo Domingo: ¿Cuál Conviene en 2026?",
+    excerpt:
+      "Honesta comparación entre hoteles, Airbnb y apartamentos boutique de reserva directa. Pros, contras, precios y un árbol de decisión rápido.",
+    coverImage:
+      "https://res.cloudinary.com/dspogotur/image/upload/v1776784040/Casa_la_Maria_zona_colonial_santo_domingo.webp",
+    category: "Guía de decisión",
+    readTime: "7 min",
+    date: "5 May 2026",
+    content: "",
+  },
+  {
+    slug: "where-to-stay-near-calle-las-damas",
+    title: "Dónde Quedarse Cerca de Calle Las Damas (Santo Domingo, 2026)",
+    excerpt:
+      "Radio de 5 min a pie desde la calle pavimentada más antigua de América. Hoteles, apartamentos, distancias y un plan de 1 día sin necesidad de taxi.",
+    coverImage:
+      "https://res.cloudinary.com/dspogotur/image/upload/v1776784036/Casa_la_Maria_zona_colonial.webp",
+    category: "Guía local",
+    readTime: "6 min",
+    date: "5 May 2026",
+    content: "",
+  },
+  {
     slug: "wine-tasting-ocoa-bay",
     title: "Cata de Vinos en Ocoa Bay: La Experiencia de Viñedo Imprescindible en RD (2026)",
     excerpt:

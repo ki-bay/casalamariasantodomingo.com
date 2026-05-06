@@ -172,6 +172,40 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ],
     },
 
+    // Decision-funnel content (Week 3 — Dominion)
+    ...(["zona-colonial-vs-piantini", "hotels-vs-airbnb-santo-domingo", "where-to-stay-near-calle-las-damas"].flatMap((slug) => [
+      {
+        url: `${BASE}/es/blog/${slug}`,
+        lastModified: "2026-05-05",
+        changeFrequency: "monthly" as const,
+        priority: 0.9,
+        alternates: { languages: { es: `${BASE}/es/blog/${slug}`, en: `${BASE}/en/blog/${slug}` } },
+      },
+      {
+        url: `${BASE}/en/blog/${slug}`,
+        lastModified: "2026-05-05",
+        changeFrequency: "monthly" as const,
+        priority: 0.9,
+        alternates: { languages: { es: `${BASE}/es/blog/${slug}`, en: `${BASE}/en/blog/${slug}` } },
+      },
+    ])),
+
+    // Why Book Direct
+    {
+      url: `${BASE}/es/por-que-reservar-directo`,
+      lastModified: "2026-05-05",
+      changeFrequency: "monthly" as const,
+      priority: 0.85,
+      alternates: { languages: { es: `${BASE}/es/por-que-reservar-directo`, en: `${BASE}/en/why-book-direct` } },
+    },
+    {
+      url: `${BASE}/en/why-book-direct`,
+      lastModified: "2026-05-05",
+      changeFrequency: "monthly" as const,
+      priority: 0.85,
+      alternates: { languages: { es: `${BASE}/es/por-que-reservar-directo`, en: `${BASE}/en/why-book-direct` } },
+    },
+
     // Gallery
     {
       url: `${BASE}/es/galeria`,
