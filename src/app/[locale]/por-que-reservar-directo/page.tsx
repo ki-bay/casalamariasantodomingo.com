@@ -188,7 +188,7 @@ export default async function PorQueReservarDirectoPage({ params }: Props) {
             </table>
           </div>
 
-          <p className="text-xs text-muted-foreground/80 italic text-center mt-3">
+          <p className="text-xs text-muted-foreground italic text-center mt-3">
             {isEN
               ? "Estimated OTA fees based on public Airbnb / Booking.com pricing for the same dates. Actual amounts vary."
               : "Comisiones de OTAs estimadas según precios públicos de Airbnb / Booking.com para las mismas fechas. Las cantidades reales pueden variar."}

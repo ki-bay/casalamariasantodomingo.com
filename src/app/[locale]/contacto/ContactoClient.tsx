@@ -279,7 +279,7 @@ export function ContactoClient() {
                       setFormData({ ...formData, subject: v })
                     }
                   >
-                    <SelectTrigger className="bg-card border-warm-border">
+                    <SelectTrigger aria-label={isEN ? "Subject" : "Asunto"} className="bg-card border-warm-border">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>

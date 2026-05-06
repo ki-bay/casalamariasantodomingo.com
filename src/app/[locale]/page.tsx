@@ -289,18 +289,21 @@ function ContactSection({ isEN }: { isEN: boolean }) {
             <div className="flex gap-3">
               <a
                 href="#"
+                aria-label="Instagram"
                 className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center border border-warm-border hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all"
               >
                 <SocialInstagram className="w-4 h-4" />
               </a>
               <a
                 href="#"
+                aria-label="Facebook"
                 className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center border border-warm-border hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all"
               >
                 <SocialFacebook className="w-4 h-4" />
               </a>
               <a
                 href="#"
+                aria-label={isEN ? "WhatsApp" : "WhatsApp"}
                 className="w-10 h-10 bg-surface rounded-lg flex items-center justify-center border border-warm-border hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all"
               >
                 <MessageCircle className="w-4 h-4" />
@@ -355,7 +358,7 @@ function ContactSection({ isEN }: { isEN: boolean }) {
                   setFormData({ ...formData, subject: v })
                 }
               >
-                <SelectTrigger className="bg-card border-warm-border">
+                <SelectTrigger aria-label={isEN ? "Subject" : "Asunto"} className="bg-card border-warm-border">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

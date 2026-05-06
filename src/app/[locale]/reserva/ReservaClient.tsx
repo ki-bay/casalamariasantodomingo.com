@@ -249,7 +249,7 @@ function ReservaInner() {
                     {isEN ? "Guests" : "Huéspedes"}
                   </Label>
                   <Select value={guests} onValueChange={setGuests}>
-                    <SelectTrigger className="bg-card border-warm-border rounded-lg">
+                    <SelectTrigger aria-label={isEN ? "Guests" : "Huéspedes"} className="bg-card border-warm-border rounded-lg">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>

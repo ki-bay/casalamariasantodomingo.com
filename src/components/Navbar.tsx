@@ -167,7 +167,7 @@ export function Navbar() {
           </Link>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden p-2 h-auto w-auto">
+              <Button variant="ghost" size="icon" aria-label="Open menu" className="md:hidden p-2 h-auto w-auto">
                 <Menu className="w-5 h-5" />
               </Button>
             </SheetTrigger>
