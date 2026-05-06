@@ -60,12 +60,14 @@ export function StickyBookingCTA({ apartmentSlug, locale, fromPriceLabel }: Prop
     : `/es/reserva?apt=${apartmentSlug}`;
   const msg = messages[phase];
 
+  // Fully unmount the bar while hidden so the inner Link can't be tab-focused
+  // (otherwise Lighthouse flags aria-hidden-focus). It still mounts/unmounts
+  // smoothly because the parent fade transition is on the wrapper opacity.
+  if (!visible) return null;
+
   return (
     <div
-      aria-hidden={!visible}
-      className={`fixed bottom-3 inset-x-3 md:bottom-5 md:left-1/2 md:right-auto md:-translate-x-1/2 z-40 transition-all duration-300 ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6 pointer-events-none"
-      }`}
+      className="fixed bottom-3 inset-x-3 md:bottom-5 md:left-1/2 md:right-auto md:-translate-x-1/2 z-40 transition-opacity duration-300"
     >
       <div className="md:w-[420px] mx-auto rounded-full bg-foreground text-background shadow-2xl flex items-center justify-between gap-3 pl-5 pr-1.5 py-1.5">
         <div className="flex flex-col leading-tight">
