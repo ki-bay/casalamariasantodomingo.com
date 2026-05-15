@@ -2,7 +2,6 @@
 import { useLocale } from "next-intl";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
-import { KibayFeature } from "@/components/KibayFeature";
 import { BookingWidget } from "@/components/BookingWidget";
 import { Gallery } from "@/components/Gallery";
 import { Location } from "@/components/Location";
@@ -51,7 +50,6 @@ export default function HomePage() {
     <main className="relative z-10">
       <Navbar />
       <Hero />
-      <KibayFeature />
 
       {/* Benefit Highlights */}
       <section className="px-6 md:px-12 -mt-8 relative z-10 mb-20">
