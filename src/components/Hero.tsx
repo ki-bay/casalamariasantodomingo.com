@@ -67,7 +67,9 @@ export function Hero() {
               <Play className="w-4 h-4" /> {isEN ? "Read More" : "Leer Más"}
             </Button>
           </div>
-          <div className="flex items-center gap-6 text-black/70 text-base">
+          {/* Sits on the hero image — use a white-glass pill so it stays
+              legible no matter where the image crop lands. */}
+          <div className="inline-flex flex-wrap items-center gap-x-5 gap-y-2 text-black/80 text-base bg-white/30 backdrop-blur-sm border border-white/40 rounded-full px-5 py-2.5 shadow-sm">
             <div className="flex items-center gap-1.5">
               <Star className="w-[18px] h-[18px] fill-amber-star text-amber-star" />
               <span className="text-black font-medium">{PROPERTY.rating}</span>
@@ -81,7 +83,7 @@ export function Hero() {
             <div className="w-px h-4 bg-black/30" />
             <div className="flex items-center gap-1.5">
               <BedDouble className="w-[18px] h-[18px]" />
-              <span>{PROPERTY.bedrooms} {isEN ? "bedroom" : "dormitorio"}</span>
+              <span>{isEN ? "1 & 2 bedroom" : "1 y 2 dormitorios"}</span>
             </div>
           </div>
         </ScrollReveal>
