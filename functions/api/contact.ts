@@ -1,11 +1,12 @@
 /// <reference types="@cloudflare/workers-types" />
 
 interface Env {
-  // Supabase Edge Function (Hostinger SMTP relay)
-  NEXT_PUBLIC_SUPABASE_URL: string;  // e.g. https://blwodrambvrhapjplqhx.supabase.co
-  EDGE_SECRET: string;               // shared secret set in Supabase secrets + here
+  // Supabase Edge Function (Brevo SMTP relay)
+  NEXT_PUBLIC_SUPABASE_URL: string;       // e.g. https://blwodrambvrhapjplqhx.supabase.co
+  EDGE_SECRET: string;                    // shared secret set in Supabase secrets + here
+  SUPABASE_SERVICE_ROLE_KEY?: string;     // optional — used to persist messages
   // Optional override
-  CONTACT_EMAIL_TO?: string;         // defaults to info@casalamariazonacolonial.com
+  CONTACT_EMAIL_TO?: string;              // defaults to info@casalamariazonacolonial.com
 }
 
 interface ContactRequest {
@@ -61,6 +62,36 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     </div>
   `;
 
+  // Step 1: persist to Supabase contact_messages (so admin can see it
+  // even if the email send fails). This is best-effort — if the service
+  // role key isn't set or the insert fails we still try to send.
+  let messageRowId: number | null = null;
+  if (context.env.SUPABASE_SERVICE_ROLE_KEY) {
+    try {
+      const insertRes = await fetch(`${supabaseUrl}/rest/v1/contact_messages`, {
+        method: "POST",
+        headers: {
+          apikey: context.env.SUPABASE_SERVICE_ROLE_KEY,
+          Authorization: `Bearer ${context.env.SUPABASE_SERVICE_ROLE_KEY}`,
+          "Content-Type": "application/json",
+          Prefer: "return=representation",
+        },
+        body: JSON.stringify({
+          name, email, subject, message, locale: body.locale || null,
+        }),
+      });
+      if (insertRes.ok) {
+        const rows = (await insertRes.json()) as Array<{ id: number }>;
+        messageRowId = rows?.[0]?.id ?? null;
+      }
+    } catch {
+      // non-fatal
+    }
+  }
+
+  // Step 2: send the email via Supabase send-email (Brevo SMTP)
+  let sendOk = false;
+  let sendError: string | null = null;
   try {
     const res = await fetch(`${supabaseUrl}/functions/v1/send-email`, {
       method: "POST",
@@ -75,16 +106,39 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         html,
       }),
     });
-
-    if (!res.ok) {
-      const err = await res.text().catch(() => "");
-      return new Response(JSON.stringify({ error: "Send failed", detail: err }), { status: 500, headers: corsHeaders });
+    if (res.ok) {
+      sendOk = true;
+    } else {
+      sendError = (await res.text().catch(() => "")).slice(0, 400);
     }
-
-    return new Response(JSON.stringify({ ok: true }), { status: 200, headers: corsHeaders });
   } catch (err) {
-    const msg = err instanceof Error ? err.message : "Unknown error";
-    return new Response(JSON.stringify({ error: msg }), { status: 500, headers: corsHeaders });
+    sendError = err instanceof Error ? err.message : "Unknown error";
   }
+
+  // Step 3: mark the row with send result (best-effort)
+  if (messageRowId && context.env.SUPABASE_SERVICE_ROLE_KEY) {
+    try {
+      await fetch(`${supabaseUrl}/rest/v1/contact_messages?id=eq.${messageRowId}`, {
+        method: "PATCH",
+        headers: {
+          apikey: context.env.SUPABASE_SERVICE_ROLE_KEY,
+          Authorization: `Bearer ${context.env.SUPABASE_SERVICE_ROLE_KEY}`,
+          "Content-Type": "application/json",
+          Prefer: "return=minimal",
+        },
+        body: JSON.stringify({
+          email_sent: sendOk,
+          email_error: sendOk ? null : sendError,
+        }),
+      });
+    } catch {
+      // non-fatal
+    }
+  }
+
+  if (!sendOk) {
+    return new Response(JSON.stringify({ error: "Send failed", detail: sendError }), { status: 500, headers: corsHeaders });
+  }
+  return new Response(JSON.stringify({ ok: true }), { status: 200, headers: corsHeaders });
 };
 
