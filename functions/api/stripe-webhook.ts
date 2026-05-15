@@ -15,6 +15,11 @@ import {
   lodgifyCreateBookingQuote,
   splitFullName,
 } from "../_lib/lodgify";
+import {
+  guestConfirmationHtml,
+  adminNotificationHtml,
+  sendViaSupabase,
+} from "../_lib/booking-emails";
 
 interface Env {
   STRIPE_SECRET_KEY: string;
@@ -22,6 +27,7 @@ interface Env {
   LODGIFY_API_KEY: string;
   NEXT_PUBLIC_SUPABASE_URL: string;
   SUPABASE_SERVICE_ROLE_KEY: string;
+  EDGE_SECRET: string;
 }
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
@@ -181,6 +187,68 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
           updated_at: new Date().toISOString(),
         })
         .eq("id", row?.id ?? -1);
+    }
+  }
+
+  // Best-effort: notify guest + admin via Brevo SMTP. Failures are recorded
+  // on the row but don't fail the webhook — the booking is already confirmed
+  // and the admin can see this in the panel and resend manually.
+  if (env.EDGE_SECRET && env.NEXT_PUBLIC_SUPABASE_URL) {
+    const emailInput = {
+      guestEmail: email,
+      guestFirstName: guestName.first_name,
+      guestLastName: guestName.last_name,
+      guestPhone: phone,
+      propertyId,
+      arrival,
+      departure,
+      people,
+      totalUsd,
+      notes,
+      stripePaymentIntentId: pi.id,
+      lodgifyBookingId: result.bookingId ?? null,
+      locale: "es" as const,
+    };
+
+    const emailErrors: string[] = [];
+
+    // Guest confirmation
+    if (email) {
+      const guest = guestConfirmationHtml(emailInput);
+      const sendGuest = await sendViaSupabase({
+        supabaseUrl: env.NEXT_PUBLIC_SUPABASE_URL,
+        edgeSecret: env.EDGE_SECRET,
+        to: email,
+        subject: guest.subject,
+        html: guest.html,
+        replyTo: "info@casalamariazonacolonial.com",
+      });
+      if (!sendGuest.ok) emailErrors.push(`guest_email: HTTP ${sendGuest.status} ${sendGuest.detail ?? ""}`.trim());
+    }
+
+    // Admin notification
+    const admin = adminNotificationHtml(emailInput);
+    const sendAdmin = await sendViaSupabase({
+      supabaseUrl: env.NEXT_PUBLIC_SUPABASE_URL,
+      edgeSecret: env.EDGE_SECRET,
+      to: admin.to,
+      subject: admin.subject,
+      html: admin.html,
+      replyTo: email || undefined,
+    });
+    if (!sendAdmin.ok) emailErrors.push(`admin_email: HTTP ${sendAdmin.status} ${sendAdmin.detail ?? ""}`.trim());
+
+    if (emailErrors.length && row?.id) {
+      // Stash email failures on the row so the admin panel surfaces them.
+      // We append to notes (rather than overwriting lodgify_error) so a
+      // real Lodgify error stays visible.
+      await sb
+        .from("bookings")
+        .update({
+          notes: `${notes ?? ""}\n[email-send] ${emailErrors.join(" | ")}`.slice(0, 1000),
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", row.id);
     }
   }
 
