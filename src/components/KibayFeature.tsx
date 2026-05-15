@@ -10,7 +10,7 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 //   - Local fallback during development:
 //       /kibay-bottle.webp  (drop the file in public/)
 const KIBAY_IMAGE =
-  "https://res.cloudinary.com/dspogotur/image/upload/q_auto,f_auto,w_1400/v1/kibay-bottle.webp";
+  "https://res.cloudinary.com/dspogotur/image/upload/q_auto,f_auto,w_1400/v1778854415/kibay_-vino.webp";
 
 export function KibayFeature() {
   const locale = useLocale();
