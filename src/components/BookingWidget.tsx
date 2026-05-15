@@ -28,7 +28,7 @@ import {
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { PROPERTY, AMENITIES, AMENITIES_EN, HOUSE_RULES, HOUSE_RULES_EN, POLICIES, POLICIES_EN } from "@/lib/data";
+import { PROPERTY, PROPERTY_EN, AMENITIES, AMENITIES_EN, HOUSE_RULES, HOUSE_RULES_EN, POLICIES, POLICIES_EN } from "@/lib/data";
 import { useLocale } from "next-intl";
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -77,19 +77,7 @@ export function BookingWidget() {
             {isEN ? <>A piece of history <em className="italic">with a modern soul</em></> : <>Un rincón de historia <em className="italic">con alma moderna</em></>}
           </h2>
           <div className="space-y-5 text-warm-muted text-base leading-relaxed font-light max-w-[720px]">
-            <p>{isEN
-              ? "Casa La Maria is a boutique apartment located in a restored 16th-century building on the iconic Calle Las Damas, the oldest street in the Americas. Our space blends the authenticity of coral stone walls with a contemporary interior design of clean lines."
-              : PROPERTY.description}</p>
-            <p>
-              {isEN
-                ? `The ${PROPERTY.size}m² apartment is designed for couples or solo travelers seeking an intimate cultural experience in the heart of the Colonial District, a UNESCO World Heritage Site. Every detail has been carefully chosen: from Egyptian cotton bedding to works by local Dominican artists.`
-                : `El apartamento de ${PROPERTY.size}m² está diseñado para parejas o viajeros solos que buscan una experiencia íntima y cultural en el corazón del Distrito Colonial, declarado Patrimonio de la Humanidad por la UNESCO. Cada detalle ha sido cuidadosamente seleccionado: desde la ropa de cama de algodón egipcio hasta las obras de arte de artistas dominicanos locales.`}
-            </p>
-            <p>
-              {isEN
-                ? "From your door, you walk 5 min directly to the Alcazar de Colón, the Cathedral Primate of America, the National Pantheon, and dozens of restaurants, cafés, and art galleries. Playa Güibia beach is just a 25-minute walk."
-                : "Desde tu puerta, caminas 5 min directamente al Alcázar de Colón, la Catedral Primada de América, el Panteón Nacional y decenas de restaurantes, cafés y galerías de arte. La Playa Güibia está a solo 25 minutos a pie."}
-            </p>
+            <p>{isEN ? PROPERTY_EN.description : PROPERTY.description}</p>
           </div>
         </ScrollReveal>
 
