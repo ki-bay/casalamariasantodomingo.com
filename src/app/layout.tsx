@@ -20,7 +20,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "Casa La Maria — Apartamentos Boutique en Zona Colonial, Santo Domingo",
-  description: "Cinco apartamentos boutique en el Callejón Regina, Zona Colonial de Santo Domingo. WiFi, AC, cocina completa. Reserva directa online.",
+  description: "Cinco apartamentos boutique en Parmenio Troncoso 4, Zona Colonial de Santo Domingo. WiFi, AC, cocina completa. Reserva directa online.",
   keywords: ["casa la maria santo domingo zona colonial", "alquiler zona colonial", "apartamento boutique zona colonial", "callejon regina", "airbnb zona colonial", "hotel zona colonial santo domingo"],
   verification: { google: "hbxMX37GTNPG00XbR75Ke4AXrDL8zbYH38j2vsOzRO4" },
   openGraph: {

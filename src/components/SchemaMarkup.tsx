@@ -167,7 +167,7 @@ export async function SchemaMarkup({ locale }: { locale: string }) {
     starRating: { "@type": "Rating", ratingValue: "4.9", bestRating: "5" },
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Callejón Regina",
+      streetAddress: "Parmenio Troncoso 4",
       addressLocality: "Santo Domingo",
       addressRegion: "Distrito Nacional",
       postalCode: "10210",
@@ -287,7 +287,7 @@ export async function SchemaMarkup({ locale }: { locale: string }) {
             name: "How close is Casa La Maria to Calle Las Damas and Parque Colón?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "Casa La Maria is on Callejón Regina, a quiet pedestrian street in the heart of the Colonial Zone. Calle Las Damas is a 5-minute walk, Parque Colón and the Catedral Primada are 6 minutes, and the Alcázar de Colón is 7 minutes — all on foot.",
+              text: "Casa La Maria is on Calle Parmenio Troncoso, a quiet street in the heart of the Colonial Zone. Calle Las Damas is a 5-minute walk, Parque Colón and the Catedral Primada are 6 minutes, and the Alcázar de Colón is 7 minutes — all on foot.",
             },
           },
           {
@@ -345,7 +345,7 @@ export async function SchemaMarkup({ locale }: { locale: string }) {
             name: "¿A qué distancia está Casa La Maria de Calle Las Damas y Parque Colón?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "Casa La Maria está en el Callejón Regina, una calle peatonal tranquila en el corazón de la Zona Colonial. Calle Las Damas a 5 minutos a pie, Parque Colón y la Catedral Primada a 6 minutos, y el Alcázar de Colón a 7 minutos.",
+              text: "Casa La Maria está en la Calle Parmenio Troncoso, una calle tranquila en el corazón de la Zona Colonial. Calle Las Damas a 5 minutos a pie, Parque Colón y la Catedral Primada a 6 minutos, y el Alcázar de Colón a 7 minutos.",
             },
           },
           {

@@ -361,8 +361,8 @@ export default async function ZonaColonialPage({ params }: Props) {
                 <MapPin className="w-4 h-4 text-secondary" />
                 <span className="text-sm text-secondary">
                   {isEN
-                    ? "Written by Casa La Maria · Callejón Regina, Zona Colonial, Santo Domingo"
-                    : "Por Casa La Maria · Callejón Regina, Zona Colonial, Santo Domingo"}
+                    ? "Written by Casa La Maria · Parmenio Troncoso 4, Zona Colonial, Santo Domingo"
+                    : "Por Casa La Maria · Parmenio Troncoso 4, Zona Colonial, Santo Domingo"}
                 </span>
               </div>
             </ScrollReveal>
@@ -733,8 +733,8 @@ export default async function ZonaColonialPage({ params }: Props) {
                 </h2>
                 <p className="text-warm-muted font-light leading-relaxed max-w-[560px] mx-auto mb-8">
                   {isEN
-                    ? "Casa La Maria is a boutique apartment on Callejón Regina — a 16th-century restored building steps from every landmark on this list. Wake up in history."
-                    : "Casa La Maria es un apartamento boutique en el Callejón Regina — un edificio histórico restaurado del siglo XVI a pasos de cada atractivo de esta guía. Despierta en la historia."}
+                    ? "Casa La Maria is a boutique apartment on Parmenio Troncoso 4 — a 16th-century restored building steps from every landmark on this list. Wake up in history."
+                    : "Casa La Maria es un apartamento boutique en Parmenio Troncoso 4 — un edificio histórico restaurado del siglo XVI a pasos de cada atractivo de esta guía. Despierta en la historia."}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link

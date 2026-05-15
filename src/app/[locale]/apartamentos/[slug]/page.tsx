@@ -392,7 +392,7 @@ export default async function ApartmentDetailPage({ params }: Props) {
                 },
                 address: {
                   "@type": "PostalAddress",
-                  streetAddress: "Callejón Regina",
+                  streetAddress: "Parmenio Troncoso 4",
                   addressLocality: "Santo Domingo",
                   addressRegion: "Distrito Nacional",
                   postalCode: "10210",

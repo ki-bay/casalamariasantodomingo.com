@@ -1061,8 +1061,8 @@ export default async function WineTastingOcoaBayPage({ params }: Props) {
                 </h2>
                 <p className="text-warm-muted font-light leading-relaxed max-w-[560px] mx-auto mb-8">
                   {isEN
-                    ? "Casa La Maria is a boutique apartment on Callejón Regina in the Colonial Zone — the natural starting point for a wine-day at OcoaBay. We can arrange your driver, your booking, and your perfect itinerary."
-                    : "Casa La Maria es un apartamento boutique en el Callejón Regina en la Zona Colonial — el punto de partida natural para un día de vinos en OcoaBay. Coordinamos tu chofer, tu reserva y tu itinerario perfecto."}
+                    ? "Casa La Maria is a boutique apartment on Parmenio Troncoso 4 in the Colonial Zone — the natural starting point for a wine-day at OcoaBay. We can arrange your driver, your booking, and your perfect itinerary."
+                    : "Casa La Maria es un apartamento boutique en Parmenio Troncoso 4 en la Zona Colonial — el punto de partida natural para un día de vinos en OcoaBay. Coordinamos tu chofer, tu reserva y tu itinerario perfecto."}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link

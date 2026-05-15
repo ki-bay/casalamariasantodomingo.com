@@ -14,9 +14,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     titleEs: "Contacto · Casa La Maria — Zona Colonial Santo Domingo",
     titleEn: "Contact · Casa La Maria — Colonial Zone Santo Domingo",
     descEs:
-      "Contáctanos por email, teléfono o WhatsApp. Respondemos en menos de 12 horas. Casa La Maria, Callejón Regina, Zona Colonial — +1 (829) 406-7269.",
+      "Contáctanos por email, teléfono o WhatsApp. Respondemos en menos de 12 horas. Casa La Maria, Parmenio Troncoso 4, Zona Colonial — +1 (829) 406-7269.",
     descEn:
-      "Reach us by email, phone or WhatsApp. We reply within 12 hours. Casa La Maria, Callejón Regina, Colonial Zone — +1 (829) 406-7269.",
+      "Reach us by email, phone or WhatsApp. We reply within 12 hours. Casa La Maria, Parmenio Troncoso 4, Colonial Zone — +1 (829) 406-7269.",
   });
 }
 

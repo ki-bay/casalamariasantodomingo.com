@@ -2,10 +2,10 @@ export const PROPERTY = {
   name: "Casa La Maria",
   slug: "casa-la-maria",
   description:
-    "Casa La Maria es un apartamento ubicado en una edificación restaurada del siglo XVI en el emblemático Callejón Regina. Nuestro espacio combina la autenticidad de los muros de piedra coralina con un diseño interior contemporáneo de líneas limpias. El apartamento de 55m² está diseñado para parejas o viajeros solos que buscan una experiencia íntima y cultural en el corazón del Distrito Colonial, declarado Patrimonio de la Humanidad por la UNESCO. Cada detalle ha sido cuidadosamente seleccionado: desde la ropa de cama de algodón egipcio hasta las obras de arte de artistas dominicanos locales. Desde tu puerta, caminas directamente al Alcázar de Colón, la Catedral Primada de América, el Panteón Nacional y decenas de restaurantes, cafés y galerías de arte. La Playa Güibia está a solo 25 minutos a pie.",
+    "Casa La Maria es un apartamento ubicado en una edificación restaurada del siglo XVI en la emblemática Calle Parmenio Troncoso. Nuestro espacio combina la autenticidad de los muros de piedra coralina con un diseño interior contemporáneo de líneas limpias. El apartamento de 55m² está diseñado para parejas o viajeros solos que buscan una experiencia íntima y cultural en el corazón del Distrito Colonial, declarado Patrimonio de la Humanidad por la UNESCO. Cada detalle ha sido cuidadosamente seleccionado: desde la ropa de cama de algodón egipcio hasta las obras de arte de artistas dominicanos locales. Desde tu puerta, caminas directamente al Alcázar de Colón, la Catedral Primada de América, el Panteón Nacional y decenas de restaurantes, cafés y galerías de arte. La Playa Güibia está a solo 25 minutos a pie.",
   shortDescription:
     "",
-  address: "Callejón Regina, Santo Domingo 10210",
+  address: "Parmenio Troncoso 4, Santo Domingo 10210",
   city: "Santo Domingo",
   country: "República Dominicana",
   lat: 18.469990300133684,
@@ -27,7 +27,7 @@ export const PROPERTY = {
 
 export const PROPERTY_EN = {
   description:
-    "Casa La Maria is an apartment located in a restored 16th-century building on the emblematic Callejón Regina. Our space blends the authenticity of coral stone walls with a contemporary interior design of clean lines. The 55m² apartment is designed for couples or solo travelers seeking an intimate and cultural experience in the heart of the Colonial District, declared a UNESCO World Heritage Site. Every detail has been carefully selected: from Egyptian cotton bed linens to works by local Dominican artists. From your door, you walk directly to the Alcázar de Colón, the Catedral Primada de América, the Panteón Nacional and dozens of restaurants, cafés and art galleries. Playa Güibia is just 25 minutes on foot.",
+    "Casa La Maria is an apartment located in a restored 16th-century building on the emblematic Calle Parmenio Troncoso. Our space blends the authenticity of coral stone walls with a contemporary interior design of clean lines. The 55m² apartment is designed for couples or solo travelers seeking an intimate and cultural experience in the heart of the Colonial District, declared a UNESCO World Heritage Site. Every detail has been carefully selected: from Egyptian cotton bed linens to works by local Dominican artists. From your door, you walk directly to the Alcázar de Colón, the Catedral Primada de América, the Panteón Nacional and dozens of restaurants, cafés and art galleries. Playa Güibia is just 25 minutes on foot.",
   shortDescription: "",
 };
 

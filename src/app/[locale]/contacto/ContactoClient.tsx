@@ -66,7 +66,7 @@ function ContactoMapFacade({ isEN }: { isEN: boolean }) {
         </div>
         <p className="font-serif text-base text-foreground">Casa La Maria</p>
         <p className="text-xs text-muted-foreground max-w-xs">
-          {isEN ? "Callejón Regina, Zona Colonial · click to load map" : "Callejón Regina, Zona Colonial · clic para cargar el mapa"}
+          {isEN ? "Parmenio Troncoso 4, Zona Colonial · click to load map" : "Parmenio Troncoso 4, Zona Colonial · clic para cargar el mapa"}
         </p>
       </div>
     </button>
@@ -238,7 +238,7 @@ export function ContactoClient() {
                         {isEN ? "Address" : "Dirección"}
                       </p>
                       <p className="text-sm font-medium">
-                        Callejón Regina, Santo Domingo 10210
+                        Parmenio Troncoso 4, Santo Domingo 10210
                       </p>
                     </div>
                   </div>

@@ -280,7 +280,7 @@ function ContactSection({ isEN }: { isEN: boolean }) {
                 <div>
                   <p className="text-xs text-secondary">{isEN ? "Address" : "Dirección"}</p>
                   <p className="text-sm font-medium">
-                    Callejón Regina, Santo Domingo 10210
+                    Parmenio Troncoso 4, Santo Domingo 10210
                   </p>
                 </div>
               </div>

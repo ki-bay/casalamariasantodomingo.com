@@ -37,8 +37,8 @@ export function Location() {
             </h2>
             <p className="text-sm text-warm-muted font-light mt-3 max-w-md mx-auto">
               {isEN
-                ? "Callejón Regina, Zona Colonial — steps away from the most important monuments of Santo Domingo"
-                : "Callejón Regina, Zona Colonial — a pasos de los monumentos más importantes de Santo Domingo"}
+                ? "Parmenio Troncoso 4, Zona Colonial — steps away from the most important monuments of Santo Domingo"
+                : "Parmenio Troncoso 4, Zona Colonial — a pasos de los monumentos más importantes de Santo Domingo"}
             </p>
           </div>
         </ScrollReveal>
@@ -92,8 +92,8 @@ export function Location() {
                       </p>
                       <p className="text-xs text-muted-foreground max-w-xs">
                         {isEN
-                          ? "Callejón Regina, Zona Colonial · click to load interactive map"
-                          : "Callejón Regina, Zona Colonial · clic para cargar el mapa interactivo"}
+                          ? "Parmenio Troncoso 4, Zona Colonial · click to load interactive map"
+                          : "Parmenio Troncoso 4, Zona Colonial · clic para cargar el mapa interactivo"}
                       </p>
                     </div>
                   </button>

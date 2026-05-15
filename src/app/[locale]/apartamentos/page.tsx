@@ -46,7 +46,7 @@ export default async function ApartamentosPage({ params }: Props) {
       <section className="pt-36 pb-16 px-6 md:px-12 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
           <span className="text-xs font-semibold tracking-[0.2em] uppercase text-accent mb-4 block">
-            Callejón Regina · Zona Colonial
+            Parmenio Troncoso 4 · Zona Colonial
           </span>
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground mb-6">
             {t("title")}
@@ -83,12 +83,12 @@ export default async function ApartamentosPage({ params }: Props) {
             "@type": "ApartmentComplex",
             "name": "Casa La Maria",
             "description": isEN
-              ? "Five boutique apartments in Callejón Regina, Colonial Zone, Santo Domingo"
-              : "Cinco apartamentos boutique en el Callejón Regina, Zona Colonial, Santo Domingo",
+              ? "Five boutique apartments on Parmenio Troncoso 4, Colonial Zone, Santo Domingo"
+              : "Cinco apartamentos boutique en Parmenio Troncoso 4, Zona Colonial, Santo Domingo",
             "url": "https://casalamariazonacolonial.com",
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": "Callejón Regina",
+              "streetAddress": "Parmenio Troncoso 4",
               "addressLocality": "Santo Domingo",
               "addressRegion": "Distrito Nacional",
               "postalCode": "10210",

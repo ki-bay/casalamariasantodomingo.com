@@ -249,7 +249,7 @@ export default async function Page({ params }: Props) {
                 for dinner anyway.
               </p>
               <p>
-                <strong>Casa La Maria</strong> sits on Callejón Regina, a
+                <strong>Casa La Maria</strong> sits on Calle Parmenio Troncoso, a
                 pedestrian alley in the heart of the Colonial Zone — 5 min from
                 Calle Las Damas, 6 min from the Catedral Primada, 7 min from
                 the Alcázar de Colón. Five boutique apartments, real kitchens,
@@ -267,7 +267,7 @@ export default async function Page({ params }: Props) {
                 terminarás en Uber de regreso a la Zona Colonial para cenar.
               </p>
               <p>
-                <strong>Casa La Maria</strong> está en el Callejón Regina, una
+                <strong>Casa La Maria</strong> está en la Calle Parmenio Troncoso, una
                 calle peatonal en el corazón de la Zona Colonial — a 5 min de
                 Calle Las Damas, 6 min de la Catedral Primada, 7 min del
                 Alcázar de Colón. Cinco apartamentos boutique, cocina real,

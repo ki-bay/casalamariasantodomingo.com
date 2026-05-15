@@ -113,7 +113,7 @@ export default async function Page({ params }: Props) {
 
               <h2>Stay options inside the radius</h2>
               <p><strong>Boutique hotels:</strong> Hodelpa Nicolas de Ovando (5-star, in a 16th-century governor's house), Casas del XVI (luxury collection of restored colonial homes), Hotel Doña Elvira.</p>
-              <p><strong>Direct-booking boutique apartments:</strong> Casa La Maria — five units on Callejón Regina, 5 min from Calle Las Damas, kitchen + balcony + AC + WiFi, from $89 USD/night.</p>
+              <p><strong>Direct-booking boutique apartments:</strong> Casa La Maria — five units on Parmenio Troncoso 4, 5 min from Calle Las Damas, kitchen + balcony + AC + WiFi, from $89 USD/night.</p>
               <p><strong>Airbnb:</strong> Several listings in the radius, but expect to pay 14–18% in platform fees on top of the room rate.</p>
 
               <h2>Walking-distance reference points (from Calle Las Damas)</h2>
@@ -155,7 +155,7 @@ export default async function Page({ params }: Props) {
 
               <h2>Opciones de hospedaje dentro del radio</h2>
               <p><strong>Hoteles boutique:</strong> Hodelpa Nicolas de Ovando (5 estrellas, en una casa de gobernador del siglo XVI), Casas del XVI (colección de lujo de casas coloniales restauradas), Hotel Doña Elvira.</p>
-              <p><strong>Apartamentos boutique de reserva directa:</strong> Casa La Maria — cinco unidades en el Callejón Regina, a 5 min de Calle Las Damas, cocina + balcón + AC + WiFi, desde $89 USD/noche.</p>
+              <p><strong>Apartamentos boutique de reserva directa:</strong> Casa La Maria — cinco unidades en Parmenio Troncoso 4, a 5 min de Calle Las Damas, cocina + balcón + AC + WiFi, desde $89 USD/noche.</p>
               <p><strong>Airbnb:</strong> Varias opciones en el radio, pero esperas pagar 14–18% en comisión de plataforma sobre la tarifa de la habitación.</p>
 
               <h2>Distancias caminando (desde Calle Las Damas)</h2>
@@ -172,7 +172,7 @@ export default async function Page({ params }: Props) {
               </thead>
               <tbody className="text-foreground">
                 {[
-                  ["Casa La Maria (Callejón Regina)", "5 min"],
+                  ["Casa La Maria (Parmenio Troncoso 4)", "5 min"],
                   [isEN ? "Catedral Primada de América" : "Catedral Primada de América", "3 min"],
                   ["Parque Colón", "3 min"],
                   ["Alcázar de Colón", "2 min"],
@@ -239,7 +239,7 @@ export default async function Page({ params }: Props) {
             {isEN ? "Stay 5 min from Calle Las Damas" : "Hospédate a 5 min de Calle Las Damas"}
           </h3>
           <p className="text-sm text-muted-foreground mb-5">
-            {isEN ? "Casa La Maria — five boutique apartments on Callejón Regina, from $89 USD/night, no platform fees." : "Casa La Maria — cinco apartamentos boutique en el Callejón Regina, desde $89 USD/noche, sin comisiones de plataforma."}
+            {isEN ? "Casa La Maria — five boutique apartments on Parmenio Troncoso 4, from $89 USD/night, no platform fees." : "Casa La Maria — cinco apartamentos boutique en Parmenio Troncoso 4, desde $89 USD/noche, sin comisiones de plataforma."}
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link href={aptHref} className="inline-flex items-center gap-1.5 rounded-full bg-accent text-accent-foreground px-5 py-2.5 text-sm font-medium hover:opacity-90">

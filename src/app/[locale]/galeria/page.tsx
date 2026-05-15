@@ -14,9 +14,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     titleEs: "Galería · Casa La Maria — Zona Colonial Santo Domingo",
     titleEn: "Gallery · Casa La Maria — Colonial Zone Santo Domingo",
     descEs:
-      "Fotos de los apartamentos boutique de Casa La Maria en el Callejón Regina, Zona Colonial. Interiores, balcones, cocinas y vistas al Distrito Colonial.",
+      "Fotos de los apartamentos boutique de Casa La Maria en Parmenio Troncoso 4, Zona Colonial. Interiores, balcones, cocinas y vistas al Distrito Colonial.",
     descEn:
-      "Photos of the Casa La Maria boutique apartments on Callejón Regina, Colonial Zone. Interiors, balconies, kitchens and views over the Colonial District.",
+      "Photos of the Casa La Maria boutique apartments on Parmenio Troncoso 4, Colonial Zone. Interiors, balconies, kitchens and views over the Colonial District.",
   });
 }
 

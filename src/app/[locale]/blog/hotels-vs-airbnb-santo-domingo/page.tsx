@@ -229,7 +229,7 @@ export default async function Page({ params }: Props) {
               <h2 className="mt-12">Where Casa La Maria fits</h2>
               <p>
                 Casa La Maria is a direct-booking operator: five boutique
-                apartments in a restored building on Callejón Regina, in the
+                apartments in a restored building on Parmenio Troncoso 4, in the
                 heart of the Colonial Zone. Same building you'd find on
                 Booking.com or Airbnb — minus the platform fee. Same
                 cancellation policy as Airbnb (free up to 7 days before),
