@@ -2,8 +2,21 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
-const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"] });
+// display:"swap" lets text render in the fallback font immediately rather
+// than blocking on web-font load → fixes Lighthouse "font-display" audit.
+// preload:true is the default for next/font/google but kept explicit.
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+});
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+});
 
 export const metadata: Metadata = {
   title: "Casa La Maria — Apartamentos Boutique en Zona Colonial, Santo Domingo",

@@ -25,6 +25,54 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 
+function ContactoMapFacade({ isEN }: { isEN: boolean }) {
+  const [loaded, setLoaded] = useState(false);
+  if (loaded) {
+    return (
+      <div className="rounded-xl overflow-hidden border border-warm-border h-[300px]">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3784.5!2d-69.8819!3d18.4725!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8eaf89fe4861c0d7%3A0x47c1f2c4c4c3e3e0!2sCalle%20Las%20Damas%2C%20Santo%20Domingo!5e0!3m2!1ses!2sdo!4v1700000000000"
+          width="100%"
+          height="100%"
+          style={{ border: 0 }}
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title={isEN ? "Casa La Maria location on Google Maps" : "Ubicación de Casa La Maria en Google Maps"}
+        />
+      </div>
+    );
+  }
+  return (
+    <button
+      type="button"
+      onClick={() => setLoaded(true)}
+      aria-label={isEN ? "Load interactive Google Map" : "Cargar mapa interactivo de Google"}
+      className="group relative w-full h-[300px] rounded-xl overflow-hidden border border-warm-border bg-gradient-to-br from-emerald-100 via-stone-100 to-amber-50 dark:from-emerald-950/40 dark:via-stone-900 dark:to-amber-950/40 hover:opacity-90 transition cursor-pointer flex items-center justify-center"
+    >
+      <svg className="absolute inset-0 w-full h-full opacity-30 dark:opacity-20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" aria-hidden>
+        <defs>
+          <pattern id="grid2" width="60" height="60" patternUnits="userSpaceOnUse">
+            <path d="M 60 0 L 0 0 0 60" fill="none" stroke="currentColor" strokeWidth="0.5" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid2)" />
+        <path d="M0,140 Q150,160 220,120 T400,100" stroke="currentColor" strokeWidth="3" fill="none" opacity="0.5" />
+        <path d="M120,0 L130,300" stroke="currentColor" strokeWidth="2.5" fill="none" opacity="0.45" />
+      </svg>
+      <div className="relative z-10 flex flex-col items-center gap-2 text-center px-6">
+        <div className="w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+          <MapPin className="w-5 h-5" />
+        </div>
+        <p className="font-serif text-base text-foreground">Casa La Maria</p>
+        <p className="text-xs text-muted-foreground max-w-xs">
+          {isEN ? "Callejón Regina, Zona Colonial · click to load map" : "Callejón Regina, Zona Colonial · clic para cargar el mapa"}
+        </p>
+      </div>
+    </button>
+  );
+}
+
 function SocialInstagram({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -190,7 +238,7 @@ export function ContactoClient() {
                         {isEN ? "Address" : "Dirección"}
                       </p>
                       <p className="text-sm font-medium">
-                        Parmenio Troncoso 4, Santo Domingo 10210
+                        Callejón Regina, Santo Domingo 10210
                       </p>
                     </div>
                   </div>
@@ -220,19 +268,11 @@ export function ContactoClient() {
                   </a>
                 </div>
 
-                {/* Map */}
-                <div className="rounded-xl overflow-hidden border border-warm-border h-[300px]">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3784.5!2d-69.8819!3d18.4725!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8eaf89fe4861c0d7%3A0x47c1f2c4c4c3e3e0!2sCalle%20Las%20Damas%2C%20Santo%20Domingo!5e0!3m2!1ses!2sdo!4v1700000000000"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title={isEN ? "Location of Casa La Maria" : "Ubicación de Casa La Maria"}
-                  />
-                </div>
+                {/* Map facade — defer the Google Maps iframe (and its
+                    third-party cookies) until the user clicks. Removing
+                    the eager iframe is what gets Best Practices to 100
+                    on this page. */}
+                <ContactoMapFacade isEN={isEN} />
               </div>
             </ScrollReveal>
 

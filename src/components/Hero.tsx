@@ -67,20 +67,20 @@ export function Hero() {
               <Play className="w-4 h-4" /> {isEN ? "Read More" : "Leer Más"}
             </Button>
           </div>
-          <div className="flex items-center gap-6 text-white/60 text-xs">
+          <div className="flex items-center gap-6 text-black/70 text-base">
             <div className="flex items-center gap-1.5">
-              <Star className="w-3.5 h-3.5 fill-amber-star text-amber-star" />
-              <span className="text-white font-medium">{PROPERTY.rating}</span>
+              <Star className="w-[18px] h-[18px] fill-amber-star text-amber-star" />
+              <span className="text-black font-medium">{PROPERTY.rating}</span>
               <span>({PROPERTY.reviewCount} {isEN ? "reviews" : "reseñas"})</span>
             </div>
-            <div className="w-px h-3 bg-white/30" />
+            <div className="w-px h-4 bg-black/30" />
             <div className="flex items-center gap-1.5">
-              <Users className="w-3.5 h-3.5" />
+              <Users className="w-[18px] h-[18px]" />
               <span>{isEN ? `Up to ${PROPERTY.maxGuests} guests` : `Hasta ${PROPERTY.maxGuests} huéspedes`}</span>
             </div>
-            <div className="w-px h-3 bg-white/30" />
+            <div className="w-px h-4 bg-black/30" />
             <div className="flex items-center gap-1.5">
-              <BedDouble className="w-3.5 h-3.5" />
+              <BedDouble className="w-[18px] h-[18px]" />
               <span>{PROPERTY.bedrooms} {isEN ? "bedroom" : "dormitorio"}</span>
             </div>
           </div>
