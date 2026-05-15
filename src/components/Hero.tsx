@@ -6,6 +6,7 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { PROPERTY, PROPERTY_EN } from "@/lib/data";
 import { useLocale } from "next-intl";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Hero() {
   const locale = useLocale();
@@ -54,10 +55,12 @@ export function Hero() {
           </p>
           <div className="flex flex-wrap items-center gap-4 mb-10">
             <Button
-              onClick={() => handleScrollTo("#reserva")}
+              asChild
               className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 rounded-full px-7 py-3.5 font-medium text-sm shadow-lg inline-flex items-center gap-2"
             >
-              {isEN ? "Book Now" : "Reservar Ahora"} <ArrowRight className="w-4 h-4" />
+              <Link href={isEN ? "/en/apartments" : "/es/apartamentos"}>
+                {isEN ? "Book Now" : "Reservar Ahora"} <ArrowRight className="w-4 h-4" />
+              </Link>
             </Button>
             <Button
               onClick={() => handleScrollTo("#propiedad")}
