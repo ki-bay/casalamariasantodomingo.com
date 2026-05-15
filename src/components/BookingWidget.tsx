@@ -87,8 +87,8 @@ export function BookingWidget() {
             </p>
             <p>
               {isEN
-                ? "From your door, you walk directly to the Alcazar de Colón, the Cathedral Primate of America, the National Pantheon, and dozens of restaurants, cafés, and art galleries. Playa Güibia beach is just a 25-minute walk."
-                : "Desde tu puerta, caminas directamente al Alcázar de Colón, la Catedral Primada de América, el Panteón Nacional y decenas de restaurantes, cafés y galerías de arte. La Playa Güibia está a solo 25 minutos a pie."}
+                ? "From your door, you walk 5 min directly to the Alcazar de Colón, the Cathedral Primate of America, the National Pantheon, and dozens of restaurants, cafés, and art galleries. Playa Güibia beach is just a 25-minute walk."
+                : "Desde tu puerta, caminas 5 min directamente al Alcázar de Colón, la Catedral Primada de América, el Panteón Nacional y decenas de restaurantes, cafés y galerías de arte. La Playa Güibia está a solo 25 minutos a pie."}
             </p>
           </div>
         </ScrollReveal>

@@ -47,6 +47,8 @@ const AMENITY_ICONS: Record<string, React.ReactNode> = {
   iron: <CheckCircle2 className="w-4 h-4" />,
   hair_dryer: <CheckCircle2 className="w-4 h-4" />,
   washer_dryer: <CheckCircle2 className="w-4 h-4" />,
+  washer: <CheckCircle2 className="w-4 h-4" />,
+  dryer: <CheckCircle2 className="w-4 h-4" />,
   outdoor_dining: <CheckCircle2 className="w-4 h-4" />,
   ensuite_bath: <Bath className="w-4 h-4" />,
 };
@@ -66,6 +68,8 @@ const AMENITY_LABELS: Record<string, { es: string; en: string }> = {
   iron: { es: "Plancha e tabla", en: "Iron & board" },
   hair_dryer: { es: "Secadora de cabello", en: "Hair dryer" },
   washer_dryer: { es: "Lavadora/secadora", en: "Washer/dryer" },
+  washer: { es: "Lavadora", en: "Washer" },
+  dryer: { es: "Secadora", en: "Dryer" },
   outdoor_dining: { es: "Comedor al aire libre", en: "Outdoor dining area" },
   ensuite_bath: { es: "Baño integrado", en: "En-suite bathroom" },
 };
