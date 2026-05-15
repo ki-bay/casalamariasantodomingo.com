@@ -6,7 +6,6 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { PROPERTY, PROPERTY_EN } from "@/lib/data";
 import { useLocale } from "next-intl";
 import Image from "next/image";
-import { cld } from "@/lib/cloudinary";
 
 export function Hero() {
   const locale = useLocale();
@@ -43,12 +42,12 @@ export function Hero() {
         <ScrollReveal className="md:max-w-[560px]">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
             <span className="w-2 h-2 bg-green-accent rounded-full animate-pulse" />
-            <span className="text-white/90 text-xs font-medium tracking-wide">
+            <span className="text-black/90 text-xs font-medium tracking-wide">
               ZONA COLONIAL · SANTO DOMINGO
             </span>
           </div>
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-[60px] text-white leading-[1.1] tracking-tight mb-6">
-            Casa La <em className="italic text-white/80">Maria</em>
+          <h1 className="font-serif text-4xl md:text-5xl lg:text-[60px] text-black leading-[1.1] tracking-tight mb-6">
+            Casa La <em className="italic text-black/80">Maria</em>
           </h1>
           <p className="text-white/70 text-base md:text-lg font-light leading-relaxed mb-8 max-w-md">
             {isEN ? PROPERTY_EN.shortDescription : PROPERTY.shortDescription}
