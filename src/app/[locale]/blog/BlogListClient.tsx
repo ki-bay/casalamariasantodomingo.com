@@ -3,13 +3,22 @@ import { useLocale } from "next-intl";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { PROPERTY, BLOG_POSTS } from "@/lib/data";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 
-export function BlogListClient() {
+export type BlogListItem = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  coverImage: string;
+  category: string;
+  readTime: string;
+  date: string;
+};
+
+export function BlogListClient({ posts }: { posts: BlogListItem[] }) {
   const locale = useLocale();
+  const isEN = locale === "en";
   return (
     <main className="relative z-10 min-h-screen flex flex-col">
       <Navbar />
@@ -21,18 +30,18 @@ export function BlogListClient() {
                 Blog
               </p>
               <h1 className="font-serif text-3xl md:text-4xl tracking-tight mb-4">
-                Descubre <em className="italic">Santo Domingo</em>
+                {isEN ? <>Discover <em className="italic">Santo Domingo</em></> : <>Descubre <em className="italic">Santo Domingo</em></>}
               </h1>
               <p className="text-warm-muted font-light max-w-lg mx-auto">
-                Guías, recomendaciones y secretos de la Zona Colonial y sus
-                alrededores. Todo lo que necesitas saber para tu estancia en
-                Casa La Maria.
+                {isEN
+                  ? "Guides, recommendations and secrets from the Colonial Zone and beyond. Everything you need for your stay at Casa La Maria."
+                  : "Guías, recomendaciones y secretos de la Zona Colonial y sus alrededores. Todo lo que necesitas saber para tu estancia en Casa La Maria."}
               </p>
             </div>
           </ScrollReveal>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {BLOG_POSTS.map((post) => (
+            {posts.map((post) => (
               <ScrollReveal key={post.slug}>
                 <Link
                   href={`/${locale}/blog/${post.slug}`}
@@ -53,7 +62,7 @@ export function BlogListClient() {
                         {post.category}
                       </span>
                       <span className="text-xs text-secondary">
-                        {post.readTime} lectura
+                        {post.readTime} {isEN ? "read" : "lectura"}
                       </span>
                     </div>
                     <h2 className="font-serif text-lg mb-3 leading-snug group-hover:text-primary/80 transition-colors">

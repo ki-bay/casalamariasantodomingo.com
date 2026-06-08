@@ -3,9 +3,10 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { AdminCalendar, type CalendarBooking } from "@/components/AdminCalendar";
+import { AdminBlogTab } from "@/components/AdminBlogTab";
 import {
   CalendarDays, TrendingUp, Bed, Webhook, AlertTriangle, RefreshCw,
-  CalendarRange, MessageSquare, X, Check, Trash2, Mail,
+  CalendarRange, MessageSquare, X, Check, Trash2, Mail, FileText,
 } from "lucide-react";
 import { useEffect, useState, useCallback } from "react";
 
@@ -59,7 +60,7 @@ const nights = (a: string, b: string) =>
 const fmtDate = (s: string) => new Date(s).toLocaleDateString("es-DO", { day: "numeric", month: "short", year: "numeric" });
 const fmtDateTime = (s: string) => new Date(s).toLocaleString("es-DO", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
 
-type Tab = "reservas" | "calendario" | "mensajes";
+type Tab = "reservas" | "calendario" | "mensajes" | "blog";
 
 export default function AdminPage() {
   const [tab, setTab] = useState<Tab>("reservas");
@@ -142,6 +143,7 @@ export default function AdminPage() {
             <TabButton active={tab === "reservas"} onClick={() => setTab("reservas")} icon={<CalendarDays className="w-4 h-4" />} label="Reservas" count={bookings.length} />
             <TabButton active={tab === "calendario"} onClick={() => setTab("calendario")} icon={<CalendarRange className="w-4 h-4" />} label="Calendario" />
             <TabButton active={tab === "mensajes"} onClick={() => setTab("mensajes")} icon={<MessageSquare className="w-4 h-4" />} label="Mensajes" count={unreadMessages > 0 ? unreadMessages : undefined} badge={unreadMessages > 0} />
+            <TabButton active={tab === "blog"} onClick={() => setTab("blog")} icon={<FileText className="w-4 h-4" />} label="Blog" />
           </div>
 
           {tab === "reservas" && (
@@ -151,6 +153,7 @@ export default function AdminPage() {
           {tab === "mensajes" && (
             <MessagesTab messages={messages} loading={loading} onUpdate={load} />
           )}
+          {tab === "blog" && <AdminBlogTab />}
         </div>
       </div>
       <Footer />

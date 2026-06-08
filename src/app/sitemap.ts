@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { supabase } from "@/lib/supabase";
+import { getPublishedDbSlugs } from "@/lib/blog-posts";
 
 export const dynamic = "force-static";
 
@@ -273,5 +274,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  return [...staticPages, ...aptEntries];
+  // ── Dynamic blog posts (Supabase blog_posts table; hand-coded slugs excluded) ──
+  const dbBlogSlugs = await getPublishedDbSlugs();
+  const dbBlogEntries: MetadataRoute.Sitemap = dbBlogSlugs.flatMap((slug) => [
+    {
+      url: `${BASE}/es/blog/${slug}`,
+      lastModified: TODAY,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+      alternates: { languages: { es: `${BASE}/es/blog/${slug}`, en: `${BASE}/en/blog/${slug}` } },
+    },
+    {
+      url: `${BASE}/en/blog/${slug}`,
+      lastModified: TODAY,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+      alternates: { languages: { es: `${BASE}/es/blog/${slug}`, en: `${BASE}/en/blog/${slug}` } },
+    },
+  ]);
+
+  return [...staticPages, ...aptEntries, ...dbBlogEntries];
 }
