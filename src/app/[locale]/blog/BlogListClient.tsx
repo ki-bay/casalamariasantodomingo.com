@@ -45,7 +45,7 @@ export function BlogListClient({ posts }: { posts: BlogListItem[] }) {
               <ScrollReveal key={post.slug}>
                 <Link
                   href={`/${locale}/blog/${post.slug}`}
-                  className="group bg-white border border-warm-border rounded-xl overflow-hidden transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-1 block"
+                  className="group bg-card border border-warm-border rounded-xl overflow-hidden transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-1 block"
                 >
                   <div className="overflow-hidden aspect-[16/10]">
                     <Image
