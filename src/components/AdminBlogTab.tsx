@@ -3,7 +3,20 @@
 import { useEffect, useState, useCallback } from "react";
 import {
   RefreshCw, Plus, Pencil, Trash2, Eye, EyeOff, AlertTriangle, FileText, X,
+  Share2, CheckCircle2, XCircle, Clock,
 } from "lucide-react";
+
+type SocialShare = {
+  id: string;
+  blog_post_id: string;
+  platform: "facebook" | "instagram" | "linkedin";
+  status: "pending" | "posted" | "failed" | "cancelled";
+  external_id: string | null;
+  external_url: string | null;
+  error: string | null;
+  attempted_at: string;
+  posted_at: string | null;
+};
 
 type BlogPost = {
   id: string;
@@ -107,6 +120,7 @@ function formToBody(f: FormState) {
 
 export function AdminBlogTab() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [shares, setShares] = useState<SocialShare[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [editing, setEditing] = useState<FormState | null>(null);
@@ -115,14 +129,21 @@ export function AdminBlogTab() {
     setLoading(true);
     setError(null);
     try {
-      const r = await fetch("/api/admin/blog-posts", { credentials: "include" });
-      if (r.status === 401) {
+      const [postsRes, sharesRes] = await Promise.all([
+        fetch("/api/admin/blog-posts", { credentials: "include" }),
+        fetch("/api/admin/social-shares", { credentials: "include" }),
+      ]);
+      if (postsRes.status === 401) {
         window.location.href = "/es/admin/login?next=/es/admin";
         return;
       }
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      const d = (await r.json()) as { posts: BlogPost[] };
+      if (!postsRes.ok) throw new Error(`HTTP ${postsRes.status}`);
+      const d = (await postsRes.json()) as { posts: BlogPost[] };
       setPosts(d.posts ?? []);
+      if (sharesRes.ok) {
+        const sd = (await sharesRes.json()) as { shares: SocialShare[] };
+        setShares(sd.shares ?? []);
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Unknown error");
     } finally {
@@ -131,6 +152,26 @@ export function AdminBlogTab() {
   }, []);
 
   useEffect(() => { void load(); }, [load]);
+
+  const retryShare = async (shareId: string) => {
+    const r = await fetch(`/api/admin/social-shares?id=${encodeURIComponent(shareId)}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "retry" }),
+    });
+    if (r.ok) void load();
+  };
+
+  const cancelShare = async (shareId: string) => {
+    const r = await fetch(`/api/admin/social-shares?id=${encodeURIComponent(shareId)}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "cancel" }),
+    });
+    if (r.ok) void load();
+  };
 
   const save = async (f: FormState) => {
     const body = formToBody(f);
@@ -222,55 +263,62 @@ export function AdminBlogTab() {
                   <th className="px-4 py-3 text-left">Título</th>
                   <th className="px-4 py-3 text-left">Slug</th>
                   <th className="px-4 py-3 text-left">Estado</th>
+                  <th className="px-4 py-3 text-left">Redes sociales</th>
                   <th className="px-4 py-3 text-left">Origen</th>
                   <th className="px-4 py-3 text-left">Actualizado</th>
                   <th className="px-4 py-3"></th>
                 </tr>
               </thead>
               <tbody>
-                {posts.map((p) => (
-                  <tr key={p.id} className="border-t border-warm-border">
-                    <td className="px-4 py-3">
-                      <p className="font-medium text-foreground">{p.title || "(sin título)"}</p>
-                      <p className="text-xs text-muted-foreground line-clamp-1">{p.excerpt}</p>
-                    </td>
-                    <td className="px-4 py-3 font-mono text-xs">{p.slug}</td>
-                    <td className="px-4 py-3">
-                      {p.published ? (
-                        <span className="text-[11px] px-2 py-0.5 rounded-full font-medium bg-emerald-100 text-emerald-700">Publicado</span>
-                      ) : (
-                        <span className="text-[11px] px-2 py-0.5 rounded-full font-medium bg-amber-100 text-amber-700">Borrador</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-xs text-muted-foreground">{p.source}</td>
-                    <td className="px-4 py-3 text-xs text-muted-foreground whitespace-nowrap">
-                      {new Date(p.updated_at).toLocaleDateString("es-DO", { day: "numeric", month: "short" })}
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <div className="inline-flex gap-1.5">
-                        <button
-                          onClick={() => void togglePublish(p)}
-                          className="inline-flex items-center gap-1 rounded-md border border-warm-border hover:bg-muted px-2 py-1 text-xs"
-                          title={p.published ? "Despublicar" : "Publicar"}
-                        >
-                          {p.published ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
-                        </button>
-                        <button
-                          onClick={() => setEditing(rowToForm(p))}
-                          className="inline-flex items-center gap-1 rounded-md border border-warm-border hover:bg-muted px-2 py-1 text-xs"
-                        >
-                          <Pencil className="w-3 h-3" />
-                        </button>
-                        <button
-                          onClick={() => void del(p)}
-                          className="inline-flex items-center gap-1 rounded-md border border-red-300 text-red-700 hover:bg-red-50 px-2 py-1 text-xs"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {posts.map((p) => {
+                  const postShares = shares.filter((s) => s.blog_post_id === p.id);
+                  return (
+                    <tr key={p.id} className="border-t border-warm-border">
+                      <td className="px-4 py-3">
+                        <p className="font-medium text-foreground">{p.title || "(sin título)"}</p>
+                        <p className="text-xs text-muted-foreground line-clamp-1">{p.excerpt}</p>
+                      </td>
+                      <td className="px-4 py-3 font-mono text-xs">{p.slug}</td>
+                      <td className="px-4 py-3">
+                        {p.published ? (
+                          <span className="text-[11px] px-2 py-0.5 rounded-full font-medium bg-emerald-100 text-emerald-700">Publicado</span>
+                        ) : (
+                          <span className="text-[11px] px-2 py-0.5 rounded-full font-medium bg-amber-100 text-amber-700">Borrador</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3">
+                        <SocialBadges shares={postShares} onRetry={retryShare} onCancel={cancelShare} />
+                      </td>
+                      <td className="px-4 py-3 text-xs text-muted-foreground">{p.source}</td>
+                      <td className="px-4 py-3 text-xs text-muted-foreground whitespace-nowrap">
+                        {new Date(p.updated_at).toLocaleDateString("es-DO", { day: "numeric", month: "short" })}
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        <div className="inline-flex gap-1.5">
+                          <button
+                            onClick={() => void togglePublish(p)}
+                            className="inline-flex items-center gap-1 rounded-md border border-warm-border hover:bg-muted px-2 py-1 text-xs"
+                            title={p.published ? "Despublicar" : "Publicar"}
+                          >
+                            {p.published ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                          </button>
+                          <button
+                            onClick={() => setEditing(rowToForm(p))}
+                            className="inline-flex items-center gap-1 rounded-md border border-warm-border hover:bg-muted px-2 py-1 text-xs"
+                          >
+                            <Pencil className="w-3 h-3" />
+                          </button>
+                          <button
+                            onClick={() => void del(p)}
+                            className="inline-flex items-center gap-1 rounded-md border border-red-300 text-red-700 hover:bg-red-50 px-2 py-1 text-xs"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           )}
@@ -429,5 +477,75 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
       {hint && <span className="block text-[11px] text-muted-foreground/80 mt-0.5">{hint}</span>}
       <div className="mt-1">{children}</div>
     </label>
+  );
+}
+
+const PLATFORM_ABBR: Record<SocialShare["platform"], string> = {
+  facebook: "FB",
+  instagram: "IG",
+  linkedin: "LI",
+};
+
+const STATUS_STYLE: Record<SocialShare["status"], { icon: React.ComponentType<{ className?: string }>; bg: string; label: string }> = {
+  pending:   { icon: Clock,        bg: "bg-amber-100 text-amber-700",   label: "En cola" },
+  posted:    { icon: CheckCircle2, bg: "bg-emerald-100 text-emerald-700", label: "Publicado" },
+  failed:    { icon: XCircle,      bg: "bg-red-100 text-red-700",       label: "Falló" },
+  cancelled: { icon: X,            bg: "bg-muted text-muted-foreground", label: "Cancelado" },
+};
+
+function SocialBadges({
+  shares, onRetry, onCancel,
+}: { shares: SocialShare[]; onRetry: (id: string) => void; onCancel: (id: string) => void }) {
+  if (shares.length === 0) {
+    return <span className="text-[11px] text-muted-foreground italic">—</span>;
+  }
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {shares.map((s) => {
+        const abbr = PLATFORM_ABBR[s.platform];
+        const style = STATUS_STYLE[s.status];
+        const StatusIcon = style.icon;
+        const tooltip = s.error
+          ? `${s.platform}: ${style.label}. ${s.error}`
+          : `${s.platform}: ${style.label}`;
+        return (
+          <div key={s.id} className="group relative inline-flex items-center" title={tooltip}>
+            <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-bold ${style.bg}`}>
+              {abbr}
+              <StatusIcon className="w-2.5 h-2.5" />
+            </span>
+            {(s.status === "failed" || s.status === "cancelled") && (
+              <button
+                onClick={() => onRetry(s.id)}
+                className="ml-0.5 p-0.5 rounded hover:bg-muted opacity-0 group-hover:opacity-100 transition"
+                title="Reintentar"
+              >
+                <RefreshCw className="w-2.5 h-2.5" />
+              </button>
+            )}
+            {s.status === "pending" && (
+              <button
+                onClick={() => onCancel(s.id)}
+                className="ml-0.5 p-0.5 rounded hover:bg-muted opacity-0 group-hover:opacity-100 transition"
+                title="Cancelar"
+              >
+                <X className="w-2.5 h-2.5" />
+              </button>
+            )}
+            {s.status === "posted" && s.external_url && (
+              <a
+                href={s.external_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-0.5 p-0.5 rounded hover:bg-muted opacity-0 group-hover:opacity-100 transition"
+                title="Abrir post"
+              >
+                <Share2 className="w-2.5 h-2.5" />
+              </a>
+            )}
+          </div>
+        );
+      })}
+    </div>
   );
 }

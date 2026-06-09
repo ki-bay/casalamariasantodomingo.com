@@ -10,8 +10,9 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { isAdminRequest } from "../../_lib/admin-auth";
+import { queueSharesForPost, type SocialEnv } from "../../_lib/social-queue";
 
-interface Env {
+interface Env extends SocialEnv {
   ADMIN_COOKIE_SECRET: string;
   NEXT_PUBLIC_SUPABASE_URL: string;
   SUPABASE_SERVICE_ROLE_KEY: string;
@@ -98,6 +99,10 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   const sb = client(context.env);
   const { data, error } = await sb.from("blog_posts").insert(row).select("*").single();
   if (error) return json({ error: error.message }, 400);
+  // If created already published, queue social shares immediately.
+  if (data?.published && data?.id) {
+    await queueSharesForPost(sb, data.id as string, context.env);
+  }
   return json({ post: data }, 201);
 };
 
@@ -120,6 +125,15 @@ export const onRequestPatch: PagesFunction<Env> = async (context) => {
   }
   (fields as Record<string, unknown>).updated_at = new Date().toISOString();
   const sb = client(context.env);
+
+  // Snapshot the previous published state so we only queue shares on the
+  // false → true transition (not on every PATCH to an already-published post).
+  const { data: before } = await sb
+    .from("blog_posts")
+    .select("published")
+    .eq("id", id)
+    .maybeSingle();
+
   const { data, error } = await sb
     .from("blog_posts")
     .update(fields)
@@ -127,6 +141,11 @@ export const onRequestPatch: PagesFunction<Env> = async (context) => {
     .select("*")
     .single();
   if (error) return json({ error: error.message }, 400);
+
+  const wasUnpublished = !before?.published;
+  if (wasUnpublished && data?.published && data?.id) {
+    await queueSharesForPost(sb, data.id as string, context.env);
+  }
   return json({ post: data });
 };
 
