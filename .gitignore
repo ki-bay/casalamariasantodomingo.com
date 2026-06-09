@@ -10,6 +10,11 @@ out/
 .env.local
 .env*.local
 
+# GCP service account JSON keys — never commit
+casa-la-maria-*.json
+*-service-account*.json
+gcp-key*.json
+
 # Supabase CLI working dir
 supabase/.temp/
 
