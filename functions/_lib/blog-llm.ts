@@ -107,10 +107,31 @@ export async function generateBlogDraft(
 ): Promise<BlogDraft> {
   const anthropic = new Anthropic({ apiKey });
 
-  const userPrompt = `Write a bilingual blog post about: "${keywords}"
+  const userPrompt = `You are writing a blog post that is BOTH:
+  (a) about the keyword phrase from the filename: "${keywords}"
+  (b) directly about WHAT IS SHOWN in the cover image below
 
-The cover image (linked below) shows the subject. Use it to anchor
-specific details (what's visible, the setting, mood) in the body.
+The filename keywords drive the SEO angle (the title, the meta keywords,
+the slug-aligned framing). The IMAGE drives the content. The post must
+describe, recommend, or explain things that are actually visible in the
+image, not generic travel-blog filler.
+
+How to weave them:
+- LOOK at the image first. Identify the actual subject: the place, the
+  object, the activity, the building, the food, whatever it shows.
+- The title and SEO use the filename keywords verbatim or close to it.
+- The body talks about what's in the image. Real details. The colors of
+  the building, the kind of street, the texture of the food, what the
+  light is like, what's in the background.
+- If the keyword phrase mentions a specific place (e.g. "Calle Las Damas"),
+  confirm the image is actually that place before describing it. If it
+  isn't, write about what the image actually shows and use the keywords
+  as the angle (e.g. image is a different colonial street → write about
+  "streets like Calle Las Damas in the Zona Colonial" and describe the
+  street you see).
+- Never invent details that aren't in the image. If you can't see prices
+  on a menu, don't quote prices. If you can't see how many bedrooms,
+  don't claim a number.
 
 Return JSON matching this exact schema:
 ${RESPONSE_SCHEMA_HINT}`;
